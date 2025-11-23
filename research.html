@@ -94,25 +94,15 @@
         .article-container { max-width: 850px; margin: 0 auto; padding: 80px 40px 150px; display: none; position: relative; }
         .article-container.visible { display: block; animation: fadeIn 0.5s ease; }
 
-        /* === NEW: 品牌水印 (Watermark) === */
+        /* 品牌水印 */
         .brand-watermark {
             position: fixed;
-            top: 50%;
-            left: 58%; /* 稍微偏右，避开侧边栏 */
-            transform: translate(-50%, -50%) rotate(-30deg);
-            font-family: "Playfair Display", serif;
-            font-weight: 900;
-            font-size: 7rem;
-            color: #000;
-            opacity: 0.03; /* 3% 透明度，非常淡雅 */
-            pointer-events: none; /* 让鼠标穿透，不影响点击和阅读 */
-            z-index: 0;
-            white-space: nowrap;
-            user-select: none;
+            top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg);
+            font-family: "Playfair Display", serif; font-weight: 900; font-size: 7rem; color: #000;
+            opacity: 0.03; pointer-events: none; z-index: 0; white-space: nowrap; user-select: none;
         }
 
         /* === 7. 文章内容排版 === */
-        /* 提升内容层级，确保在水印之上 */
         #article-inject-point { position: relative; z-index: 2; }
 
         .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
@@ -133,7 +123,6 @@
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* 移动端适配 */
         @media(max-width: 900px) {
             .library-layout { flex-direction: column; overflow-y: auto; height: auto; }
             .sidebar { width: 100%; height: auto; max-height: 300px; border-right: none; border-bottom: 1px solid var(--border); }
@@ -142,7 +131,6 @@
             .slogan-main { font-size: 2rem; }
             .article-container { padding: 40px 20px; }
             .report-title { font-size: 2rem; }
-            /* 手机端水印调整 */
             .brand-watermark { left: 50%; font-size: 3rem; opacity: 0.04; }
         }
     </style>
@@ -152,7 +140,6 @@
     <div class="top-bar">
         <a href="index.html" class="brand">L.K. Research</a>
         <div class="nav-right">
-            <div class="nav-btn" onclick="toggleLanguage()">CN / EN</div>
             <a href="index.html" class="nav-btn">← Back Home</a>
         </div>
     </div>
@@ -167,7 +154,6 @@
         </aside>
 
         <main class="main-view" id="main-scroll">
-            
             <div id="view-welcome" class="welcome-screen">
                 <div class="slogan-main">Discipline Creates Freedom.</div>
                 <div class="slogan-sub">Select a document to begin research</div>
@@ -175,25 +161,30 @@
 
             <div id="view-article" class="article-container">
                 <div class="brand-watermark">L.K. Capital</div>
-                
                 <div id="article-inject-point"></div>
-                
                 <div style="margin-top: 100px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem; position: relative; z-index: 2;">
                     &copy; 2025 L.K. Capital Research Team.
                 </div>
             </div>
-
         </main>
     </div>
 
     <script>
-        // === 1. 全局状态控制 ===
         let currentLang = 'en'; 
         let currentArticleId = null; 
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'cn' : 'en';
-            if (currentLang === 'cn') {
+        function autoDetectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage; 
+            if (userLang.toLowerCase().includes('zh')) {
+                setLanguage('cn');
+            } else {
+                setLanguage('en');
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            if (lang === 'cn') {
                 document.body.classList.remove('en-mode');
                 document.body.classList.add('cn-mode');
             } else {
@@ -204,7 +195,6 @@
             else renderCatalog();
         }
 
-        // === 2. 数据库 ===
         const articleDatabase = [
             {
                 category: { en: "Whitepapers (SMC)", cn: "核心研报 (SMC)" },
@@ -248,7 +238,9 @@
                                 <div class="lang-en"><p>SMC is a language of "equilibrium". Before diving into strategies, we must unify the definitions of basic market vocabulary.</p></div>
                                 
                                 <div class="concept-box">
-                                    <span class="concept-title">BOS (Break of Structure)</span>
+                                    <span class="lang-cn concept-title">结构破坏 (BOS)</span>
+                                    <span class="lang-en concept-title">Break of Structure (BOS)</span>
+                                    
                                     <div class="lang-cn">
                                         <strong>定义：</strong> 价格实体收盘突破了前一个有效的高点（上升趋势）或低点（下降趋势）。<br>
                                         <strong>含义：</strong> 市场意愿强劲，机构正在推动价格向原方向扩展。
@@ -260,7 +252,9 @@
                                 </div>
 
                                 <div class="concept-box">
-                                    <span class="concept-title">CHoCH (Change of Character)</span>
+                                    <span class="lang-cn concept-title">结构转变 (CHoCH)</span>
+                                    <span class="lang-en concept-title">Change of Character (CHoCH)</span>
+                                    
                                     <div class="lang-cn">
                                         <strong>定义：</strong> 价格反向打破了导致最新 BOS 的那个“次级低点/高点”。这是趋势反转的第一个信号。<br>
                                         <strong>含义：</strong> 供需关系发生根本性变化，多头力竭，空头介入。
@@ -272,7 +266,9 @@
                                 </div>
 
                                 <div class="concept-box">
-                                    <span class="concept-title">OB (Order Block)</span>
+                                    <span class="lang-cn concept-title">订单块 (Order Block)</span>
+                                    <span class="lang-en concept-title">Order Block (OB)</span>
+                                    
                                     <div class="lang-cn">
                                         <strong>定义：</strong> 导致结构破坏 (BOS) 或 剧烈波动 (Displacement) 之前的最后一根反向 K 线。<br>
                                         <strong>逻辑：</strong> 机构买入前需先压低价格吸筹。当价格飞涨后，底部空单被套。价格未来必须回到这里，让他们保本平仓并加仓多单。
@@ -284,7 +280,9 @@
                                 </div>
 
                                 <div class="concept-box">
-                                    <span class="concept-title">FVG (Fair Value Gap)</span>
+                                    <span class="lang-cn concept-title">公允价值缺口 (FVG)</span>
+                                    <span class="lang-en concept-title">Fair Value Gap (FVG)</span>
+                                    
                                     <div class="lang-cn">
                                         <strong>定义：</strong> 三根 K 线组合中，第一根影线与第三根影线未重叠的空白区域。<br>
                                         <strong>逻辑：</strong> 价格运动过快导致市场“不平衡”。算法倾向于将价格拉回此区域进行“重新定价 (Repricing)”。
@@ -340,12 +338,16 @@
                                 <div class="lang-en"><h2>Chapter 4: Strong vs. Weak Structure</h2></div>
 
                                 <div class="concept-box">
-                                    <span class="concept-title">Strong High/Low (强点)</span>
+                                    <span class="lang-cn concept-title">强高点/低点 (Strong High/Low)</span>
+                                    <span class="lang-en concept-title">Strong High/Low</span>
+                                    
                                     <div class="lang-cn">导致了结构破坏 (BOS) 并创出新低的高点。它是<strong>受保护的</strong>，机构会捍卫这个位置。这是放置止损的最佳点。</div>
                                     <div class="lang-en">A high/low that caused a BOS and created a new extreme. It is <strong>protected</strong>; institutions will defend it. Best place for Stop Loss.</div>
                                 </div>
                                 <div class="concept-box">
-                                    <span class="concept-title">Weak High/Low (弱点)</span>
+                                    <span class="lang-cn concept-title">弱高点/低点 (Weak High/Low)</span>
+                                    <span class="lang-en concept-title">Weak High/Low</span>
+                                    
                                     <div class="lang-cn">未能推动价格创新低的高点。它是<strong>目标 (Target)</strong>，价格大概率会突破这里去扫损。永远不要在弱高点上方做空。</div>
                                     <div class="lang-en">A high/low that failed to break structure. It is a <strong>Target</strong>; price will likely run through it for liquidity. Never short above a weak high.</div>
                                 </div>
@@ -398,12 +400,16 @@
                                 <div class="lang-en"><h2>Chapter 8: Time & Kill Zones</h2></div>
                                 
                                 <div class="concept-box">
-                                    <span class="concept-title">London Open (07:00 - 10:00 UTC)</span>
+                                    <span class="lang-cn concept-title">伦敦开盘 (London Open)</span>
+                                    <span class="lang-en concept-title">London Open (07:00 - 10:00 UTC)</span>
+                                    
                                     <div class="lang-cn">经常制造当天的假方向 (Judas Swing) 和日内低点。</div>
                                     <div class="lang-en">Often creates the "Fake Move" (Judas Swing) and the Low/High of the Day.</div>
                                 </div>
                                 <div class="concept-box">
-                                    <span class="concept-title">New York Open (13:00 - 16:00 UTC)</span>
+                                    <span class="lang-cn concept-title">纽约开盘 (New York Open)</span>
+                                    <span class="lang-en concept-title">New York Open (13:00 - 16:00 UTC)</span>
+                                    
                                     <div class="lang-cn">黄金波动率最高时段，通常延续伦敦趋势或发生反转。</div>
                                     <div class="lang-en">Highest volatility for Gold. Usually continues the London trend or triggers a reversal.</div>
                                 </div>
@@ -547,7 +553,6 @@
             const allHeaders = articleInject.querySelectorAll('h2, h3');
             
             allHeaders.forEach((header, index) => {
-                // 更稳健的判断逻辑：直接检查类名
                 const langParent = header.closest('.lang-cn, .lang-en');
                 if (langParent) {
                      if (currentLang === 'en' && langParent.classList.contains('lang-cn')) return;
@@ -571,7 +576,7 @@
             renderCatalog();
         }
 
-        renderCatalog();
+        autoDetectLanguage();
     </script>
 </body>
 </html>
