@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.K. Capital | Research Library</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
+
+    <style>
+        /* === 1. 核心配色与基础设置 === */
+        :root {
+            --bg: #ffffff; 
+            --text-main: #1a1a1a; 
+            --text-light: #555;
+            --accent: #0a2540; /* 深蓝 */
+            --gold: #c5a059;   /* 金色 */
+            --sidebar-bg: #f8f9fa;
+            --border: #e5e5e5;
+            --code-bg: #f4f6f8;
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg); font-family: "Inter", sans-serif; color: var(--text-main); overflow: hidden; display: flex; flex-direction: column; }
+
+        /* === 2. 双语控制逻辑 === */
+        .lang-cn { display: none !important; }
+        .lang-en { display: block !important; }
+        body.cn-mode .lang-cn { display: block !important; }
+        body.cn-mode .lang-en { display: none !important; }
+
+        /* === 3. 顶部导航栏 === */
+        .top-bar {
+            height: 70px; flex-shrink: 0;
+            background: #fff; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 30px;
+            z-index: 100; position: relative;
+        }
+        .brand { font-family: "Playfair Display"; font-weight: 700; font-size: 1.2rem; color: var(--accent); text-decoration: none; letter-spacing: 0.5px; }
+        .nav-right { display: flex; gap: 25px; align-items: center; }
+        .nav-btn { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; cursor: pointer; }
+        .nav-btn:hover { color: var(--accent); }
+
+        /* === 4. 主布局容器 === */
+        .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
+
+        /* === 5. 左侧侧边栏 (Sidebar) === */
+        .sidebar {
+            width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; flex-shrink: 0;
+            overflow-y: auto; transition: transform 0.3s ease;
+        }
+        .sidebar-header { padding: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .sidebar-title { font-family: "Playfair Display"; font-size: 1.2rem; color: var(--accent); margin: 0; }
+        .sidebar-subtitle { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: block; }
+        .sidebar-content { padding: 30px; }
+
+        /* 目录列表样式 */
+        .cat-group { margin-bottom: 40px; }
+        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+        .article-link { 
+            display: block; padding: 10px 0; color: #444; text-decoration: none; font-size: 0.95rem; line-height: 1.4;
+            border-bottom: 1px solid transparent; transition: 0.2s; cursor: pointer;
+        }
+        .article-link:hover { color: var(--accent); transform: translateX(5px); }
+
+        /* 文章目录样式 (TOC) */
+        .toc-back-btn { 
+            display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; 
+            padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; transition: 0.2s; background: #fff;
+        }
+        .toc-back-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .toc-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid #eee; }
+        .toc-link { 
+            display: block; padding: 8px 0 8px 15px; font-size: 0.85rem; color: #666; text-decoration: none; 
+            border-left: 2px solid transparent; margin-left: -2px; transition: 0.2s; 
+        }
+        .toc-link:hover, .toc-link.active { color: var(--accent); font-weight: 700; border-left-color: var(--gold); }
+        .toc-h3 { padding-left: 30px; font-size: 0.8rem; }
+
+        /* === 6. 右侧主视图 (Main View) === */
+        .main-view { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; background: #fff; }
+
+        /* 欢迎页 */
+        .welcome-screen {
+            height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            background-image: radial-gradient(#e5e5e5 1px, transparent 1px); background-size: 30px 30px;
+        }
+        .slogan-main { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s forwards; }
+        .slogan-sub { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 4px; opacity: 0; animation: fadeUp 1s forwards 0.3s; }
+
+        /* 文章阅读容器 */
+        .article-container { max-width: 850px; margin: 0 auto; padding: 80px 40px 150px; display: none; position: relative; }
+        .article-container.visible { display: block; animation: fadeIn 0.5s ease; }
+
+        /* === NEW: 品牌水印 (Watermark) === */
+        .brand-watermark {
+            position: fixed;
+            top: 50%;
+            left: 58%; /* 稍微偏右，避开侧边栏 */
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-family: "Playfair Display", serif;
+            font-weight: 900;
+            font-size: 7rem;
+            color: #000;
+            opacity: 0.03; /* 3% 透明度，非常淡雅 */
+            pointer-events: none; /* 让鼠标穿透，不影响点击和阅读 */
+            z-index: 0;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        /* === 7. 文章内容排版 === */
+        /* 提升内容层级，确保在水印之上 */
+        #article-inject-point { position: relative; z-index: 2; }
+
+        .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+        .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
+        .report-meta { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: #888; background: var(--code-bg); padding: 10px 15px; display: inline-block; border-radius: 4px; }
+
+        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 60px; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 1px solid var(--gold); }
+        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 40px; margin-bottom: 15px; color: #333; }
+        p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
+        ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
+        li { margin-bottom: 10px; }
+        blockquote { font-family: "Playfair Display"; font-size: 1.4rem; font-style: italic; color: var(--gold); text-align: center; margin: 60px 0; padding: 30px; background: #fafafa; border-radius: 8px; }
+
+        .concept-box { background: var(--code-bg); border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
+        .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 移动端适配 */
+        @media(max-width: 900px) {
+            .library-layout { flex-direction: column; overflow-y: auto; height: auto; }
+            .sidebar { width: 100%; height: auto; max-height: 300px; border-right: none; border-bottom: 1px solid var(--border); }
+            .main-view { overflow: visible; }
+            .welcome-screen { padding: 60px 20px; height: 50vh; }
+            .slogan-main { font-size: 2rem; }
+            .article-container { padding: 40px 20px; }
+            .report-title { font-size: 2rem; }
+            /* 手机端水印调整 */
+            .brand-watermark { left: 50%; font-size: 3rem; opacity: 0.04; }
+        }
+    </style>
+</head>
+<body class="en-mode"> 
+
+    <div class="top-bar">
+        <a href="index.html" class="brand">L.K. Research</a>
+        <div class="nav-right">
+            <div class="nav-btn" onclick="toggleLanguage()">CN / EN</div>
+            <a href="index.html" class="nav-btn">← Back Home</a>
+        </div>
+    </div>
+
+    <div class="library-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Library</h2>
+                <span class="sidebar-subtitle">Institutional Analysis</span>
+            </div>
+            <div class="sidebar-content" id="sidebar-list"></div>
+        </aside>
+
+        <main class="main-view" id="main-scroll">
+            
+            <div id="view-welcome" class="welcome-screen">
+                <div class="slogan-main">Discipline Creates Freedom.</div>
+                <div class="slogan-sub">Select a document to begin research</div>
+            </div>
+
+            <div id="view-article" class="article-container">
+                <div class="brand-watermark">L.K. Capital</div>
+                
+                <div id="article-inject-point"></div>
+                
+                <div style="margin-top: 100px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem; position: relative; z-index: 2;">
+                    &copy; 2025 L.K. Capital Research Team.
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // === 1. 全局状态控制 ===
+        let currentLang = 'en'; 
+        let currentArticleId = null; 
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'cn' : 'en';
+            if (currentLang === 'cn') {
+                document.body.classList.remove('en-mode');
+                document.body.classList.add('cn-mode');
+            } else {
+                document.body.classList.remove('cn-mode');
+                document.body.classList.add('en-mode');
+            }
+            if (currentArticleId) regenerateTOC();
+            else renderCatalog();
+        }
+
+        // === 2. 数据库 ===
+        const articleDatabase = [
+            {
+                category: { en: "Whitepapers (SMC)", cn: "核心研报 (SMC)" },
+                articles: [
+                    {
+                        id: "xauusd_whitepaper_2025",
+                        title: { en: "XAUUSD Institutional Order Flow", cn: "XAUUSD 机构订单流分析" },
+                        content: `
+                            <div class="report-header">
+                                <span class="report-label">Institutional Whitepaper</span>
+                                <div class="lang-cn">
+                                    <h1 class="report-title">XAUUSD 机构订单流与<br>量化行为分析报告</h1>
+                                    <p class="report-sub">解码机构行为与SMC策略深度解析</p>
+                                    <div class="report-meta">版本: 2025 终极版 | 作者: Louisako Research | 日期: 2025年11月23日</div>
+                                </div>
+                                <div class="lang-en">
+                                    <h1 class="report-title">XAUUSD Institutional Order Flow &<br>Quantitative Behavior Analysis</h1>
+                                    <p class="report-sub">Decoding Institutional Behavior & In-depth SMC Analysis</p>
+                                    <div class="report-meta">Version: 2025 Ultimate | Author: Louisako Research | Date: Nov 23, 2025</div>
+                                </div>
+                            </div>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h3>序言</h3>
+                                    <p>在零和博弈的金融市场中，价格并非随机游走，而是由<strong>流动性 (Liquidity)</strong> 和 <strong>不平衡 (Imbalance)</strong> 驱动的。对于黄金 (XAUUSD) 这一全球流动性最充裕、算法博弈最激烈的品种，传统的零售技术分析往往失效。</p>
+                                    <p>本报告基于 Smart Money Concepts (SMC) 理论体系，旨在揭示银行间价格交付算法 (IPDA) 的运作逻辑。我们不预测市场，我们追踪“聪明钱”留下的脚印。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h3>Preface</h3>
+                                    <p>In the zero-sum game of financial markets, price does not move randomly; it is driven by <strong>Liquidity</strong> and <strong>Imbalance</strong>. For Gold (XAUUSD), an asset with immense global liquidity and intense algorithmic competition, traditional retail technical analysis often fails.</p>
+                                    <p>This report is based on the Smart Money Concepts (SMC) framework, aiming to reveal the operational logic of the Interbank Price Delivery Algorithm (IPDA). We do not predict the market; we track the footprints left by "Smart Money".</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 1 章：SMC 核心术语与定义</h2></div>
+                                <div class="lang-en"><h2>Chapter 1: SMC Core Glossary</h2></div>
+                                
+                                <div class="lang-cn"><p>SMC 是一门关于“平衡”的语言。在深入策略之前，我们必须统一定义市场的基本词汇。</p></div>
+                                <div class="lang-en"><p>SMC is a language of "equilibrium". Before diving into strategies, we must unify the definitions of basic market vocabulary.</p></div>
+                                
+                                <div class="concept-box">
+                                    <span class="concept-title">BOS (Break of Structure)</span>
+                                    <div class="lang-cn">
+                                        <strong>定义：</strong> 价格实体收盘突破了前一个有效的高点（上升趋势）或低点（下降趋势）。<br>
+                                        <strong>含义：</strong> 市场意愿强劲，机构正在推动价格向原方向扩展。
+                                    </div>
+                                    <div class="lang-en">
+                                        <strong>Definition:</strong> Price candle body closes above/below a previous valid high (uptrend) or low (downtrend).<br>
+                                        <strong>Meaning:</strong> Strong market intent; institutions are pushing price to expand in the original direction.
+                                    </div>
+                                </div>
+
+                                <div class="concept-box">
+                                    <span class="concept-title">CHoCH (Change of Character)</span>
+                                    <div class="lang-cn">
+                                        <strong>定义：</strong> 价格反向打破了导致最新 BOS 的那个“次级低点/高点”。这是趋势反转的第一个信号。<br>
+                                        <strong>含义：</strong> 供需关系发生根本性变化，多头力竭，空头介入。
+                                    </div>
+                                    <div class="lang-en">
+                                        <strong>Definition:</strong> Price breaks the "last higher low/lower high" that caused the latest BOS. This is the first signal of a trend reversal.<br>
+                                        <strong>Meaning:</strong> A fundamental shift in supply and demand; bulls are exhausted, bears are stepping in.
+                                    </div>
+                                </div>
+
+                                <div class="concept-box">
+                                    <span class="concept-title">OB (Order Block)</span>
+                                    <div class="lang-cn">
+                                        <strong>定义：</strong> 导致结构破坏 (BOS) 或 剧烈波动 (Displacement) 之前的最后一根反向 K 线。<br>
+                                        <strong>逻辑：</strong> 机构买入前需先压低价格吸筹。当价格飞涨后，底部空单被套。价格未来必须回到这里，让他们保本平仓并加仓多单。
+                                    </div>
+                                    <div class="lang-en">
+                                        <strong>Definition:</strong> The last opposing candle before a Break of Structure (BOS) or violent Displacement.<br>
+                                        <strong>Logic:</strong> Institutions must drive price down to accumulate before buying. When price rallies, their sell orders are trapped in drawdown. Price must return here to mitigate losses and stack more buy orders.
+                                    </div>
+                                </div>
+
+                                <div class="concept-box">
+                                    <span class="concept-title">FVG (Fair Value Gap)</span>
+                                    <div class="lang-cn">
+                                        <strong>定义：</strong> 三根 K 线组合中，第一根影线与第三根影线未重叠的空白区域。<br>
+                                        <strong>逻辑：</strong> 价格运动过快导致市场“不平衡”。算法倾向于将价格拉回此区域进行“重新定价 (Repricing)”。
+                                    </div>
+                                    <div class="lang-en">
+                                        <strong>Definition:</strong> The gap between the wick of the 1st candle and the wick of the 3rd candle in a 3-candle sequence.<br>
+                                        <strong>Logic:</strong> Price moved too fast, creating an "imbalance". Algorithms tend to pull price back to this area for "Repricing" to restore balance.
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 2 章：黄金的市场运作机制</h2></div>
+                                <div class="lang-en"><h2>Chapter 2: Market Mechanics of Gold</h2></div>
+                                
+                                <div class="lang-cn">
+                                    <h3>2.1 IPDA 循环</h3>
+                                    <p>市场永远处于四个阶段的循环中：<strong>积累 (Accumulation) → 扩张 (Expansion) → 回撤 (Retracement) → 反转 (Reversal)</strong>。</p>
+                                    <h3>2.2 零和博弈本质</h3>
+                                    <p>机构需要巨大的对手盘来成交他们的巨额订单。如果机构想买入10亿美金的黄金，他们需要有人卖出。散户的“止损卖单”就是机构最好的“买入流动性”。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h3>2.1 IPDA Cycle</h3>
+                                    <p>The market is forever in a four-stage cycle: <strong>Accumulation → Expansion → Retracement → Reversal</strong>.</p>
+                                    <h3>2.2 Zero-Sum Nature</h3>
+                                    <p>Institutions need massive liquidity to fill their orders. If they want to buy $1B of Gold, they need sellers. Retail "Stop Loss Sell Orders" are the best "Buy Liquidity" for institutions.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>第 3 章：多时间框架分析</h2>
+                                    <p>不要迷失在 M1 的噪音中。SMC 分析必须像“套娃”一样层层递进。</p>
+                                    <ul>
+                                        <li><strong>宏观 (Macro)：</strong> 月线/周线/日线 —— 决定大方向 (Bias)。</li>
+                                        <li><strong>中观 (Intermediate)：</strong> 4小时/1小时 —— 决定关键兴趣区 (POI)。</li>
+                                        <li><strong>微观 (Micro)：</strong> 15分钟/5分钟 —— 决定入场触发 (Trigger)。</li>
+                                    </ul>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>Chapter 3: Multi-Timeframe Analysis</h2>
+                                    <p>Don't get lost in M1 noise. SMC analysis must be layered like nesting dolls.</p>
+                                    <ul>
+                                        <li><strong>Macro:</strong> Monthly/Weekly/Daily — Determines Bias.</li>
+                                        <li><strong>Intermediate:</strong> H4/H1 — Determines Point of Interest (POI).</li>
+                                        <li><strong>Micro:</strong> M15/M5 — Determines Entry Trigger.</li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 4 章：强弱结构辨析</h2></div>
+                                <div class="lang-en"><h2>Chapter 4: Strong vs. Weak Structure</h2></div>
+
+                                <div class="concept-box">
+                                    <span class="concept-title">Strong High/Low (强点)</span>
+                                    <div class="lang-cn">导致了结构破坏 (BOS) 并创出新低的高点。它是<strong>受保护的</strong>，机构会捍卫这个位置。这是放置止损的最佳点。</div>
+                                    <div class="lang-en">A high/low that caused a BOS and created a new extreme. It is <strong>protected</strong>; institutions will defend it. Best place for Stop Loss.</div>
+                                </div>
+                                <div class="concept-box">
+                                    <span class="concept-title">Weak High/Low (弱点)</span>
+                                    <div class="lang-cn">未能推动价格创新低的高点。它是<strong>目标 (Target)</strong>，价格大概率会突破这里去扫损。永远不要在弱高点上方做空。</div>
+                                    <div class="lang-en">A high/low that failed to break structure. It is a <strong>Target</strong>; price will likely run through it for liquidity. Never short above a weak high.</div>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 5 章：流动性动力学</h2></div>
+                                <div class="lang-en"><h2>Chapter 5: Liquidity Dynamics</h2></div>
+                                
+                                <div class="lang-cn">
+                                    <p>流动性是市场的汽油。如果你在图表上找不到流动性，那么你就是流动性。</p>
+                                    <h3>5.1 犹大摆动 (Judas Swing)</h3>
+                                    <p>这是黄金的经典假动作，通常发生在伦敦盘开盘初期。价格先向一个方向猛冲（诱导散户追单），随后迅速反向猎杀，开启当天的真实趋势。</p>
+                                    <h3>5.2 Inducement (诱导)</h3>
+                                    <p>在价格到达真正的 POI 之前形成的小支撑。这是一个陷阱，诱导过早进场的交易者设置止损，随后被机构扫掉作为燃料。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <p>Liquidity is fuel. If you can't find liquidity on the chart, you are the liquidity.</p>
+                                    <h3>5.1 Judas Swing</h3>
+                                    <p>A classic Gold fake-out, usually at London Open. Price aggressively pushes one way (inducing retail traders), then rapidly reverses to hunt them.</p>
+                                    <h3>5.2 Inducement (IDM)</h3>
+                                    <p>Minor support formed right before the real POI. It's a trap to induce early buyers to set stops, which institutions will then sweep for fuel.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 6 章：订单块 (OB) 的优选</h2></div>
+                                <div class="lang-en"><h2>Chapter 6: Order Block Selection</h2></div>
+                                
+                                <div class="lang-cn">
+                                    <p>图表上充满了 OB，如何筛选？遵循 SMC 三原则：</p>
+                                    <ul>
+                                        <li><strong>必须伴随 FVG：</strong> 说明买卖严重失衡。</li>
+                                        <li><strong>必须导致 BOS：</strong> 说明机构意愿强烈。</li>
+                                        <li><strong>必须完成扫损：</strong> 最强的 OB 通常是在扫掉前一根 K 线流动性后形成的。</li>
+                                    </ul>
+                                </div>
+                                <div class="lang-en">
+                                    <p>How to filter valid OBs? Follow the 3 Golden Rules:</p>
+                                    <ul>
+                                        <li><strong>Must have FVG:</strong> Indicates severe imbalance.</li>
+                                        <li><strong>Must cause BOS:</strong> Indicates strong institutional intent.</li>
+                                        <li><strong>Must Sweep Liquidity:</strong> The strongest OBs are formed after sweeping the previous candle's liquidity.</li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 8 章：时间密码 (Kill Zones)</h2></div>
+                                <div class="lang-en"><h2>Chapter 8: Time & Kill Zones</h2></div>
+                                
+                                <div class="concept-box">
+                                    <span class="concept-title">London Open (07:00 - 10:00 UTC)</span>
+                                    <div class="lang-cn">经常制造当天的假方向 (Judas Swing) 和日内低点。</div>
+                                    <div class="lang-en">Often creates the "Fake Move" (Judas Swing) and the Low/High of the Day.</div>
+                                </div>
+                                <div class="concept-box">
+                                    <span class="concept-title">New York Open (13:00 - 16:00 UTC)</span>
+                                    <div class="lang-cn">黄金波动率最高时段，通常延续伦敦趋势或发生反转。</div>
+                                    <div class="lang-en">Highest volatility for Gold. Usually continues the London trend or triggers a reversal.</div>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 9 章：跨市场相关性与 SMT</h2></div>
+                                <div class="lang-en"><h2>Chapter 9: Intermarket SMT Divergence</h2></div>
+                                
+                                <div class="lang-cn">
+                                    <p><strong>SMT (Smart Money Tool) Divergence</strong> 是识别“陷阱”的核武器。</p>
+                                    <p><strong>看涨背离：</strong> 当美元指数 (DXY) 创出新高，但黄金 (XAUUSD) 拒绝创出新低。这意味着黄金内在极强，有人在被动买入护盘。这是在支撑位做多的 A+ 级信号。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <p><strong>SMT Divergence</strong> is the nuclear weapon for spotting traps.</p>
+                                    <p><strong>Bullish SMT:</strong> When DXY makes a Higher High, but XAUUSD refuses to make a Lower Low. This signals immense underlying strength in Gold and is an A+ setup for longs.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>第 11 章：自上而下的分析流程 (Routine)</h2>
+                                    <p>请遵循 L.K. Capital 的标准 SOP：</p>
+                                    <ol>
+                                        <li><strong>Daily：</strong> 确定大方向（看涨/看跌），标记大级别 FVG。</li>
+                                        <li><strong>H4：</strong> 确定当前的交易区间，标记 Premium/Discount。</li>
+                                        <li><strong>M15：</strong> 等待价格进入 H4 POI。</li>
+                                        <li><strong>M5/M1：</strong> 等待微观结构的 CHoCH 或扫损模型触发入场。</li>
+                                    </ol>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>Chapter 11: Top-Down Routine</h2>
+                                    <p>Follow the L.K. Capital Standard SOP:</p>
+                                    <ol>
+                                        <li><strong>Daily:</strong> Determine Bias, mark HTF FVG.</li>
+                                        <li><strong>H4:</strong> Define Dealing Range, mark Premium/Discount.</li>
+                                        <li><strong>M15:</strong> Wait for price to enter H4 POI.</li>
+                                        <li><strong>M5/M1:</strong> Wait for micro CHoCH or Sweep trigger.</li>
+                                    </ol>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>第 14 章：风险管理</h2>
+                                    <p><strong>失效模式：</strong> 当价格实体收盘击穿你的关键 POI，立即承认分析失效，不要扛单。</p>
+                                    <p><strong>保本策略：</strong> 黄金波动快。一旦盈利达到 1:1 或突破最近微观结构，必须推止损至保本位。</p>
+                                    <p><strong>R:R 管理：</strong> 永远追求 1:3 以上的盈亏比。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>Chapter 14: Risk Management</h2>
+                                    <p><strong>Invalidation:</strong> If a candle body closes beyond your POI, admit defeat immediately. Do not hold.</p>
+                                    <p><strong>Breakeven Rule:</strong> Gold moves fast. Once 1:1 R is reached or structure breaks, move SL to Breakeven.</p>
+                                    <p><strong>R:R Mandate:</strong> Always target minimum 1:3 Risk-to-Reward.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>第 15 章：机构订单流心理学</h2>
+                                    <blockquote>"SMC 交易者本质上是在交易散户的痛苦。"</blockquote>
+                                    <p>市场总是沿着“阻力最小”但“散户最痛苦”的路径运行。如果现在价格涨上去，大部分散户会赚钱还是亏钱？如果大部分人都在做多，市场大概率会先暴跌洗盘。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>Chapter 15: Institutional Psychology</h2>
+                                    <blockquote>"SMC traders essentially trade the pain of retail traders."</blockquote>
+                                    <p>The market follows the path of "least resistance" but "maximum retail pain". If the majority is long, the market will likely crash first to clear them out before rising.</p>
+                                </div>
+                            </section>
+                        `
+                    }
+                ]
+            },
+            {
+                category: { en: "Market Outlook", cn: "市场展望" },
+                articles: [
+                    {
+                        id: "outlook_placeholder",
+                        title: { en: "Q4 2025 Global Macro Forecast", cn: "2025年第四季度宏观前瞻" },
+                        content: `
+                            <div class="lang-cn"><h1>内容撰写中...</h1><p>该报告将于近期发布。</p></div>
+                            <div class="lang-en"><h1>Coming Soon...</h1><p>This report will be published shortly.</p></div>
+                        `
+                    }
+                ]
+            }
+        ];
+
+        // === 3. 逻辑引擎 ===
+        const sidebarList = document.getElementById('sidebar-list');
+        const viewWelcome = document.getElementById('view-welcome');
+        const viewArticle = document.getElementById('view-article');
+        const articleInject = document.getElementById('article-inject-point');
+        const mainScroll = document.getElementById('main-scroll');
+
+        function renderCatalog() {
+            currentArticleId = null; 
+            let html = '';
+            articleDatabase.forEach(group => {
+                const catName = group.category[currentLang] || group.category.en;
+                html += `<div class="cat-group"><span class="cat-name">${catName}</span>`;
+                group.articles.forEach(art => {
+                    const artTitle = art.title[currentLang] || art.title.en;
+                    html += `<div class="article-link" onclick="loadArticle('${art.id}')">${artTitle}</div>`;
+                });
+                html += `</div>`;
+            });
+            sidebarList.innerHTML = html;
+        }
+
+        function loadArticle(id) {
+            let targetArticle = null;
+            articleDatabase.forEach(group => {
+                const found = group.articles.find(a => a.id === id);
+                if (found) targetArticle = found;
+            });
+            if (!targetArticle) return;
+            currentArticleId = id; 
+            viewWelcome.style.display = 'none';
+            viewArticle.classList.add('visible');
+            articleInject.innerHTML = targetArticle.content;
+            mainScroll.scrollTop = 0;
+            regenerateTOC();
+        }
+
+        function regenerateTOC() {
+            let targetArticle = null;
+            articleDatabase.forEach(group => {
+                const found = group.articles.find(a => a.id === currentArticleId);
+                if (found) targetArticle = found;
+            });
+            if (!targetArticle) return;
+
+            const backText = currentLang === 'en' ? "← Back to Library" : "← 返回知识库";
+            const currentTitle = targetArticle.title[currentLang] || targetArticle.title.en;
+
+            let tocHTML = `<div class="toc-back-btn" onclick="goBackToCatalog()">${backText}</div>`;
+            tocHTML += `<div style="font-weight:700; color:#0a2540; margin-bottom:15px; font-size:0.9rem; line-height:1.4;">${currentTitle}</div>`;
+            tocHTML += `<ul class="toc-list">`;
+
+            const allHeaders = articleInject.querySelectorAll('h2, h3');
+            
+            allHeaders.forEach((header, index) => {
+                // 更稳健的判断逻辑：直接检查类名
+                const langParent = header.closest('.lang-cn, .lang-en');
+                if (langParent) {
+                     if (currentLang === 'en' && langParent.classList.contains('lang-cn')) return;
+                     if (currentLang === 'cn' && langParent.classList.contains('lang-en')) return;
+                }
+
+                const anchorId = 'toc-' + index;
+                header.id = anchorId;
+                const isH3 = header.tagName === 'H3';
+                const className = isH3 ? 'toc-link toc-h3' : 'toc-link';
+                tocHTML += `<li class="toc-item"><a href="#${anchorId}" class="${className}">${header.innerText}</a></li>`;
+            });
+            tocHTML += `</ul>`;
+            sidebarList.innerHTML = tocHTML;
+        }
+
+        function goBackToCatalog() {
+            viewArticle.classList.remove('visible');
+            viewWelcome.style.display = 'flex';
+            viewArticle.style.display = 'none';
+            renderCatalog();
+        }
+
+        renderCatalog();
+    </script>
+</body>
+</html>
