@@ -45,7 +45,7 @@
         .login-btn:hover { background: #000; color: #fff; }
         @media(max-width: 768px) { .nav-right { gap: 16px; } .nav-link { font-size: 0.8rem; } }
 
-        /* === 页面结构与切换动画 (Updated) === */
+        /* === 页面结构与切换动画 === */
         .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
         
         .view {
@@ -95,17 +95,17 @@
         .step-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--accent); }
         .step-content { color: var(--text-light); font-size: 0.95rem; }
 
-        /* === NEW: 研报入口 (Research Teaser) === */
+        /* === NEW: 宏观情报入口 (Macro Intelligence) === */
         .research-teaser { background: #0a2540; color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
         .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
         .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
         .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 600; }
-        .rt-title { font-family: "Playfair Display"; font-size: 3rem; margin-bottom: 40px; line-height: 1.2; }
+        .rt-title { font-family: "Playfair Display"; font-size: 3rem; margin-bottom: 30px; line-height: 1.2; }
         .rt-btn { border: 1px solid var(--gold); color: var(--gold); padding: 16px 40px; text-decoration: none; font-size: 0.95rem; transition: 0.3s; display: inline-block; border-radius: 4px; }
         .rt-btn:hover { background: var(--gold); color: #000; }
         @media(max-width: 768px) { .rt-title { font-size: 2.2rem; } }
 
-        /* === 圈层/Newsletter/Broker/Footer (保持不变) === */
+        /* === 圈层/Newsletter/Broker/Footer === */
         .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
         .comm-card { background: #111; color: #fff; border-radius: 20px; padding: 80px 40px; background-image: radial-gradient(circle at top right, #222, #000); }
         .comm-title { font-family: "Playfair Display"; font-size: 2.5rem; margin-bottom: 20px; }
@@ -158,7 +158,6 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
             color: #fff; 
         }
-        /* 只有添加了这个类才会播放动画 */
         .play-intro-animation {
             animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; 
             animation-delay: 3.5s;
@@ -243,9 +242,14 @@
 
             <div class="research-teaser reveal-on-scroll">
                 <div class="rt-content">
-                    <span class="rt-label">Featured Research</span>
-                    <h2 class="rt-title" id="rt-title">Institutional Order Flow &<br>Quantitative Behavior Analysis on Gold</h2>
-                    <a href="research.html" class="rt-btn" id="rt-btn">Read The 2025 Report</a>
+                    <span class="rt-label">Market Intelligence</span>
+                    <h2 class="rt-title" id="rt-title">Global Macro Context &<br>Strategic Insights</h2>
+                    
+                    <p id="rt-desc" style="color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; line-height: 1.6;">
+                        Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.
+                    </p>
+                    
+                    <a href="analysis.html" class="rt-btn" id="rt-btn">Access Terminal</a>
                 </div>
             </div>
 
@@ -346,7 +350,9 @@
                 labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital.", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
                 coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
                 protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
-                rtT: "Institutional Order Flow &<br>Quantitative Behavior Analysis on Gold", rtB: "Read The 2025 Report",
+                rtT: "Global Macro Context &<br>Strategic Insights", 
+                rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.",
+                rtB: "Access Terminal",
                 commTitle: "The Inner Circle.", commDesc: "Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.", btnComm: "Join Telegram Channel",
                 newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
                 tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
@@ -358,7 +364,9 @@
                 labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本。", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
                 coreT1: "全球宏观", coreD1: "自上而下的经济周期与资本流向分析。", coreT2: "结构化优势", coreD2: "追踪机构订单痕迹与核心流动性区域。", coreT3: "非对称风险", coreD3: "严格的风控体系，只捕捉高盈亏比机会。",
                 protocolH: "L.K. 核心执行协议", protocolSub: "我们的结构化方法由纪律定义，每笔交易必须通过 5 步核查。", st1: "市场结构", sc1: "利用大周期 (H4/D1) 的 BOS/CHoCH 确认宏观方向。", st2: "流动性猎杀", sc2: "识别散户止损区域（流动性池），等待机构进场前的扫盘。", st3: "锁定 POI", sc3: "精确定位关键兴趣区 (POI) —— 通常是未测试的订单块或 FVG。", st4: "小周期入场", sc4: "在 LTF (M5/M15) 等待价格触碰 POI，完成扫损并确认微观结构反转。", st5: "风控铁律", sc5: "每笔交易固定风险 (0.25%-0.5%)，目标盈亏比至少 1:3。",
-                rtT: "XAUUSD 机构订单流与<br>量化行为分析报告", rtB: "阅读 2025 深度研报",
+                rtT: "全球宏观视野与<br>机构策略分析", 
+                rtD: "将您的执行与机构订单流对齐。我们为您深度解码驱动市场波动的核心经济叙事与结构变化。",
+                rtB: "进入分析终端",
                 commTitle: "加入核心圈层。", commDesc: "订阅我们的私人频道，获取每日机构级市场拆解、实时交易机会与风控更新。", btnComm: "加入 Telegram 频道",
                 newsH: "订阅 L.K. 宏观简报", newsD: "每周一封，包含机构级市场分析与展望。无垃圾邮件。", newsB: "立即订阅",
                 tmgmIntro: "机构级流动性。隔离账户。原始点差。", bH1: "资金安全", bP1: "ASIC 监管。资金存放在澳大利亚国民银行信托账户。", bH2: "顶尖科技", bP2: "NY4 服务器。执行速度低于 30 毫秒。", bH3: "极致成本", bP3: "ECN 原始点差。欧美/黄金 0 点差起。", btnOpen: "开设账户",
@@ -391,8 +399,10 @@
             setTxt('protocol-h', t.protocolH); setTxt('protocol-sub', t.protocolSub);
             setTxt('st1', t.st1); setTxt('sc1', t.sc1); setTxt('st2', t.st2); setTxt('sc2', t.sc2); setTxt('st3', t.st3); setTxt('sc3', t.sc3); setTxt('st4', t.st4); setTxt('sc4', t.sc4); setTxt('st5', t.st5); setTxt('sc5', t.sc5);
             
-            // Research Teaser
-            setTxt('rt-title', t.rtT); setTxt('rt-btn', t.rtB);
+            // Research Teaser (Updated)
+            setTxt('rt-title', t.rtT); 
+            setTxt('rt-desc', t.rtD); // Newly added field
+            setTxt('rt-btn', t.rtB);
 
             // Comm & News & Broker
             setTxt('comm-title', t.commTitle); setTxt('comm-desc', t.commDesc); setTxt('btn-comm', t.btnComm);
