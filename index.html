@@ -38,11 +38,12 @@
         nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(255,255,255,0.98); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; }
         .nav-inner { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--text-main); cursor: pointer; }
+        
+        /* 优化后的导航右侧：去掉了繁杂的按钮 */
         .nav-right { display: flex; gap: 32px; align-items: center; }
         .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; transition: color 0.3s; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; }
         .nav-link:hover, .nav-link.active { color: var(--text-main); }
-        .login-btn { border: 1px solid #000; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #000; transition: all 0.3s; cursor: pointer; }
-        .login-btn:hover { background: #000; color: #fff; }
+        
         @media(max-width: 768px) { .nav-right { gap: 16px; } .nav-link { font-size: 0.8rem; } }
 
         /* === 页面结构与切换动画 === */
@@ -83,7 +84,7 @@
         .core-desc { font-family: "Playfair Display", serif; font-size: 1.3rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.9; }
         @media(max-width: 768px) { .core-bar { grid-template-columns: 1fr; gap: 50px; margin-top: 0; padding: 50px 30px; } .core-item:not(:last-child)::after { display: none; } .core-desc { font-size: 1.2rem; } }
 
-        /* === NEW: 核心执行协议 (Strategy Protocol) === */
+        /* === 核心执行协议 === */
         .protocol-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto 100px; }
         .protocol-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
         .protocol-header h2 { font-family: "Playfair Display", serif; font-size: 2.8rem; margin-bottom: 16px; color: var(--accent); }
@@ -95,7 +96,7 @@
         .step-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--accent); }
         .step-content { color: var(--text-light); font-size: 0.95rem; }
 
-        /* === NEW: 宏观情报入口 (Macro Intelligence) === */
+        /* === 情报入口 (Strategic Insights) === */
         .research-teaser { background: #0a2540; color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
         .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
         .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
@@ -105,7 +106,7 @@
         .rt-btn:hover { background: var(--gold); color: #000; }
         @media(max-width: 768px) { .rt-title { font-size: 2.2rem; } }
 
-        /* === 圈层/Newsletter/Broker/Footer === */
+        /* === 圈层/Newsletter/Broker === */
         .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
         .comm-card { background: #111; color: #fff; border-radius: 20px; padding: 80px 40px; background-image: radial-gradient(circle at top right, #222, #000); }
         .comm-title { font-family: "Playfair Display"; font-size: 2.5rem; margin-bottom: 20px; }
@@ -128,10 +129,18 @@
         .b-item p { font-size: 0.9rem; color: #666; }
         @media(max-width: 768px) { .broker-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; } .news-form { flex-direction: column; } .news-btn { padding: 15px; } }
 
+        /* === Footer & Disclaimer === */
         .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: #111; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
         .footer-msg { font-family: "Playfair Display", serif; font-size: 3.5rem; text-align: center; opacity: 0.3; transition: 0.5s; padding: 0 20px; }
         .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); }
-        @media(max-width: 768px) { .footer-msg { font-size: 2rem; } }
+        
+        /* 新增：免责声明样式 */
+        .disclaimer-box {
+            max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;
+        }
+        .disclaimer-text {
+            font-size: 0.65rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin: 0;
+        }
 
         /* === About Styles === */
         .founder-note { background: #f4f4f4; padding: 80px 40px; margin-bottom: 0; text-align: center; }
@@ -188,10 +197,6 @@
                 <a href="analysis.html" class="nav-link">Daily Analysis</a>
                 <a href="research.html" class="nav-link">Research</a>
                 <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
-                <div class="nav-link" onclick="toggleLang()">CN / EN</div>
-                <a href="https://portal.tmgm.com/login" target="_blank" style="text-decoration: none;">
-                    <div class="login-btn">Login</div>
-                </a>
             </div>
         </div>
     </nav>
@@ -337,6 +342,12 @@
         <div style="position: absolute; bottom: 20px; font-size: 0.7rem; opacity: 0.5; padding: 0 20px; text-align: center;" id="risk-txt">
             Risk Warning: Trading involves risk. Past performance is not indicative of future results.
         </div>
+        
+        <div class="disclaimer-box">
+            <p class="disclaimer-text">
+                Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions.
+            </p>
+        </div>
     </footer>
 
     <a href="https://t.me/LKC_CIO" target="_blank" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #c5a059; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4); z-index: 1000; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
@@ -350,9 +361,12 @@
                 labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital.", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
                 coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
                 protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
+                
+                // NEW: Updated Research Teaser (Strategic Insights)
                 rtT: "Global Macro Context &<br>Strategic Insights", 
                 rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.",
                 rtB: "Access Terminal",
+
                 commTitle: "The Inner Circle.", commDesc: "Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.", btnComm: "Join Telegram Channel",
                 newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
                 tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
@@ -364,9 +378,12 @@
                 labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本。", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
                 coreT1: "全球宏观", coreD1: "自上而下的经济周期与资本流向分析。", coreT2: "结构化优势", coreD2: "追踪机构订单痕迹与核心流动性区域。", coreT3: "非对称风险", coreD3: "严格的风控体系，只捕捉高盈亏比机会。",
                 protocolH: "L.K. 核心执行协议", protocolSub: "我们的结构化方法由纪律定义，每笔交易必须通过 5 步核查。", st1: "市场结构", sc1: "利用大周期 (H4/D1) 的 BOS/CHoCH 确认宏观方向。", st2: "流动性猎杀", sc2: "识别散户止损区域（流动性池），等待机构进场前的扫盘。", st3: "锁定 POI", sc3: "精确定位关键兴趣区 (POI) —— 通常是未测试的订单块或 FVG。", st4: "小周期入场", sc4: "在 LTF (M5/M15) 等待价格触碰 POI，完成扫损并确认微观结构反转。", st5: "风控铁律", sc5: "每笔交易固定风险 (0.25%-0.5%)，目标盈亏比至少 1:3。",
+                
+                // NEW: Updated Research Teaser (Strategic Insights)
                 rtT: "全球宏观视野与<br>机构策略分析", 
                 rtD: "将您的执行与机构订单流对齐。我们为您深度解码驱动市场波动的核心经济叙事与结构变化。",
                 rtB: "进入分析终端",
+
                 commTitle: "加入核心圈层。", commDesc: "订阅我们的私人频道，获取每日机构级市场拆解、实时交易机会与风控更新。", btnComm: "加入 Telegram 频道",
                 newsH: "订阅 L.K. 宏观简报", newsD: "每周一封，包含机构级市场分析与展望。无垃圾邮件。", newsB: "立即订阅",
                 tmgmIntro: "机构级流动性。隔离账户。原始点差。", bH1: "资金安全", bP1: "ASIC 监管。资金存放在澳大利亚国民银行信托账户。", bH2: "顶尖科技", bP2: "NY4 服务器。执行速度低于 30 毫秒。", bH3: "极致成本", bP3: "ECN 原始点差。欧美/黄金 0 点差起。", btnOpen: "开设账户",
@@ -376,6 +393,7 @@
             }
         };
 
+        // === 语言控制逻辑 ===
         let curLang = 'en';
 
         function toggleLang(forceLang) {
@@ -390,7 +408,6 @@
 
             // Home
             setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
-            
             setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1);
             setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2);
             setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
@@ -401,7 +418,7 @@
             
             // Research Teaser (Updated)
             setTxt('rt-title', t.rtT); 
-            setTxt('rt-desc', t.rtD); // Newly added field
+            setTxt('rt-desc', t.rtD); 
             setTxt('rt-btn', t.rtB);
 
             // Comm & News & Broker
@@ -424,63 +441,46 @@
             toggleLang(targetLang);
         }
 
-        // === 1. 开屏动画智能控制 (Smart Intro) ===
+        // === Intro & Transitions ===
         function initIntro() {
             const overlay = document.getElementById('intro-overlay');
             const quoteBox = document.querySelector('.intro-quote-box');
             const author = document.querySelector('.intro-author');
-
-            // 检查 sessionStorage 是否已有记录
             const hasVisited = sessionStorage.getItem('lk_intro_played');
 
             if (hasVisited) {
-                // 如果来过：直接隐藏动画层，不浪费时间
                 overlay.style.display = 'none';
             } else {
-                // 如果是第一次：添加动画类，让它播放
                 overlay.classList.add('play-intro-animation');
-                // 手动触发内部文字动画
                 quoteBox.style.animation = "quoteFadeUp 1.2s ease-out forwards 0.5s";
                 author.style.animation = "authorFadeIn 1s ease-out forwards 1.8s";
-                
-                // 记录已播放
                 sessionStorage.setItem('lk_intro_played', 'true');
             }
         }
 
-        // === 2. 丝滑页面切换 (Smooth Transitions) ===
         function switchPage(pageName) {
-            // 找到视图
             const currentView = document.querySelector('.view.visible');
             const nextView = document.getElementById('view-' + pageName);
             
-            // 导航栏高亮
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             const activeNav = document.getElementById('nav-' + pageName);
             if(activeNav) activeNav.classList.add('active');
 
-            // 避免重复点击
             if (currentView === nextView) return;
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // A. 退出旧页面
             if (currentView) {
-                currentView.classList.remove('visible'); // 触发 fade out + blur + down
-                
+                currentView.classList.remove('visible'); 
                 setTimeout(() => {
                     currentView.classList.remove('active');
-                    
-                    // B. 进入新页面
                     if (nextView) {
                         nextView.classList.add('active');
-                        // 强制重绘
                         void nextView.offsetWidth; 
-                        nextView.classList.add('visible'); // 触发 fade in + focus + up
+                        nextView.classList.add('visible'); 
                     }
-                }, 500); // 等待 CSS transition 结束
+                }, 500); 
             } else {
-                // 首次加载
                 if (nextView) {
                     nextView.classList.add('active');
                     setTimeout(() => nextView.classList.add('visible'), 50);
@@ -488,22 +488,15 @@
             }
         }
         
-        // === 初始化入口 ===
+        // === Init ===
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. 语言
             initLanguage();
-            
-            // 2. 开屏检查
             initIntro(); 
 
-            // 3. 显示主页 (带淡入效果)
             const homeView = document.getElementById('view-home');
             homeView.classList.add('active');
-            
-            // 如果没有播放开屏动画，直接显示页面；如果播放了动画，页面会在动画背景后准备好
             setTimeout(() => homeView.classList.add('visible'), 100);
             
-            // 4. 滚动侦测初始化
             const elementsToReveal = document.querySelectorAll('.reveal-on-scroll');
             elementsToReveal.forEach(el => el.classList.add('hidden'));
             const observer = new IntersectionObserver((entries) => { 
@@ -513,7 +506,6 @@
             }, { threshold: 0.1 });
             elementsToReveal.forEach((el) => observer.observe(el));
 
-            // 5. Footer 侦测
             const footer = document.querySelector('.sticky-footer');
             const footerObserver = new IntersectionObserver((entries) => { 
                 entries.forEach(entry => { 
