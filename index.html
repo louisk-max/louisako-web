@@ -45,11 +45,7 @@
 
         /* === 页面结构与切换动画 === */
         .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
-        
-        .view {
-            display: none; opacity: 0; transform: translateY(20px); filter: blur(5px);
-            transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
-        }
+        .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease; }
         .view.active { display: block; }
         .view.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
@@ -119,7 +115,7 @@
         .b-item p { font-size: 0.9rem; color: #666; }
         @media(max-width: 768px) { .broker-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; } .news-form { flex-direction: column; } .news-btn { padding: 15px; } }
 
-        /* === Footer & Disclaimer === */
+        /* === Footer === */
         .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: #111; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
         .footer-msg { font-family: "Playfair Display", serif; font-size: 3.5rem; text-align: center; opacity: 0.3; transition: 0.5s; padding: 0 20px; }
         .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); }
@@ -127,13 +123,17 @@
         .disclaimer-box { max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin: 0; }
 
-        /* === NEW: About Page Storytelling === */
+        /* === NEW: About Page Storytelling (字体优化版) === */
         .story-container { max-width: 1100px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
         .story-left { padding-right: 20px; border-right: 1px solid #eee; }
         .story-label { font-family: "Inter"; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 30px; display: block; }
         .story-title { font-family: "Playfair Display"; font-size: 3rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; }
-        .story-text p { font-size: 1.05rem; color: #555; line-height: 1.8; margin-bottom: 30px; text-align: justify; }
-        .quote-highlight { border-left: 4px solid var(--gold); padding-left: 20px; font-family: "Playfair Display"; font-size: 1.4rem; font-style: italic; color: var(--accent); margin: 40px 0; }
+        
+        /* 核心文案优化：字重、行高 */
+        .story-text p { font-size: 1.05rem; color: #444; line-height: 1.8; margin-bottom: 20px; text-align: justify; font-weight: 400; }
+        .story-text ul { padding-left: 20px; margin-bottom: 25px; color: #444; }
+        .story-text li { margin-bottom: 10px; font-weight: 500; }
+        .quote-highlight { border-left: 4px solid var(--gold); padding-left: 20px; font-family: "Playfair Display"; font-size: 1.4rem; font-style: italic; color: var(--accent); margin: 40px 0; line-height: 1.4; }
         
         .infra-card { margin-bottom: 40px; }
         .infra-card h4 { font-size: 1.2rem; color: var(--accent); margin-bottom: 10px; }
@@ -141,6 +141,9 @@
 
         .hq-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 40px; }
         .hq-address { font-family: "Playfair Display", serif; font-size: 1.2rem; color: var(--accent); margin-bottom: 10px; }
+        .founder-note { background: #f4f4f4; padding: 80px 40px; margin-bottom: 0; text-align: center; }
+        .note-text { font-family: "Playfair Display"; font-size: 1.8rem; line-height: 1.4; max-width: 800px; margin: 0 auto 30px; }
+        .note-sign { font-family: "Playfair Display"; font-style: italic; color: var(--gold); }
         
         @media(max-width: 900px) { .story-container { grid-template-columns: 1fr; padding: 60px 24px; } .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 40px; } .story-title { font-size: 2.2rem; } }
 
@@ -170,7 +173,8 @@
             <div class="logo" onclick="switchPage('home')">L.K. Capital.</div>
             <div class="nav-right">
                 <div class="nav-link active" id="nav-home" onclick="switchPage('home')">Home</div>
-                <a href="analysis.html" class="nav-link">Strategy Analysis</a> <a href="research.html" class="nav-link">Research</a>
+                <a href="analysis.html" class="nav-link">Strategy Analysis</a> 
+                <a href="research.html" class="nav-link">Research</a>
                 <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
             </div>
         </div>
@@ -273,18 +277,27 @@
                     <h1 class="story-title" id="story-title">From Chaos to Order.</h1>
                     
                     <div class="story-text" id="story-content">
-                        <p>L.K. Capital wasn't built in a boardroom. It was forged in the trenches of volatility. In 2019, we realized that standard technical analysis was a trap designed for retail liquidity. We stripped away the indicators and started tracking the footprints of central banks and institutions.</p>
-                        <div class="quote-highlight">"Markets are not random. They are engineered."</div>
-                        <p>We don't predict; we react to structure. By aligning with Smart Money Concepts (SMC) and institutional order flow, we moved from being the liquidity to hunting the liquidity. Today, L.K. Capital is a disciplined vehicle for preserving and growing wealth through asymmetric risk management.</p>
+                        <p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p>
+                        <p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p>
+                        <p><strong>Our foundation is built on:</strong></p>
+                        <ul>
+                            <li>Institutional Market Structure</li>
+                            <li>Smart Money Concepts (SMC)</li>
+                            <li>Three-Phase Retracement Logic</li>
+                            <li>Central Bank Liquidity Mapping</li>
+                        </ul>
+                        <div class="quote-highlight">"Markets are not random. They are architected."</div>
+                        <p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p>
+                        <p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>
                     </div>
                 </div>
 
                 <div class="story-right">
                     <span class="story-label" id="infra-label">Infrastructure</span>
-                    <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary data and market structure research.</p></div>
-                    <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Trading across London, New York, and Tokyo sessions.</p></div>
-                    <div class="infra-card"><h4 id="ic-3t">4 Assets</h4><p id="ic-3d">Forex, Gold, Oil, and Indices coverage.</p></div>
-                    <div class="infra-card"><h4 id="ic-4t">Institutional</h4><p id="ic-4d">Risk framework comparable to tier-1 hedge funds.</p></div>
+                    <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary macro research, liquidity modelling, and market-structure engineering.</p></div>
+                    <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Execution and analysis across London, New York, and Tokyo sessions.</p></div>
+                    <div class="infra-card"><h4 id="ic-3t">Multi-Asset Coverage</h4><p id="ic-3d">Forex, Gold, Oil, Equity Indices, and expanding into multi-sector macro plays.</p></div>
+                    <div class="infra-card"><h4 id="ic-4t">Institutional Framework</h4><p id="ic-4d">Risk systems engineered to mirror tier-1 hedge-fund standards—refined for agility instead of bureaucracy.</p></div>
                     
                     <div class="hq-section">
                         <span class="story-label">Headquarters</span>
@@ -312,9 +325,7 @@
         </div>
         
         <div class="disclaimer-box">
-            <p class="disclaimer-text">
-                Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions.
-            </p>
+            <p class="disclaimer-text">Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions.</p>
         </div>
     </footer>
 
@@ -323,7 +334,7 @@
     </a>
 
     <script>
-        // === Data Object ===
+        // === Data Object (Updated with new story) ===
         const langData = {
             en: {
                 labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital.", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
@@ -338,10 +349,15 @@
                 newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
                 tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
                 aboutLabel: "Our Story", aboutTitle: "From Chaos to Order.", 
-                // Story Content EN
-                storyContent: `<p>L.K. Capital wasn't built in a boardroom. It was forged in the trenches of volatility. In 2019, we realized that standard technical analysis was a trap designed for retail liquidity. We stripped away the indicators and started tracking the footprints of central banks and institutions.</p><div class="quote-highlight">"Markets are not random. They are engineered."</div><p>We don't predict; we react to structure. By aligning with Smart Money Concepts (SMC) and institutional order flow, we moved from being the liquidity to hunting the liquidity. Today, L.K. Capital is a disciplined vehicle for preserving and growing wealth through asymmetric risk management.</p>`,
                 
-                infraTitle: "Global Infrastructure.", infraDesc: "Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.", btnNet: "Join the Network", ic1t: "5 Years", ic1d: "of proprietary data and market structure research.", ic2t: "Global Reach", ic2d: "Trading across London, New York, and Tokyo sessions.", ic3t: "4 Assets", ic3d: "Forex, Gold, Oil, and Indices coverage.", ic4t: "Institutional", ic4d: "Risk framework comparable to tier-1 hedge funds.",
+                // EN Story Content
+                storyContent: `<p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p><p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p><p><strong>Our foundation is built on:</strong></p><ul><li>Institutional Market Structure</li><li>Smart Money Concepts (SMC)</li><li>Three-Phase Retracement Logic</li><li>Central Bank Liquidity Mapping</li></ul><div class="quote-highlight">"Markets are not random. They are architected."</div><p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p><p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>`,
+                
+                infraTitle: "Infrastructure", infraDesc: "Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.", btnNet: "Join the Network", 
+                ic1t: "5 Years", ic1d: "of proprietary macro research, liquidity modelling, and market-structure engineering.", 
+                ic2t: "Global Reach", ic2d: "Execution and analysis across London, New York, and Tokyo sessions.", 
+                ic3t: "Multi-Asset Coverage", ic3d: "Forex, Gold, Oil, Equity Indices, and expanding into multi-sector macro plays.", 
+                ic4t: "Institutional Framework", ic4d: "Risk systems engineered to mirror tier-1 hedge-fund standards—refined for agility instead of bureaucracy.",
                 riskTxt: "Risk Warning: Trading involves risk. Past performance is not indicative of future results."
             },
             cn: {
@@ -357,10 +373,15 @@
                 newsH: "订阅 L.K. 宏观简报", newsD: "每周一封，包含机构级市场分析与展望。无垃圾邮件。", newsB: "立即订阅",
                 tmgmIntro: "机构级流动性。隔离账户。原始点差。", bH1: "资金安全", bP1: "ASIC 监管。资金存放在澳大利亚国民银行信托账户。", bH2: "顶尖科技", bP2: "NY4 服务器。执行速度低于 30 毫秒。", bH3: "极致成本", bP3: "ECN 原始点差。欧美/黄金 0 点差起。", btnOpen: "开设账户",
                 aboutLabel: "公司历程", aboutTitle: "从混沌到秩序。", 
-                // Story Content CN
-                storyContent: `<p>L.K. Capital 并非诞生于舒适的会议室，而是从市场的战壕中磨砺而出。2019年，我们意识到传统的零售技术分析往往只是流动性的陷阱。我们摒弃了滞后的指标，转而追踪央行与大型机构的资金足迹。</p><div class="quote-highlight">"市场并非随机，而是被精心设计的。"</div><p>我们不预测，我们只从结构中确认。通过将 Smart Money Concepts (SMC) 与机构订单流结合，我们从“被猎杀的流动性”转变为“猎手”。今天，L.K. Capital 已成为一个纪律严明的资产管理载体，专注于通过非对称风险管理来守卫并增值财富。</p>`,
+                
+                // CN Story Content (Translated)
+                storyContent: `<p>L.K. Capital 并非诞生于舒适的会议室，而是从市场的战壕中磨砺而出。那里是流动性被“设计”的地方，而非被“发现”的地方。</p><p>自 2019 年起，我们意识到一个根本真理：传统技术分析并非为专业投资者设计，而是为了捕获散户的流动性。我们摒弃了主流工具，从底层逻辑开始重构一切。</p><p><strong>我们的基石建立在：</strong></p><ul><li>机构级市场结构</li><li>SMC (聪明钱) 概念</li><li>三阶段回撤/补单逻辑 (三协)</li><li>央行流动性映射</li></ul><div class="quote-highlight">"市场并非随机，而是被精心架构的。"</div><p>我们不预测市场，我们解码流动性是如何被制造的。通过对齐真实的机构行为——订单流失衡、工程化的流动性扫盘、以及非对称的风险敞口——我们从“被猎杀的流动性”进化为“猎手”。</p><p>今天，L.K. Capital 已不仅是一个投资框架，更是一个进化的生态系统。我们专注于通过结构而非投机、通过意图而非反应，来守卫并复利资本。而这一切，才刚刚开始。</p>`,
 
-                infraTitle: "全球基础设施架构。", infraDesc: "自 2019 年以来，我们已从一个自营交易室进化为全球化的资产管理架构。", btnNet: "加入全球网络", ic1t: "5年积累", ic1d: "专有的市场结构数据与研发沉淀。", ic2t: "全球覆盖", ic2d: "横跨伦敦、纽约与东京三大交易时段。", ic3t: "4大资产", ic3d: "覆盖外汇、黄金、原油及全球指数。", ic4t: "机构标准", ic4d: "对标一线对冲基金的风控与执行框架。",
+                infraTitle: "全球基础设施架构", infraDesc: "自 2019 年以来，我们已从一个自营交易室进化为全球化的资产管理架构。", btnNet: "加入全球网络", 
+                ic1t: "5年积累", ic1d: "专有的宏观研究、流动性建模与市场结构工程化。", 
+                ic2t: "全球覆盖", ic2d: "横跨伦敦、纽约与东京三大交易时段的执行与分析。", 
+                ic3t: "多元资产", ic3d: "覆盖外汇、黄金、原油、股指，并正向多板块宏观策略扩展。", 
+                ic4t: "机构框架", ic4d: "对标一线对冲基金的风控系统——去除了官僚主义，保留了敏捷性。",
                 riskTxt: "风险提示：交易包含风险。过往表现不代表未来结果。"
             }
         };
@@ -379,7 +400,6 @@
 
             // Home
             setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
-            
             setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1);
             setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2);
             setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
@@ -400,10 +420,9 @@
             
             // About & Story
             setTxt('about-label', t.aboutLabel); setTxt('about-title', t.aboutTitle); 
-            // 更新故事内容
             setTxt('story-content', t.storyContent); 
             
-            setTxt('infra-title', t.infraTitle); setTxt('infra-desc', t.infraDesc); setTxt('btn-net', t.btnNet);
+            setTxt('infra-label', t.infraTitle); // Corrected ID binding
             setTxt('ic-1t', t.ic1t); setTxt('ic-1d', t.ic1d); setTxt('ic-2t', t.ic2t); setTxt('ic-2d', t.ic2d); setTxt('ic-3t', t.ic3t); setTxt('ic-3d', t.ic3d); setTxt('ic-4t', t.ic4t); setTxt('ic-4d', t.ic4d);
             
             setTxt('risk-txt', t.riskTxt);
