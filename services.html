@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | L.K. Capital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
+
+    <style>
+        /* === 核心配色 === */
+        :root { --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; padding: 0; width: 100%; font-family: "Inter", sans-serif; color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* === 双语控制 === */
+        .lang-cn { display: none !important; } .lang-en { display: block !important; }
+        body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
+
+        /* === 顶部导航 === */
+        .top-bar { height: 70px; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 100; }
+        .brand { font-family: "Playfair Display"; font-weight: 700; font-size: 1.2rem; color: var(--accent); text-decoration: none; }
+        .nav-right { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .nav-link:hover { color: var(--accent); }
+
+        /* === 布局结构 === */
+        .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; display: grid; grid-template-columns: 250px 1fr; gap: 60px; }
+        
+        /* 左侧目录 */
+        .toc-sidebar { position: sticky; top: 100px; height: fit-content; }
+        .toc-link { display: block; padding: 10px 0; color: #888; text-decoration: none; font-size: 0.9rem; border-left: 2px solid transparent; padding-left: 15px; transition: 0.2s; margin-bottom: 5px; }
+        .toc-link:hover, .toc-link.active { color: var(--accent); border-left-color: var(--gold); font-weight: 600; }
+
+        /* 右侧内容 */
+        .content-area { max-width: 800px; }
+        .page-title { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
+        .page-sub { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 60px; max-width: 600px; }
+
+        /* 板块样式 */
+        .service-block { margin-bottom: 80px; padding-top: 40px; border-top: 1px solid #eee; }
+        .service-num { font-family: "Playfair Display"; font-size: 1.5rem; color: var(--gold); margin-bottom: 10px; display: block; }
+        .service-title { font-family: "Playfair Display"; font-size: 2.2rem; color: var(--accent); margin-bottom: 30px; }
+        .service-text p { margin-bottom: 20px; line-height: 1.8; color: #444; }
+        .service-text ul { padding-left: 20px; margin-bottom: 30px; color: #444; }
+        .service-text li { margin-bottom: 10px; line-height: 1.6; }
+        .highlight-box { background: var(--sidebar-bg); padding: 30px; border-radius: 8px; margin: 30px 0; border-left: 4px solid var(--accent); }
+        .highlight-title { font-weight: 700; color: var(--accent); display: block; margin-bottom: 10px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+
+        /* Footer */
+        .footer { margin-top: auto; border-top: 1px solid var(--border); padding: 40px 0; text-align: center; font-size: 0.8rem; color: #999; }
+
+        @media(max-width: 900px) {
+            .container { grid-template-columns: 1fr; padding: 40px 20px; }
+            .toc-sidebar { display: none; } /* 手机端隐藏侧边栏 */
+            .page-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body class="en-mode">
+
+    <div class="top-bar">
+        <a href="index.html" class="brand">L.K. Capital</a>
+        <div class="nav-right">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="analysis.html" class="nav-link">Analysis</a>
+            <a href="research.html" class="nav-link">Research</a>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- 左侧目录 -->
+        <aside class="toc-sidebar">
+            <div class="lang-cn">
+                <a href="#s1" class="toc-link">01. 策略架构</a>
+                <a href="#s2" class="toc-link">02. 市场解构</a>
+                <a href="#s3" class="toc-link">03. 展望与洞察</a>
+                <a href="#s4" class="toc-link">04. 知识体系</a>
+                <a href="#s5" class="toc-link">05. 未来发展</a>
+                <a href="#s6" class="toc-link">06. 联系我们</a>
+            </div>
+            <div class="lang-en">
+                <a href="#s1" class="toc-link">01. Framework</a>
+                <a href="#s2" class="toc-link">02. Deconstruction</a>
+                <a href="#s3" class="toc-link">03. Insights</a>
+                <a href="#s4" class="toc-link">04. Education</a>
+                <a href="#s5" class="toc-link">05. Future</a>
+                <a href="#s6" class="toc-link">06. Contact</a>
+            </div>
+        </aside>
+
+        <!-- 右侧内容 -->
+        <main class="content-area">
+            
+            <div class="lang-cn">
+                <h1 class="page-title">我们能做什么</h1>
+                <p class="page-sub">我们构建基于「市场结构」与「机构行为」的专业策略体系，帮助交易者、投资者与机构理解市场、制定方向，并建立长期可用的交易框架。</p>
+            </div>
+            <div class="lang-en">
+                <h1 class="page-title">What We Do</h1>
+                <p class="page-sub">We build professional strategy systems based on "Market Structure" and "Institutional Behavior," helping traders and institutions define direction and establish long-term frameworks.</p>
+            </div>
+
+            <!-- 01 -->
+            <div id="s1" class="service-block">
+                <span class="service-num">01</span>
+                <div class="lang-cn">
+                    <h2 class="service-title">交易策略架构</h2>
+                    <div class="service-text">
+                        <p>我们不提供“信号”，我们提供的是 <strong>结构化策略框架</strong>。通过 SMC（Smart Money Concepts）与我们独有的 <strong>三协补单结构（Three-Phase Retracement）</strong>，我们帮助用户理解：</p>
+                        <ul>
+                            <li>市场波动背后的“机构逻辑”</li>
+                            <li>流动性是如何被制造、诱导、清扫的</li>
+                            <li>哪些结构是真趋势，哪些是陷阱</li>
+                            <li>如何在结构完成前判断“风险区”与“安全区”</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <span class="highlight-title">核心价值</span>
+                            我们的策略核心不是预测，而是 <strong>读懂结构、识别流动性、管理风险</strong>。
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-en">
+                    <h2 class="service-title">Strategy Framework</h2>
+                    <div class="service-text">
+                        <p>We don't provide "signals"; we provide a <strong>Structured Strategy Framework</strong>. Through SMC and our proprietary <strong>Three-Phase Retracement Logic</strong>, we help you understand:</p>
+                        <ul>
+                            <li>The "Institutional Logic" behind market volatility</li>
+                            <li>How liquidity is engineered, induced, and swept</li>
+                            <li>Which structures are true trends vs. traps</li>
+                            <li>Identifying "Risk Zones" vs. "Safe Zones"</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <span class="highlight-title">Core Value</span>
+                            Our core is not prediction, but <strong>Reading Structure, Identifying Liquidity, and Managing Risk</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 02 -->
+            <div id="s2" class="service-block">
+                <span class="service-num">02</span>
+                <div class="lang-cn">
+                    <h2 class="service-title">解读市场谜题</h2>
+                    <div class="service-text">
+                        <p>每个交易者都面对同样的问题：为什么扫了止损才走真方向？为什么所有指标都失效？为什么大资金能“提前知道”？</p>
+                        <p><strong>L.K. Capital 的价值在于：我们能把别人看不懂的东西拆开给你看，让市场不再是谜。</strong></p>
+                        <p>基于 SMC、订单流、结构区间、波动逻辑、流动性工程等工具，我们为用户提供：</p>
+                        <ul>
+                            <li>对复杂行情的结构性解释</li>
+                            <li>对“为什么会这样”的深度拆解</li>
+                            <li>对关键结构的风险提示</li>
+                        </ul>
+                        <div class="highlight-box">
+                            你不知道的事情，我们帮你解释。你想知道的事情，我们帮你看得更深。
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-en">
+                    <h2 class="service-title">Market Deconstruction</h2>
+                    <div class="service-text">
+                        <p>Why does price move only after stopping you out? Why do indicators fail? <strong>L.K. Capital decodes the puzzle.</strong></p>
+                        <p>Using SMC, Order Flow, and Liquidity Engineering tools, we provide:</p>
+                        <ul>
+                            <li>Structural explanations for complex price action</li>
+                            <li>Deep-dive breakdowns of "Why it happened"</li>
+                            <li>Risk alerts on critical structures</li>
+                        </ul>
+                        <div class="highlight-box">
+                            What you don't know, we explain. What you want to know, we see deeper.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 -->
+            <div id="s3" class="service-block">
+                <span class="service-num">03</span>
+                <div class="lang-cn">
+                    <h2 class="service-title">内容解析 · 市场展望</h2>
+                    <div class="service-text">
+                        <p>我们提供基于结构逻辑的 <strong>中期展望</strong> 与 <strong>关键区域解释</strong>，包括：黄金 / 外汇 / 指数的结构性解读、流动性周期变化、以及机构行为的可能区间。</p>
+                        <p>我们不是发“预测”，我们提供的是：<strong>基于逻辑的观察、基于结构的趋势方向、基于行为的市场解释。</strong></p>
+                    </div>
+                </div>
+                <div class="lang-en">
+                    <h2 class="service-title">Insights & Outlook</h2>
+                    <div class="service-text">
+                        <p>We provide <strong>Medium-term Outlooks</strong> and <strong>Key Zone Explanations</strong> based on structural logic, covering Gold, Forex, and Indices.</p>
+                        <p>We don't just "forecast"; we offer: <strong>Logic-based Observation, Structure-based Trend Direction, and Behavior-based Interpretation.</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 04 -->
+            <div id="s4" class="service-block">
+                <span class="service-num">04</span>
+                <div class="lang-cn">
+                    <h2 class="service-title">教学与知识体系</h2>
+                    <div class="service-text">
+                        <p>未来 L.K. Capital 将系统性推出：</p>
+                        <ul>
+                            <li>SMC 逻辑课程</li>
+                            <li>三协补单结构教程</li>
+                            <li>市场结构深度解析</li>
+                            <li>宏观周期系统课</li>
+                        </ul>
+                        <p>目标不是教你“怎么做单”，而是教你：<strong>如何理解市场、如何构建体系、如何独立做出正确判断。</strong></p>
+                    </div>
+                </div>
+                <div class="lang-en">
+                    <h2 class="service-title">Education Framework</h2>
+                    <div class="service-text">
+                        <p>Future releases from L.K. Capital:</p>
+                        <ul>
+                            <li>SMC Logic Courses</li>
+                            <li>Three-Phase Retracement Tutorials</li>
+                            <li>Deep Market Structure Analysis</li>
+                            <li>Macro Cycle Systems</li>
+                        </ul>
+                        <p>Our goal is not to teach you "how to trade," but <strong>how to understand the market and build your own system.</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 05 -->
+            <div id="s5" class="service-block">
+                <span class="service-num">05</span>
+                <div class="lang-cn">
+                    <h2 class="service-title">多元化发展的未来</h2>
+                    <div class="service-text">
+                        <p>L.K. Capital 的发展不会止步于策略与教学。接下来我们将持续扩展：</p>
+                        <ul>
+                            <li>🧠 AI × 结构分析模型</li>
+                            <li>📊 多资产结构策略集群</li>
+                            <li>🔍 机构级 Research 研究输出</li>
+                            <li>🏛 更完整的结构研究实验室（Research Lab）</li>
+                        </ul>
+                        <p>未来的 L.K. Capital 不只是交易，更是：<strong>一个结构化策略生态 · 结构研究平台 · 市场知识体系。</strong></p>
+                    </div>
+                </div>
+                <div class="lang-en">
+                    <h2 class="service-title">Future Development</h2>
+                    <div class="service-text">
+                        <p>We are expanding beyond strategy:</p>
+                        <ul>
+                            <li>🧠 AI × Structure Analysis Models</li>
+                            <li>📊 Multi-Asset Strategy Clusters</li>
+                            <li>🔍 Institutional Research Output</li>
+                            <li>🏛 Complete Structural Research Lab</li>
+                        </ul>
+                        <p>L.K. Capital is evolving into a <strong>Structured Strategy Ecosystem.</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 06 -->
+            <div id="s6" class="service-block">
+                <span class="service-num">06</span>
+                <div class="lang-cn">
+                    <h2 class="service-title">联系我们</h2>
+                    <div class="service-text">
+                        <p>如果你想理解市场、构建策略逻辑、寻找结构化方向，我们愿意提供专业支持。</p>
+                        <p><strong>Email:</strong> louis@louisako.com</p>
+                        <p><strong>Website:</strong> louisako.com</p>
+                    </div>
+                </div>
+                <div class="lang-en">
+                    <h2 class="service-title">Let's Connect</h2>
+                    <div class="service-text">
+                        <p>If you seek to understand the market, build logic, and find structural direction, we are here.</p>
+                        <p><strong>Email:</strong> louis@louisako.com</p>
+                        <p><strong>Website:</strong> louisako.com</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 L.K. Capital. All rights reserved.
+    </footer>
+
+    <script>
+        // 自动语言检测
+        function autoDetectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage; 
+            if (userLang.toLowerCase().includes('zh')) {
+                document.body.classList.remove('en-mode');
+                document.body.classList.add('cn-mode');
+            } else {
+                document.body.classList.remove('cn-mode');
+                document.body.classList.add('en-mode');
+            }
+        }
+        autoDetectLanguage();
+        
+        // 目录高亮逻辑
+        const sections = document.querySelectorAll('.service-block');
+        const navLi = document.querySelectorAll('.toc-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLi.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) {
+                    li.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```
+
+---
+
+### 第二步：在导航栏加入口
+
+别忘了让用户能从首页点进来。请修改 `index.html`、`analysis.html` 和 `research.html` 的导航栏，加上 **Services** 链接。
+
+**以 `index.html` 为例，修改 `<div class="nav-right">` 部分：**
+
+```html
+            <div class="nav-right">
+                <div class="nav-link active" id="nav-home" onclick="switchPage('home')">Home</div>
+                <a href="services.html" class="nav-link">Services</a> <!-- 新增这一行 -->
+                <a href="analysis.html" class="nav-link">Strategy Analysis</a>
+                <a href="research.html" class="nav-link">Research</a>
+                <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
+            </div>
+```
