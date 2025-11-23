@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="V7hvYoLI5hCxlszi28VbkKu_sW8UqnTpZyjRpIpc73g" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>L.K. Capital | Global Macro & Structural Trends</title>
+    <meta name="description" content="L.K. Capital is an investment management firm blending institutional structural analysis with disciplined execution.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="L.K. Capital | Institutional Edge">
+    <meta property="og:description" content="Navigating Trends. Preserving Capital. Global Macro & Structural Trading.">
+    <meta property="og:image" content="https://louisako.com/social.jpg">
+    <meta property="og:url" content="https://louisako.com">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === 基础设置 === */
+        :root {
+            --bg: #ffffff; --text-main: #1a1a1a; --text-light: #666;
+            --accent: #0a2540; --gold: #c5a059; --ease: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background-color: var(--bg); }
+        body { font-family: "Inter", sans-serif; color: var(--text-main); line-height: 1.6; }
+
+        /* === 动画 === */
+        .reveal-on-scroll { opacity: 1; transform: translateY(0); transition: opacity 1s ease, transform 1s ease; }
+        .js-loaded .reveal-on-scroll.hidden { opacity: 0; transform: translateY(30px); }
+
+        /* === 导航 === */
+        nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(255,255,255,0.98); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; }
+        .nav-inner { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--text-main); cursor: pointer; }
+        .nav-right { display: flex; gap: 32px; align-items: center; }
+        .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; transition: color 0.3s; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; }
+        .nav-link:hover, .nav-link.active { color: var(--text-main); }
+        .login-btn { border: 1px solid #000; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #000; transition: all 0.3s; cursor: pointer; }
+        .login-btn:hover { background: #000; color: #fff; }
+        @media(max-width: 768px) { .nav-right { gap: 16px; } .nav-link { font-size: 0.8rem; } }
+
+        /* === 页面结构与切换动画 (Updated) === */
+        .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
+        
+        .view {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+        }
+        .view.active { display: block; }
+        .view.visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .ticker-wrapper { width: 100%; height: 72px; border-bottom: 1px solid #f0f0f0; overflow: hidden; }
+
+        /* === Hero === */
+        .hero-section { padding: 120px 24px 100px; max-width: 900px; margin: 0 auto; text-align: center; }
+        .hero-label { font-size: 0.85rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; display: inline-block; }
+        h1 { font-family: "Playfair Display", serif; font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: #111; }
+        .hero-desc { font-size: 1.25rem; color: var(--text-light); max-width: 680px; margin: 0 auto 48px; font-weight: 300; }
+        .btn-main { display: inline-block; padding: 18px 48px; background: #111; color: #fff; border-radius: 4px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s ease; }
+        .btn-main:hover { background: var(--gold); transform: translateY(-2px); }
+        @media(max-width: 768px) { .hero-section { padding: 80px 20px 80px; } h1 { font-size: 3.2rem; } .hero-desc { font-size: 1.1rem; } }
+
+        /* === 核心优势栏 === */
+        .core-section { max-width: 1200px; margin: 0 auto 100px; padding: 0 24px; position: relative; z-index: 5; }
+        .core-bar { background: var(--accent); color: #fff; border-radius: 4px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+        .core-bar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold); }
+        .core-item { text-align: center; padding: 0 20px; position: relative; }
+        .core-item:not(:last-child)::after { content: ''; position: absolute; right: -20px; top: 10%; height: 80%; width: 1px; background: rgba(255,255,255,0.1); }
+        .core-title { font-family: "Inter", sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px; display: block; }
+        .core-desc { font-family: "Playfair Display", serif; font-size: 1.3rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.9; }
+        @media(max-width: 768px) { .core-bar { grid-template-columns: 1fr; gap: 50px; margin-top: 0; padding: 50px 30px; } .core-item:not(:last-child)::after { display: none; } .core-desc { font-size: 1.2rem; } }
+
+        /* === NEW: 核心执行协议 (Strategy Protocol) === */
+        .protocol-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto 100px; }
+        .protocol-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
+        .protocol-header h2 { font-family: "Playfair Display", serif; font-size: 2.8rem; margin-bottom: 16px; color: var(--accent); }
+        .protocol-header p { color: var(--text-light); font-size: 1.1rem; }
+        .protocol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .protocol-step { background: #fff; padding: 30px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03); transition: 0.3s; position: relative; }
+        .protocol-step:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); }
+        .step-num { font-size: 3rem; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 15px; opacity: 0.6; font-family: "Playfair Display"; }
+        .step-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--accent); }
+        .step-content { color: var(--text-light); font-size: 0.95rem; }
+
+        /* === NEW: 研报入口 (Research Teaser) === */
+        .research-teaser { background: #0a2540; color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
+        .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
+        .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 600; }
+        .rt-title { font-family: "Playfair Display"; font-size: 3rem; margin-bottom: 40px; line-height: 1.2; }
+        .rt-btn { border: 1px solid var(--gold); color: var(--gold); padding: 16px 40px; text-decoration: none; font-size: 0.95rem; transition: 0.3s; display: inline-block; border-radius: 4px; }
+        .rt-btn:hover { background: var(--gold); color: #000; }
+        @media(max-width: 768px) { .rt-title { font-size: 2.2rem; } }
+
+        /* === 圈层/Newsletter/Broker/Footer (保持不变) === */
+        .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
+        .comm-card { background: #111; color: #fff; border-radius: 20px; padding: 80px 40px; background-image: radial-gradient(circle at top right, #222, #000); }
+        .comm-title { font-family: "Playfair Display"; font-size: 2.5rem; margin-bottom: 20px; }
+        .comm-desc { color: #aaa; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; }
+        .btn-gold { display: inline-block; padding: 16px 48px; background: var(--gold); color: #000; border-radius: 4px; font-weight: 600; text-decoration: none; transition: 0.2s; }
+        .btn-gold:hover { background: #fff; }
+
+        .newsletter-section { background: #f4f4f4; padding: 80px 24px; text-align: center; margin-bottom: 80px; }
+        .news-container { max-width: 600px; margin: 0 auto; }
+        .news-title { font-family: "Playfair Display"; font-size: 2rem; margin-bottom: 15px; color: var(--accent); }
+        .news-desc { color: #666; margin-bottom: 30px; }
+        .news-form { display: flex; gap: 10px; }
+        .news-input { flex: 1; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: "Inter"; }
+        .news-btn { background: var(--accent); color: #fff; border: none; padding: 0 30px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+
+        .broker-section { max-width: 1000px; margin: 80px auto; padding: 0 24px; text-align: center; }
+        .broker-logo { font-size: 2rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; }
+        .broker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; text-align: left; }
+        .b-item h4 { font-size: 1.1rem; margin-bottom: 10px; }
+        .b-item p { font-size: 0.9rem; color: #666; }
+        @media(max-width: 768px) { .broker-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; } .news-form { flex-direction: column; } .news-btn { padding: 15px; } }
+
+        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: #111; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        .footer-msg { font-family: "Playfair Display", serif; font-size: 3.5rem; text-align: center; opacity: 0.3; transition: 0.5s; padding: 0 20px; }
+        .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); }
+        @media(max-width: 768px) { .footer-msg { font-size: 2rem; } }
+
+        /* === About Styles === */
+        .founder-note { background: #f4f4f4; padding: 80px 40px; margin-bottom: 0; text-align: center; }
+        .note-text { font-family: "Playfair Display"; font-size: 1.8rem; line-height: 1.4; max-width: 800px; margin: 0 auto 30px; }
+        .note-sign { font-family: "Playfair Display"; font-style: italic; color: var(--gold); }
+        .global-section { background: var(--accent); color: #fff; padding: 120px 24px; position: relative; overflow: hidden; }
+        .map-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.5; pointer-events: none; }
+        .global-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .global-title { font-family: "Playfair Display"; font-size: 3rem; margin-bottom: 20px; line-height: 1.1; }
+        .global-desc { font-size: 1.1rem; opacity: 0.8; margin-bottom: 40px; max-width: 500px; }
+        .infrastructure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .infra-card { background: rgba(255,255,255,0.05); padding: 30px; border: 1px solid rgba(255,255,255,0.1); }
+        .infra-card h4 { font-size: 1.2rem; margin: 0 0 10px 0; color: var(--gold); }
+        .infra-card p { font-size: 0.9rem; opacity: 0.7; line-height: 1.6; margin: 0; }
+        .hq-section { padding-top: 40px; width: 100%; text-align: left; }
+        .hq-label { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .hq-address { font-family: "Playfair Display", serif; font-size: 1.5rem; color: #fff; margin-bottom: 30px; line-height: 1.4; }
+        .map-container { width: 100%; height: 400px; border-radius: 12px; overflow: hidden; filter: grayscale(100%) invert(90%); border: 1px solid rgba(255,255,255,0.2); }
+
+        /* Intro Animation */
+        #intro-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #0d0d0e; z-index: 9999; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            color: #fff; 
+        }
+        /* 只有添加了这个类才会播放动画 */
+        .play-intro-animation {
+            animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; 
+            animation-delay: 3.5s;
+        }
+        .intro-quote-box { text-align: center; opacity: 0; }
+        .intro-quote { font-family: "Playfair Display", serif; font-size: 3rem; font-style: italic; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a8a8a8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .intro-author { font-family: "Inter", sans-serif; font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); opacity: 0; }
+        
+        @keyframes quoteFadeUp { 0% { opacity: 0; transform: translateY(30px); filter: blur(5px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes authorFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes overlaySlideUp { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="intro-quote-box">
+            <div class="intro-quote">“Discipline Creates Freedom.”</div>
+            <div class="intro-author">— Louis K.</div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-inner">
+            <div class="logo" onclick="switchPage('home')">L.K. Capital.</div>
+            <div class="nav-right">
+                <div class="nav-link active" id="nav-home" onclick="switchPage('home')">Home</div>
+                <a href="analysis.html" class="nav-link">Daily Analysis</a>
+                <a href="research.html" class="nav-link">Research</a>
+                <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
+                <div class="nav-link" onclick="toggleLang()">CN / EN</div>
+                <a href="https://portal.tmgm.com/login" target="_blank" style="text-decoration: none;">
+                    <div class="login-btn">Login</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <div id="view-home" class="view active">
+            
+            <div class="ticker-wrapper">
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                    { "symbols": [ { "proName": "FOREXCOM:XAUUSD", "title": "Gold" }, { "proName": "TVC:USOIL", "title": "US Oil" }, { "proName": "FX:EURUSD", "title": "EUR/USD" }, { "proName": "FX:GBPUSD", "title": "GBP/USD" }, { "proName": "FX:USDJPY", "title": "USD/JPY" }, { "proName": "FOREXCOM:SPX500", "title": "S&P 500" }, { "proName": "NASDAQ:AAPL", "title": "Apple" } ], "showSymbolLogo": true, "colorTheme": "light", "isTransparent": true, "displayMode": "adaptive", "locale": "en" }
+                    </script>
+                </div>
+            </div>
+
+            <div class="hero-section">
+                <span class="hero-label" id="label-focus">Global Macro Focus</span>
+                <h1 id="hero-title">Navigating Trends.<br>Preserving Capital.</h1>
+                <p class="hero-desc" id="hero-desc">L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.</p>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px;">
+                    <a href="#contact" class="btn-main" id="btn-cta">Partner with Us</a>
+                </div>
+            </div>
+
+            <div class="core-section reveal-on-scroll">
+                <div class="core-bar">
+                    <div class="core-item"><span class="core-title" id="core-t1">GLOBAL MACRO</span><div class="core-desc" id="core-d1">Top-down analysis of economic cycles and capital flows.</div></div>
+                    <div class="core-item"><span class="core-title" id="core-t2">STRUCTURAL EDGE</span><div class="core-desc" id="core-d2">Tracking institutional footprints and liquidity zones.</div></div>
+                    <div class="core-item"><span class="core-title" id="core-t3">ASYMMETRIC RISK</span><div class="core-desc" id="core-d3">Strict risk management targeting high R:R opportunities.</div></div>
+                </div>
+            </div>
+
+            <div class="protocol-section reveal-on-scroll">
+                <div class="protocol-header">
+                    <h2 id="protocol-h">L.K. Core Execution Protocol</h2>
+                    <p id="protocol-sub">Our structural approach is defined by discipline and a 5-step checklist for every trade setup.</p>
+                </div>
+                <div class="protocol-grid">
+                    <div class="protocol-step"><div class="step-num">1</div><h3 class="step-title" id="st1">Market Structure</h3><div class="step-content" id="sc1">Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.</div></div>
+                    <div class="protocol-step"><div class="step-num">2</div><h3 class="step-title" id="st2">Liquidity Hunt</h3><div class="step-content" id="sc2">Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.</div></div>
+                    <div class="protocol-step"><div class="step-num">3</div><h3 class="step-title" id="st3">Target POI</h3><div class="step-content" id="sc3">Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.</div></div>
+                    <div class="protocol-step"><div class="step-num">4</div><h3 class="step-title" id="st4">LTF Entry</h3><div class="step-content" id="sc4">On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.</div></div>
+                    <div class="protocol-step"><div class="step-num">5</div><h3 class="step-title" id="st5">Risk Mandate</h3><div class="step-content" id="sc5">Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).</div></div>
+                </div>
+            </div>
+
+            <div class="research-teaser reveal-on-scroll">
+                <div class="rt-content">
+                    <span class="rt-label">Featured Research</span>
+                    <h2 class="rt-title" id="rt-title">Institutional Order Flow &<br>Quantitative Behavior Analysis on Gold</h2>
+                    <a href="research.html" class="rt-btn" id="rt-btn">Read The 2025 Report</a>
+                </div>
+            </div>
+
+            <div class="community-section reveal-on-scroll">
+                <div class="comm-card">
+                    <h2 class="comm-title" id="comm-title">The Inner Circle.</h2>
+                    <p class="comm-desc" id="comm-desc">Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.</p>
+                    <a href="https://t.me/LKC_CIO" target="_blank" class="btn-gold" id="btn-comm">Join Telegram Channel</a>
+                </div>
+            </div>
+
+            <div class="newsletter-section reveal-on-scroll">
+                <div class="news-container">
+                    <h3 class="news-title" id="news-h">Subscribe to The L.K. Briefing</h3>
+                    <p class="news-desc" id="news-d">Weekly institutional macro analysis, delivered to your inbox. No spam.</p>
+                    <form class="news-form" action="https://formsubmit.co/9d4428e93fd883d5ff6b745e5f358a33" method="POST">
+                        <input type="hidden" name="_next" value="https://louisako.com">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_subject" value="New L.K. Capital Subscription">
+                        <input type="email" name="email" class="news-input" placeholder="Enter your email address" required>
+                        <button type="submit" class="news-btn" id="news-b">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="broker-section reveal-on-scroll" id="contact">
+                <div class="broker-logo">L.K. x TMGM</div>
+                <p style="max-width: 600px; margin: 0 auto; color: #666;" id="tmgm-intro">Institutional liquidity. Segregated accounts. Raw spreads.</p>
+                <div class="broker-grid">
+                    <div class="b-item"><h4 id="b-h1">Security</h4><p id="b-p1">ASIC Regulated. Funds held in NAB trust accounts.</p></div>
+                    <div class="b-item"><h4 id="b-h2">Technology</h4><p id="b-p2">NY4 Server. Execution speed < 30ms.</p></div>
+                    <div class="b-item"><h4 id="b-h3">Cost</h4><p id="b-p3">Raw ECN Spreads. 0 pips on Majors.</p></div>
+                </div>
+                <br><br>
+                <a href="https://portal.tmgm.com/register" target="_blank" class="btn-main" style="background: #fff; color: #000; border: 1px solid #ddd;" id="btn-open">Open Account</a>
+            </div>
+        </div>
+
+        <div id="view-about" class="view">
+            <div class="hero-section">
+                <span class="hero-label" id="about-label">Our Story</span>
+                <h1 id="about-title">From Chaos to Order.</h1>
+            </div>
+            <div class="founder-note reveal-on-scroll">
+                <div class="note-text" id="about-note">"We shape order from chaos. And we stay disciplined through cycles. L.K. Capital is built for those who value longevity over speed."</div>
+                <div class="sign">Louis K.</div>
+            </div>
+            <div class="global-section reveal-on-scroll">
+                <div class="map-bg"></div>
+                <div class="global-content">
+                    <div>
+                        <h2 class="global-title" id="infra-title">Global Infrastructure.</h2>
+                        <p class="global-desc" id="infra-desc">Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.</p>
+                        <a href="https://portal.tmgm.com/register" class="btn-main" style="background: #fff; color: var(--accent);" id="btn-net">Join the Network</a>
+                    </div>
+                    <div class="infrastructure-grid">
+                        <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary data and market structure research.</p></div>
+                        <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Trading across London, New York, and Tokyo sessions.</p></div>
+                        <div class="infra-card"><h4 id="ic-3t">4 Assets</h4><p id="ic-3d">Forex, Gold, Oil, and Indices coverage.</p></div>
+                        <div class="infra-card"><h4 id="ic-4t">Institutional</h4><p id="ic-4d">Risk framework comparable to tier-1 hedge funds.</p></div>
+                    </div>
+                    
+                    <div class="hq-section" style="grid-column: span 2; margin-top: 60px;">
+                        <span class="hq-label">Global Headquarters</span>
+                        <div class="hq-address">Burj Khalifa<br>1 Sheikh Mohammed bin Rashid Blvd<br>Dubai, UAE<br><br><strong>Email:</strong> louis@louisako.com</div>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.1786539269224!2d55.27218771500953!3d25.197197983896188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43348a67e24b%3A0xff45e502e1ceb7e2!2sBurj%20Khalifa!5e0!3m2!1sen!2sae!4v1694259649153!5m2!1sen!2sae" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="sticky-footer">
+        <div class="footer-msg">DISCIPLINE / CREATES / FREEDOM</div>
+        
+        <div style="margin-top: 30px; display: flex; gap: 30px; z-index: 10; position: relative; align-items: center;">
+            <a href="legal.html#privacy" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 512 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22.9 9.8 38.3 31.7 38.3 56.6v126.5c0 137.3-81.8 261.3-206.7 314.9l-14.7 6.3c-10.6 4.5-22.7 4.5-33.3 0l-14.7-6.3C101.8 527.2 20 403.2 20 265.9V139.4c0-24.9 15.4-46.8 38.3-56.6L242.6 2.9C246.8 1 251.4 0 256 0z"/></svg>Privacy Policy</a>
+            <a href="legal.html#terms" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-17-6.7-33.3-18.7-45.3L290.7 18.7C278.7 6.7 262.4 0 245.3 0H64zm128 448H64V64H245.3L320 138.7V448H192zm0 0c0 0 0 0 0 0zm0 0c0 0 0 0 0 0zM192 384c0-17.7 14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32zm32-160c17.7 0 32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32z"/></svg>Terms of Use</a>
+            <a href="legal.html#risk" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>Risk Disclosure</a>
+        </div>
+
+        <div style="position: absolute; bottom: 20px; font-size: 0.7rem; opacity: 0.5; padding: 0 20px; text-align: center;" id="risk-txt">
+            Risk Warning: Trading involves risk. Past performance is not indicative of future results.
+        </div>
+    </footer>
+
+    <a href="https://t.me/LKC_CIO" target="_blank" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #c5a059; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4); z-index: 1000; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#000"><path d="M18.384,22.779c0.322,0.228 0.737,0.285 1.107,0.145c0.37,-0.141 0.642,-0.457 0.724,-0.84c0.869,-4.084 2.977,-14.421 3.768,-18.136c0.06,-0.28 -0.04,-0.571 -0.26,-0.758c-0.22,-0.187 -0.525,-0.241 -0.797,-0.14c-4.193,1.552 -17.106,6.397 -22.384,8.35c-0.535,0.198 -0.566,0.969 0.107,1.232c2.385,0.932 5.538,2.175 5.538,2.175l0.002,0l0.008,0.002l0,0.003c0.115,0.043 0.241,0.041 0.355,-0.007c0.114,-0.048 0.205,-0.136 0.256,-0.251l9.985,-11.119l-8.488,10.372c-0.158,0.194 -0.17,0.465 -0.031,0.672l4.268,6.444Z"/></svg>
+    </a>
+
+    <script>
+        // === Data Object ===
+        const langData = {
+            en: {
+                labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital.", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
+                coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
+                protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
+                rtT: "Institutional Order Flow &<br>Quantitative Behavior Analysis on Gold", rtB: "Read The 2025 Report",
+                commTitle: "The Inner Circle.", commDesc: "Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.", btnComm: "Join Telegram Channel",
+                newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
+                tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
+                aboutLabel: "Our Story", aboutTitle: "From Chaos to Order.", aboutNote: "\"We shape order from chaos. And we stay disciplined through cycles. L.K. Capital is built for those who value longevity over speed.\"",
+                infraTitle: "Global Infrastructure.", infraDesc: "Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.", btnNet: "Join the Network", ic1t: "5 Years", ic1d: "of proprietary data and market structure research.", ic2t: "Global Reach", ic2d: "Trading across London, New York, and Tokyo sessions.", ic3t: "4 Assets", ic3d: "Forex, Gold, Oil, and Indices coverage.", ic4t: "Institutional", ic4d: "Risk framework comparable to tier-1 hedge funds.",
+                riskTxt: "Risk Warning: Trading involves risk. Past performance is not indicative of future results."
+            },
+            cn: {
+                labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本。", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
+                coreT1: "全球宏观", coreD1: "自上而下的经济周期与资本流向分析。", coreT2: "结构化优势", coreD2: "追踪机构订单痕迹与核心流动性区域。", coreT3: "非对称风险", coreD3: "严格的风控体系，只捕捉高盈亏比机会。",
+                protocolH: "L.K. 核心执行协议", protocolSub: "我们的结构化方法由纪律定义，每笔交易必须通过 5 步核查。", st1: "市场结构", sc1: "利用大周期 (H4/D1) 的 BOS/CHoCH 确认宏观方向。", st2: "流动性猎杀", sc2: "识别散户止损区域（流动性池），等待机构进场前的扫盘。", st3: "锁定 POI", sc3: "精确定位关键兴趣区 (POI) —— 通常是未测试的订单块或 FVG。", st4: "小周期入场", sc4: "在 LTF (M5/M15) 等待价格触碰 POI，完成扫损并确认微观结构反转。", st5: "风控铁律", sc5: "每笔交易固定风险 (0.25%-0.5%)，目标盈亏比至少 1:3。",
+                rtT: "XAUUSD 机构订单流与<br>量化行为分析报告", rtB: "阅读 2025 深度研报",
+                commTitle: "加入核心圈层。", commDesc: "订阅我们的私人频道，获取每日机构级市场拆解、实时交易机会与风控更新。", btnComm: "加入 Telegram 频道",
+                newsH: "订阅 L.K. 宏观简报", newsD: "每周一封，包含机构级市场分析与展望。无垃圾邮件。", newsB: "立即订阅",
+                tmgmIntro: "机构级流动性。隔离账户。原始点差。", bH1: "资金安全", bP1: "ASIC 监管。资金存放在澳大利亚国民银行信托账户。", bH2: "顶尖科技", bP2: "NY4 服务器。执行速度低于 30 毫秒。", bH3: "极致成本", bP3: "ECN 原始点差。欧美/黄金 0 点差起。", btnOpen: "开设账户",
+                aboutLabel: "公司历程", aboutTitle: "从混沌到秩序。", aboutNote: "“我们在混沌中构建秩序，并以纪律穿越周期。L.K. Capital 专为那些看重长期价值而非短期速度的投资者而生。”",
+                infraTitle: "全球基础设施架构。", infraDesc: "自 2019 年以来，我们已从一个自营交易室进化为全球化的资产管理架构。", btnNet: "加入全球网络", ic1t: "5年积累", ic1d: "专有的市场结构数据与研发沉淀。", ic2t: "全球覆盖", ic2d: "横跨伦敦、纽约与东京三大交易时段。", ic3t: "4大资产", ic3d: "覆盖外汇、黄金、原油及全球指数。", ic4t: "机构标准", ic4d: "对标一线对冲基金的风控与执行框架。",
+                riskTxt: "风险提示：交易包含风险。过往表现不代表未来结果。"
+            }
+        };
+
+        let curLang = 'en';
+
+        function toggleLang(forceLang) {
+            if (forceLang) {
+                curLang = forceLang;
+            } else {
+                curLang = curLang === 'en' ? 'cn' : 'en';
+            }
+            const t = langData[curLang];
+            
+            const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
+
+            // Home
+            setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
+            
+            setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1);
+            setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2);
+            setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
+            
+            // Protocol
+            setTxt('protocol-h', t.protocolH); setTxt('protocol-sub', t.protocolSub);
+            setTxt('st1', t.st1); setTxt('sc1', t.sc1); setTxt('st2', t.st2); setTxt('sc2', t.sc2); setTxt('st3', t.st3); setTxt('sc3', t.sc3); setTxt('st4', t.st4); setTxt('sc4', t.sc4); setTxt('st5', t.st5); setTxt('sc5', t.sc5);
+            
+            // Research Teaser
+            setTxt('rt-title', t.rtT); setTxt('rt-btn', t.rtB);
+
+            // Comm & News & Broker
+            setTxt('comm-title', t.commTitle); setTxt('comm-desc', t.commDesc); setTxt('btn-comm', t.btnComm);
+            setTxt('news-h', t.newsH); setTxt('news-d', t.newsD); setTxt('news-b', t.newsB);
+            setTxt('tmgm-intro', t.tmgmIntro); setTxt('b-h1', t.bH1); setTxt('b-p1', t.bP1); setTxt('b-h2', t.bH2); setTxt('b-p2', t.bP2); setTxt('b-h3', t.bH3); setTxt('b-p3', t.bP3); setTxt('btn-open', t.btnOpen);
+            
+            // About
+            setTxt('about-label', t.aboutLabel); setTxt('about-title', t.aboutTitle); setTxt('about-note', t.aboutNote);
+            setTxt('infra-title', t.infraTitle); setTxt('infra-desc', t.infraDesc); setTxt('btn-net', t.btnNet);
+            setTxt('ic-1t', t.ic1t); setTxt('ic-1d', t.ic1d); setTxt('ic-2t', t.ic2t); setTxt('ic-2d', t.ic2d); setTxt('ic-3t', t.ic3t); setTxt('ic-3d', t.ic3d); setTxt('ic-4t', t.ic4t); setTxt('ic-4d', t.ic4d);
+            
+            setTxt('risk-txt', t.riskTxt);
+        }
+
+        function initLanguage() {
+            const userLang = navigator.language || navigator.userLanguage; 
+            const isChinese = userLang.toLowerCase().startsWith('zh');
+            const targetLang = isChinese ? 'cn' : 'en';
+            toggleLang(targetLang);
+        }
+
+        // === 1. 开屏动画智能控制 (Smart Intro) ===
+        function initIntro() {
+            const overlay = document.getElementById('intro-overlay');
+            const quoteBox = document.querySelector('.intro-quote-box');
+            const author = document.querySelector('.intro-author');
+
+            // 检查 sessionStorage 是否已有记录
+            const hasVisited = sessionStorage.getItem('lk_intro_played');
+
+            if (hasVisited) {
+                // 如果来过：直接隐藏动画层，不浪费时间
+                overlay.style.display = 'none';
+            } else {
+                // 如果是第一次：添加动画类，让它播放
+                overlay.classList.add('play-intro-animation');
+                // 手动触发内部文字动画
+                quoteBox.style.animation = "quoteFadeUp 1.2s ease-out forwards 0.5s";
+                author.style.animation = "authorFadeIn 1s ease-out forwards 1.8s";
+                
+                // 记录已播放
+                sessionStorage.setItem('lk_intro_played', 'true');
+            }
+        }
+
+        // === 2. 丝滑页面切换 (Smooth Transitions) ===
+        function switchPage(pageName) {
+            // 找到视图
+            const currentView = document.querySelector('.view.visible');
+            const nextView = document.getElementById('view-' + pageName);
+            
+            // 导航栏高亮
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            const activeNav = document.getElementById('nav-' + pageName);
+            if(activeNav) activeNav.classList.add('active');
+
+            // 避免重复点击
+            if (currentView === nextView) return;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // A. 退出旧页面
+            if (currentView) {
+                currentView.classList.remove('visible'); // 触发 fade out + blur + down
+                
+                setTimeout(() => {
+                    currentView.classList.remove('active');
+                    
+                    // B. 进入新页面
+                    if (nextView) {
+                        nextView.classList.add('active');
+                        // 强制重绘
+                        void nextView.offsetWidth; 
+                        nextView.classList.add('visible'); // 触发 fade in + focus + up
+                    }
+                }, 500); // 等待 CSS transition 结束
+            } else {
+                // 首次加载
+                if (nextView) {
+                    nextView.classList.add('active');
+                    setTimeout(() => nextView.classList.add('visible'), 50);
+                }
+            }
+        }
+        
+        // === 初始化入口 ===
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 语言
+            initLanguage();
+            
+            // 2. 开屏检查
+            initIntro(); 
+
+            // 3. 显示主页 (带淡入效果)
+            const homeView = document.getElementById('view-home');
+            homeView.classList.add('active');
+            
+            // 如果没有播放开屏动画，直接显示页面；如果播放了动画，页面会在动画背景后准备好
+            setTimeout(() => homeView.classList.add('visible'), 100);
+            
+            // 4. 滚动侦测初始化
+            const elementsToReveal = document.querySelectorAll('.reveal-on-scroll');
+            elementsToReveal.forEach(el => el.classList.add('hidden'));
+            const observer = new IntersectionObserver((entries) => { 
+                entries.forEach(entry => { 
+                    if (entry.isIntersecting) entry.target.classList.remove('hidden'); 
+                }); 
+            }, { threshold: 0.1 });
+            elementsToReveal.forEach((el) => observer.observe(el));
+
+            // 5. Footer 侦测
+            const footer = document.querySelector('.sticky-footer');
+            const footerObserver = new IntersectionObserver((entries) => { 
+                entries.forEach(entry => { 
+                    entry.isIntersecting ? footer.classList.add('active') : footer.classList.remove('active'); 
+                }); 
+            }, { threshold: 0.1 });
+            footerObserver.observe(footer);
+        });
+    </script>
+</body>
+</html>
