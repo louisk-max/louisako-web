@@ -18,12 +18,12 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
         /* === 基础设置 === */
         :root {
-            --bg: #ffffff; --text-main: #1a1a1a; --text-light: #666;
+            --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555;
             --accent: #0a2540; --gold: #c5a059; --ease: cubic-bezier(0.25, 1, 0.5, 1);
         }
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -38,40 +38,27 @@
         nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(255,255,255,0.98); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; }
         .nav-inner { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--text-main); cursor: pointer; }
-        
-        /* 优化后的导航右侧：去掉了繁杂的按钮 */
         .nav-right { display: flex; gap: 32px; align-items: center; }
         .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; transition: color 0.3s; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; }
         .nav-link:hover, .nav-link.active { color: var(--text-main); }
-        
-        @media(max-width: 768px) { .nav-right { gap: 16px; } .nav-link { font-size: 0.8rem; } }
+        @media(max-width: 768px) { .nav-right { gap: 16px; } .nav-link { font-size: 0.75rem; } }
 
         /* === 页面结构与切换动画 === */
         .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
-        
-        .view {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(5px);
-            transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
-        }
+        .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease; }
         .view.active { display: block; }
-        .view.visible {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
+        .view.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
         .ticker-wrapper { width: 100%; height: 72px; border-bottom: 1px solid #f0f0f0; overflow: hidden; }
 
-        /* === Hero === */
+        /* === Hero (已针对中文修正) === */
         .hero-section { padding: 120px 24px 100px; max-width: 900px; margin: 0 auto; text-align: center; }
         .hero-label { font-size: 0.85rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; display: inline-block; }
         h1 { font-family: "Playfair Display", serif; font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: #111; }
         .hero-desc { font-size: 1.25rem; color: var(--text-light); max-width: 680px; margin: 0 auto 48px; font-weight: 300; }
         .btn-main { display: inline-block; padding: 18px 48px; background: #111; color: #fff; border-radius: 4px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s ease; }
         .btn-main:hover { background: var(--gold); transform: translateY(-2px); }
+        
         @media(max-width: 768px) { .hero-section { padding: 80px 20px 80px; } h1 { font-size: 3.2rem; } .hero-desc { font-size: 1.1rem; } }
 
         /* === 核心优势栏 === */
@@ -96,7 +83,7 @@
         .step-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--accent); }
         .step-content { color: var(--text-light); font-size: 0.95rem; }
 
-        /* === 情报入口 (Strategic Insights) === */
+        /* === 宏观情报入口 === */
         .research-teaser { background: #0a2540; color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
         .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
         .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
@@ -129,48 +116,40 @@
         .b-item p { font-size: 0.9rem; color: #666; }
         @media(max-width: 768px) { .broker-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; } .news-form { flex-direction: column; } .news-btn { padding: 15px; } }
 
-        /* === Footer & Disclaimer === */
+        /* === Footer === */
         .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: #111; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
         .footer-msg { font-family: "Playfair Display", serif; font-size: 3.5rem; text-align: center; opacity: 0.3; transition: 0.5s; padding: 0 20px; }
         .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); }
         
-        /* 新增：免责声明样式 */
-        .disclaimer-box {
-            max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;
-        }
-        .disclaimer-text {
-            font-size: 0.65rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin: 0;
-        }
+        .disclaimer-box { max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin: 0; }
 
-        /* === About Styles === */
+        /* === ABOUT PAGE === */
+        .story-container { max-width: 1100px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+        .story-left { padding-right: 20px; border-right: 1px solid #eee; }
+        .story-label { font-family: "Inter"; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 30px; display: block; }
+        .story-title { font-family: "Playfair Display"; font-size: 3rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; }
+        
+        .story-text p { font-size: 1.05rem; color: #333; line-height: 1.9; margin-bottom: 25px; text-align: justify; font-weight: 400; }
+        .story-text ul { padding-left: 20px; margin-bottom: 30px; color: #333; list-style-type: square; }
+        .story-text li { margin-bottom: 12px; font-weight: 500; font-size: 1.05rem; }
+        .quote-highlight { border-left: 4px solid var(--gold); padding-left: 25px; font-family: "Playfair Display"; font-size: 1.5rem; font-style: italic; color: var(--accent); margin: 50px 0; line-height: 1.4; background: #fdfdfd; padding: 30px; }
+        
+        .infra-card { margin-bottom: 40px; }
+        .infra-card h4 { font-size: 1.2rem; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
+        .infra-card p { color: #555; font-size: 0.95rem; line-height: 1.6; font-weight: 400; }
+
+        .hq-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 40px; }
+        .hq-address { font-family: "Playfair Display", serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
         .founder-note { background: #f4f4f4; padding: 80px 40px; margin-bottom: 0; text-align: center; }
         .note-text { font-family: "Playfair Display"; font-size: 1.8rem; line-height: 1.4; max-width: 800px; margin: 0 auto 30px; }
         .note-sign { font-family: "Playfair Display"; font-style: italic; color: var(--gold); }
-        .global-section { background: var(--accent); color: #fff; padding: 120px 24px; position: relative; overflow: hidden; }
-        .map-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.5; pointer-events: none; }
-        .global-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .global-title { font-family: "Playfair Display"; font-size: 3rem; margin-bottom: 20px; line-height: 1.1; }
-        .global-desc { font-size: 1.1rem; opacity: 0.8; margin-bottom: 40px; max-width: 500px; }
-        .infrastructure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .infra-card { background: rgba(255,255,255,0.05); padding: 30px; border: 1px solid rgba(255,255,255,0.1); }
-        .infra-card h4 { font-size: 1.2rem; margin: 0 0 10px 0; color: var(--gold); }
-        .infra-card p { font-size: 0.9rem; opacity: 0.7; line-height: 1.6; margin: 0; }
-        .hq-section { padding-top: 40px; width: 100%; text-align: left; }
-        .hq-label { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 1px; }
-        .hq-address { font-family: "Playfair Display", serif; font-size: 1.5rem; color: #fff; margin-bottom: 30px; line-height: 1.4; }
-        .map-container { width: 100%; height: 400px; border-radius: 12px; overflow: hidden; filter: grayscale(100%) invert(90%); border: 1px solid rgba(255,255,255,0.2); }
+        
+        @media(max-width: 900px) { .story-container { grid-template-columns: 1fr; padding: 60px 24px; } .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 40px; } .story-title { font-size: 2.2rem; } }
 
         /* Intro Animation */
-        #intro-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #0d0d0e; z-index: 9999; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            color: #fff; 
-        }
-        .play-intro-animation {
-            animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; 
-            animation-delay: 3.5s;
-        }
+        #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d0d0e; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        .play-intro-animation { animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; animation-delay: 3.5s; }
         .intro-quote-box { text-align: center; opacity: 0; }
         .intro-quote { font-family: "Playfair Display", serif; font-size: 3rem; font-style: italic; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a8a8a8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .intro-author { font-family: "Inter", sans-serif; font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); opacity: 0; }
@@ -194,7 +173,7 @@
             <div class="logo" onclick="switchPage('home')">L.K. Capital.</div>
             <div class="nav-right">
                 <div class="nav-link active" id="nav-home" onclick="switchPage('home')">Home</div>
-                <a href="analysis.html" class="nav-link">Daily Analysis</a>
+                <a href="analysis.html" class="nav-link">Strategy Analysis</a> 
                 <a href="research.html" class="nav-link">Research</a>
                 <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
             </div>
@@ -204,7 +183,6 @@
     <div class="page-container">
 
         <div id="view-home" class="view active">
-            
             <div class="ticker-wrapper">
                 <div class="tradingview-widget-container">
                     <div class="tradingview-widget-container__widget"></div>
@@ -249,11 +227,9 @@
                 <div class="rt-content">
                     <span class="rt-label">Market Intelligence</span>
                     <h2 class="rt-title" id="rt-title">Global Macro Context &<br>Strategic Insights</h2>
-                    
                     <p id="rt-desc" style="color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; line-height: 1.6;">
                         Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.
                     </p>
-                    
                     <a href="analysis.html" class="rt-btn" id="rt-btn">Access Terminal</a>
                 </div>
             </div>
@@ -273,7 +249,6 @@
                     <form class="news-form" action="https://formsubmit.co/9d4428e93fd883d5ff6b745e5f358a33" method="POST">
                         <input type="hidden" name="_next" value="https://louisako.com">
                         <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_subject" value="New L.K. Capital Subscription">
                         <input type="email" name="email" class="news-input" placeholder="Enter your email address" required>
                         <button type="submit" class="news-btn" id="news-b">Subscribe</button>
                     </form>
@@ -294,38 +269,43 @@
         </div>
 
         <div id="view-about" class="view">
-            <div class="hero-section">
-                <span class="hero-label" id="about-label">Our Story</span>
-                <h1 id="about-title">From Chaos to Order.</h1>
-            </div>
-            <div class="founder-note reveal-on-scroll">
-                <div class="note-text" id="about-note">"We shape order from chaos. And we stay disciplined through cycles. L.K. Capital is built for those who value longevity over speed."</div>
-                <div class="sign">Louis K.</div>
-            </div>
-            <div class="global-section reveal-on-scroll">
-                <div class="map-bg"></div>
-                <div class="global-content">
-                    <div>
-                        <h2 class="global-title" id="infra-title">Global Infrastructure.</h2>
-                        <p class="global-desc" id="infra-desc">Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.</p>
-                        <a href="https://portal.tmgm.com/register" class="btn-main" style="background: #fff; color: var(--accent);" id="btn-net">Join the Network</a>
-                    </div>
-                    <div class="infrastructure-grid">
-                        <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary data and market structure research.</p></div>
-                        <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Trading across London, New York, and Tokyo sessions.</p></div>
-                        <div class="infra-card"><h4 id="ic-3t">4 Assets</h4><p id="ic-3d">Forex, Gold, Oil, and Indices coverage.</p></div>
-                        <div class="infra-card"><h4 id="ic-4t">Institutional</h4><p id="ic-4d">Risk framework comparable to tier-1 hedge funds.</p></div>
-                    </div>
+            
+            <div class="story-container">
+                <div class="story-left">
+                    <span class="story-label" id="story-label">Our Story</span>
+                    <h1 class="story-title" id="story-title">From Chaos to Order.</h1>
                     
-                    <div class="hq-section" style="grid-column: span 2; margin-top: 60px;">
-                        <span class="hq-label">Global Headquarters</span>
-                        <div class="hq-address">Burj Khalifa<br>1 Sheikh Mohammed bin Rashid Blvd<br>Dubai, UAE<br><br><strong>Email:</strong> louis@louisako.com</div>
-                        <div class="map-container">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.1786539269224!2d55.27218771500953!3d25.197197983896188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43348a67e24b%3A0xff45e502e1ceb7e2!2sBurj%20Khalifa!5e0!3m2!1sen!2sae!4v1694259649153!5m2!1sen!2sae" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
+                    <div class="story-text" id="story-content">
+                        <p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p>
+                        <p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p>
+                        <p><strong>Our foundation is built on:</strong></p>
+                        <ul>
+                            <li>Institutional Market Structure</li>
+                            <li>Smart Money Concepts (SMC)</li>
+                            <li>Three-Phase Retracement Logic</li>
+                            <li>Central Bank Liquidity Mapping</li>
+                        </ul>
+                        <div class="quote-highlight">"Markets are not random. They are architected."</div>
+                        <p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p>
+                        <p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>
+                    </div>
+                </div>
+
+                <div class="story-right">
+                    <span class="story-label" id="infra-label">Infrastructure</span>
+                    <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary macro research, liquidity modelling, and market-structure engineering.</p></div>
+                    <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Execution and analysis across London, New York, and Tokyo sessions.</p></div>
+                    <div class="infra-card"><h4 id="ic-3t">Multi-Asset Coverage</h4><p id="ic-3d">Forex, Gold, Oil, Equity Indices, and expanding into multi-sector macro plays.</p></div>
+                    <div class="infra-card"><h4 id="ic-4t">Institutional Framework</h4><p id="ic-4d">Risk systems engineered to mirror tier-1 hedge-fund standards—refined for agility instead of bureaucracy.</p></div>
+                    
+                    <div class="hq-section">
+                        <span class="story-label" id="hq-label">Headquarters</span>
+                        <div class="hq-address" id="hq-address">Burj Khalifa<br>Dubai, UAE</div>
+                        <p style="font-size:0.9rem; color:#666;">louis@louisako.com</p>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>
@@ -344,7 +324,7 @@
         </div>
         
         <div class="disclaimer-box">
-            <p class="disclaimer-text">
+            <p class="disclaimer-text" id="disclaimer-text">
                 Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions.
             </p>
         </div>
@@ -355,45 +335,56 @@
     </a>
 
     <script>
-        // === Data Object ===
+        // === Language Data ===
         const langData = {
             en: {
-                labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital.", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
+                labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
                 coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
                 protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
-                
-                // NEW: Updated Research Teaser (Strategic Insights)
-                rtT: "Global Macro Context &<br>Strategic Insights", 
-                rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.",
-                rtB: "Access Terminal",
-
+                rtT: "Global Macro Context &<br>Strategic Insights", rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.", rtB: "Access Terminal",
                 commTitle: "The Inner Circle.", commDesc: "Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.", btnComm: "Join Telegram Channel",
                 newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
                 tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
-                aboutLabel: "Our Story", aboutTitle: "From Chaos to Order.", aboutNote: "\"We shape order from chaos. And we stay disciplined through cycles. L.K. Capital is built for those who value longevity over speed.\"",
-                infraTitle: "Global Infrastructure.", infraDesc: "Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.", btnNet: "Join the Network", ic1t: "5 Years", ic1d: "of proprietary data and market structure research.", ic2t: "Global Reach", ic2d: "Trading across London, New York, and Tokyo sessions.", ic3t: "4 Assets", ic3d: "Forex, Gold, Oil, and Indices coverage.", ic4t: "Institutional", ic4d: "Risk framework comparable to tier-1 hedge funds.",
-                riskTxt: "Risk Warning: Trading involves risk. Past performance is not indicative of future results."
+                
+                // === About Section (Pure English) ===
+                aboutLabel: "Our Story", aboutTitle: "From Chaos to Order.", 
+                storyContent: `<p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p><p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p><p><strong>Our foundation is built on:</strong></p><ul><li>Institutional Market Structure</li><li>Smart Money Concepts (SMC)</li><li>Three-Phase Retracement Logic</li><li>Central Bank Liquidity Mapping</li></ul><div class="quote-highlight">"Markets are not random. They are architected."</div><p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p><p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>`,
+                
+                infraLabel: "Infrastructure", infraDesc: "Since 2019, we have evolved from a proprietary trading desk into a global asset management structure.", btnNet: "Join the Network", 
+                ic1t: "5 Years", ic1d: "of proprietary macro research, liquidity modelling, and market-structure engineering.", 
+                ic2t: "Global Reach", ic2d: "Execution and analysis across London, New York, and Tokyo sessions.", 
+                ic3t: "Multi-Asset Coverage", ic3d: "Forex, Gold, Oil, Equity Indices, and expanding into multi-sector macro plays.", 
+                ic4t: "Institutional Framework", ic4d: "Risk systems engineered to mirror tier-1 hedge-fund standards—refined for agility instead of bureaucracy.",
+                hqLabel: "Headquarters", hqAddress: "Burj Khalifa<br>Dubai, UAE",
+
+                riskTxt: "Risk Warning: Trading involves risk. Past performance is not indicative of future results.",
+                disclaimer: "Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions."
             },
             cn: {
-                labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本。", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
+                labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
                 coreT1: "全球宏观", coreD1: "自上而下的经济周期与资本流向分析。", coreT2: "结构化优势", coreD2: "追踪机构订单痕迹与核心流动性区域。", coreT3: "非对称风险", coreD3: "严格的风控体系，只捕捉高盈亏比机会。",
                 protocolH: "L.K. 核心执行协议", protocolSub: "我们的结构化方法由纪律定义，每笔交易必须通过 5 步核查。", st1: "市场结构", sc1: "利用大周期 (H4/D1) 的 BOS/CHoCH 确认宏观方向。", st2: "流动性猎杀", sc2: "识别散户止损区域（流动性池），等待机构进场前的扫盘。", st3: "锁定 POI", sc3: "精确定位关键兴趣区 (POI) —— 通常是未测试的订单块或 FVG。", st4: "小周期入场", sc4: "在 LTF (M5/M15) 等待价格触碰 POI，完成扫损并确认微观结构反转。", st5: "风控铁律", sc5: "每笔交易固定风险 (0.25%-0.5%)，目标盈亏比至少 1:3。",
-                
-                // NEW: Updated Research Teaser (Strategic Insights)
-                rtT: "全球宏观视野与<br>机构策略分析", 
-                rtD: "将您的执行与机构订单流对齐。我们为您深度解码驱动市场波动的核心经济叙事与结构变化。",
-                rtB: "进入分析终端",
-
+                rtT: "全球宏观视野与<br>机构策略分析", rtD: "将您的执行与机构订单流对齐。我们为您深度解码驱动市场波动的核心经济叙事与结构变化。", rtB: "进入分析终端",
                 commTitle: "加入核心圈层。", commDesc: "订阅我们的私人频道，获取每日机构级市场拆解、实时交易机会与风控更新。", btnComm: "加入 Telegram 频道",
                 newsH: "订阅 L.K. 宏观简报", newsD: "每周一封，包含机构级市场分析与展望。无垃圾邮件。", newsB: "立即订阅",
                 tmgmIntro: "机构级流动性。隔离账户。原始点差。", bH1: "资金安全", bP1: "ASIC 监管。资金存放在澳大利亚国民银行信托账户。", bH2: "顶尖科技", bP2: "NY4 服务器。执行速度低于 30 毫秒。", bH3: "极致成本", bP3: "ECN 原始点差。欧美/黄金 0 点差起。", btnOpen: "开设账户",
-                aboutLabel: "公司历程", aboutTitle: "从混沌到秩序。", aboutNote: "“我们在混沌中构建秩序，并以纪律穿越周期。L.K. Capital 专为那些看重长期价值而非短期速度的投资者而生。”",
-                infraTitle: "全球基础设施架构。", infraDesc: "自 2019 年以来，我们已从一个自营交易室进化为全球化的资产管理架构。", btnNet: "加入全球网络", ic1t: "5年积累", ic1d: "专有的市场结构数据与研发沉淀。", ic2t: "全球覆盖", ic2d: "横跨伦敦、纽约与东京三大交易时段。", ic3t: "4大资产", ic3d: "覆盖外汇、黄金、原油及全球指数。", ic4t: "机构标准", ic4d: "对标一线对冲基金的风控与执行框架。",
-                riskTxt: "风险提示：交易包含风险。过往表现不代表未来结果。"
+                
+                // === About Section (Pure Chinese) ===
+                aboutLabel: "品牌历程", aboutTitle: "从混沌到秩序。", 
+                storyContent: `<p>L.K. Capital 并非诞生于舒适的会议室，而是从市场的战壕中磨砺而出。那里是流动性被“设计”的地方，而非被“发现”的地方。</p><p>自 2019 年起，我们意识到一个根本真理：传统技术分析并非为专业投资者设计，而是为了捕获散户的流动性。我们摒弃了主流工具，从底层逻辑开始重构一切。</p><p><strong>我们的基石建立在：</strong></p><ul><li>机构级市场结构</li><li>SMC (聪明钱) 概念</li><li>三阶段回撤/补单逻辑 (三协)</li><li>央行流动性映射</li></ul><div class="quote-highlight">"市场并非随机，而是被精心架构的。"</div><p>我们不预测市场，我们解码流动性是如何被制造的。通过对齐真实的机构行为——订单流失衡、工程化的流动性扫盘、以及非对称的风险敞口——我们从“被猎杀的流动性”进化为“猎手”。</p><p>今天，L.K. Capital 已不仅是一个投资框架，更是一个进化的生态系统。我们专注于通过结构而非投机、通过意图而非反应，来守卫并复利资本。而这一切，才刚刚开始。</p>`,
+                
+                infraLabel: "全球基础设施", infraDesc: "自 2019 年以来，我们已从一个自营交易室进化为全球化的资产管理架构。", btnNet: "加入全球网络", 
+                ic1t: "5年积累", ic1d: "专有的宏观研究、流动性建模与市场结构工程化。", 
+                ic2t: "全球覆盖", ic2d: "横跨伦敦、纽约与东京三大交易时段的执行与分析。", 
+                ic3t: "多元资产", ic3d: "覆盖外汇、黄金、原油、股指，并正向多板块宏观策略扩展。", 
+                ic4t: "机构框架", ic4d: "对标一线对冲基金的风控系统——去除了官僚主义，保留了敏捷性。",
+                hqLabel: "全球总部", hqAddress: "哈利法塔 (Burj Khalifa)<br>迪拜, 阿联酋",
+
+                riskTxt: "风险提示：交易包含风险。过往表现不代表未来结果。",
+                disclaimer: "免责声明：本网站提供的信息仅供教育和参考，不构成财务建议、投资推荐或买卖任何金融工具的要约。L.K. Capital 并非注册财务顾问。所有交易均涉及高风险，您可能会损失全部投资。在做出任何财务决定之前，请咨询合格的专业人士。"
             }
         };
 
-        // === 语言控制逻辑 ===
         let curLang = 'en';
 
         function toggleLang(forceLang) {
@@ -406,32 +397,32 @@
             
             const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
-            // Home
-            setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
-            setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1);
-            setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2);
-            setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
+            // Batch Update Text
+            const ids = ['label-focus', 'hero-title', 'hero-desc', 'btn-cta', 'core-t1', 'core-d1', 'core-t2', 'core-d2', 'core-t3', 'core-d3', 
+                         'protocol-h', 'protocol-sub', 'st1', 'sc1', 'st2', 'sc2', 'st3', 'sc3', 'st4', 'sc4', 'st5', 'sc5',
+                         'rt-title', 'rt-desc', 'rt-btn', 'comm-title', 'comm-desc', 'btn-comm', 'news-h', 'news-d', 'news-b',
+                         'tmgm-intro', 'b-h1', 'b-p1', 'b-h2', 'b-p2', 'b-h3', 'b-p3', 'btn-open', 
+                         'about-label', 'about-title', 'story-content', 'infra-label', 'infra-desc', 'btn-net',
+                         'ic-1t', 'ic-1d', 'ic-2t', 'ic-2d', 'ic-3t', 'ic-3d', 'ic-4t', 'ic-4d', 
+                         'hq-label', 'hq-address', 'risk-txt', 'disclaimer-text'];
             
-            // Protocol
+            // Special Mapping needed for IDs that don't match keys exactly
+            setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
+            setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1); setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2); setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
             setTxt('protocol-h', t.protocolH); setTxt('protocol-sub', t.protocolSub);
             setTxt('st1', t.st1); setTxt('sc1', t.sc1); setTxt('st2', t.st2); setTxt('sc2', t.sc2); setTxt('st3', t.st3); setTxt('sc3', t.sc3); setTxt('st4', t.st4); setTxt('sc4', t.sc4); setTxt('st5', t.st5); setTxt('sc5', t.sc5);
-            
-            // Research Teaser (Updated)
-            setTxt('rt-title', t.rtT); 
-            setTxt('rt-desc', t.rtD); 
-            setTxt('rt-btn', t.rtB);
-
-            // Comm & News & Broker
+            setTxt('rt-title', t.rtT); setTxt('rt-desc', t.rtD); setTxt('rt-btn', t.rtB);
             setTxt('comm-title', t.commTitle); setTxt('comm-desc', t.commDesc); setTxt('btn-comm', t.btnComm);
             setTxt('news-h', t.newsH); setTxt('news-d', t.newsD); setTxt('news-b', t.newsB);
             setTxt('tmgm-intro', t.tmgmIntro); setTxt('b-h1', t.bH1); setTxt('b-p1', t.bP1); setTxt('b-h2', t.bH2); setTxt('b-p2', t.bP2); setTxt('b-h3', t.bH3); setTxt('b-p3', t.bP3); setTxt('btn-open', t.btnOpen);
             
-            // About
-            setTxt('about-label', t.aboutLabel); setTxt('about-title', t.aboutTitle); setTxt('about-note', t.aboutNote);
-            setTxt('infra-title', t.infraTitle); setTxt('infra-desc', t.infraDesc); setTxt('btn-net', t.btnNet);
+            setTxt('story-label', t.aboutLabel); setTxt('story-title', t.aboutTitle); setTxt('story-content', t.storyContent);
+            setTxt('infra-label', t.infraLabel); setTxt('infra-desc', t.infraDesc); setTxt('btn-net', t.btnNet);
             setTxt('ic-1t', t.ic1t); setTxt('ic-1d', t.ic1d); setTxt('ic-2t', t.ic2t); setTxt('ic-2d', t.ic2d); setTxt('ic-3t', t.ic3t); setTxt('ic-3d', t.ic3d); setTxt('ic-4t', t.ic4t); setTxt('ic-4d', t.ic4d);
+            setTxt('hq-label', t.hqLabel); setTxt('hq-address', t.hqAddress);
             
             setTxt('risk-txt', t.riskTxt);
+            setTxt('disclaimer-text', t.disclaimer);
         }
 
         function initLanguage() {
