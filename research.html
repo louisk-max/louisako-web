@@ -63,13 +63,13 @@
         #copy-toast.show { opacity: 1; bottom: 50px; }
 
         /* 文章内容样式 */
-        .report-header { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+        .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
         .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
         .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
         .report-meta { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: #888; background: var(--code-bg); padding: 10px 15px; display: inline-block; border-radius: 4px; }
 
-        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 60px; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 1px solid var(--gold); }
-        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 40px; margin-bottom: 15px; color: #333; }
+        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 80px; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 1px solid var(--gold); }
+        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 50px; margin-bottom: 20px; color: #333; }
         p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
         ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
         li { margin-bottom: 10px; }
@@ -89,6 +89,7 @@
         <a href="index.html" class="brand">L.K. Research</a>
         <div class="nav-right">
             <a href="index.html" class="nav-link">Home</a>
+            <a href="services.html" class="nav-link">Services</a>
             <a href="analysis.html" class="nav-link">Strategy Analysis</a>
         </div>
     </div>
@@ -111,20 +112,24 @@
             <div id="view-article" class="article-container">
                 <div class="brand-watermark">L.K. Capital</div>
                 
+                <!-- 文章内容注入点 -->
                 <div id="article-inject-point"></div>
 
-                <div class="share-toolbar" id="share-toolbar" style="display:none;"> <a class="share-btn" onclick="shareTo('x')"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X / Twitter</a>
+                <!-- 📢 自动化分享按钮栏 -->
+                <div class="share-toolbar" id="share-toolbar" style="display:none;">
+                    <a class="share-btn" onclick="shareTo('x')"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X / Twitter</a>
                     <a class="share-btn" onclick="shareTo('linkedin')"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>LinkedIn</a>
                     <a class="share-btn" onclick="shareTo('copy')"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>Copy Link</a>
                 </div>
 
-                <div style="margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem; position: relative; z-index: 2;">
+                <div style="margin-top: 60px; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem; position: relative; z-index: 2;">
                     &copy; 2025 L.K. Capital Research Team.
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- 复制成功提示 -->
     <div id="copy-toast">Link Copied to Clipboard</div>
 
     <script>
@@ -133,26 +138,17 @@
 
         function autoDetectLanguage() {
             const userLang = navigator.language || navigator.userLanguage; 
-            if (userLang.toLowerCase().includes('zh')) {
-                setLanguage('cn');
-            } else {
-                setLanguage('en');
-            }
+            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
         }
 
         function setLanguage(lang) {
             currentLang = lang;
-            if (lang === 'cn') {
-                document.body.classList.remove('en-mode');
-                document.body.classList.add('cn-mode');
-            } else {
-                document.body.classList.remove('cn-mode');
-                document.body.classList.add('en-mode');
-            }
-            if (currentArticleId) regenerateTOC();
-            else renderCatalog();
+            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); }
+            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
+            if (currentArticleId) regenerateTOC(); else renderCatalog();
         }
 
+        // === 📚 数据库：完整版白皮书 ===
         const articleDatabase = [
             {
                 category: { en: "Whitepapers (SMC)", cn: "核心研报 (SMC)" },
@@ -167,91 +163,190 @@
                                 <div class="lang-en"><h1 class="report-title">XAUUSD Institutional Order Flow &<br>Quantitative Behavior Analysis</h1><div class="report-meta">Version: 2025 Ultimate | Author: Louisako Research</div></div>
                             </div>
 
+                            <!-- Preface -->
                             <section>
                                 <div class="lang-cn">
-                                    <h3>序言</h3><p>在零和博弈的金融市场中，价格并非随机游走，而是由<strong>流动性 (Liquidity)</strong> 和 <strong>不平衡 (Imbalance)</strong> 驱动的。对于黄金 (XAUUSD) 这一全球流动性最充裕、算法博弈最激烈的品种，传统的零售技术分析往往失效。</p><p>本报告基于 Smart Money Concepts (SMC) 理论体系，旨在揭示银行间价格交付算法 (IPDA) 的运作逻辑。我们不预测市场，我们追踪“聪明钱”留下的脚印。</p>
+                                    <h3>序言</h3>
+                                    <p>在零和博弈的金融市场中，价格并非随机游走，而是由<strong>流动性 (Liquidity)</strong> 和 <strong>不平衡 (Imbalance)</strong> 驱动的。对于黄金 (XAUUSD) 这一全球流动性最充裕、算法博弈最激烈的品种，传统的零售技术分析往往失效。</p>
+                                    <p>本报告基于 Smart Money Concepts (SMC) 理论体系，旨在揭示银行间价格交付算法 (IPDA) 的运作逻辑。我们不预测市场，我们追踪“聪明钱”留下的脚印。</p>
                                 </div>
                                 <div class="lang-en">
-                                    <h3>Preface</h3><p>In the zero-sum game of financial markets, price does not move randomly; it is driven by <strong>Liquidity</strong> and <strong>Imbalance</strong>. For Gold (XAUUSD), an asset with immense global liquidity and intense algorithmic competition, traditional retail technical analysis often fails.</p><p>This report is based on the Smart Money Concepts (SMC) framework, aiming to reveal the operational logic of the Interbank Price Delivery Algorithm (IPDA). We do not predict the market; we track the footprints left by "Smart Money".</p>
+                                    <h3>Preface</h3>
+                                    <p>In the zero-sum game of financial markets, price does not move randomly; it is driven by <strong>Liquidity</strong> and <strong>Imbalance</strong>. For Gold (XAUUSD), an asset with immense global liquidity and intense algorithmic competition, traditional retail technical analysis often fails.</p>
+                                    <p>This report is based on the Smart Money Concepts (SMC) framework, aiming to reveal the operational logic of the Interbank Price Delivery Algorithm (IPDA). We do not predict the market; we track the footprints left by "Smart Money".</p>
                                 </div>
                             </section>
 
+                            <!-- Part I -->
                             <section>
                                 <div class="lang-cn"><h2>第 1 章：SMC 核心术语与定义</h2><p>SMC 是一门关于“平衡”的语言。在深入策略之前，我们必须统一定义市场的基本词汇。</p></div>
                                 <div class="lang-en"><h2>Chapter 1: SMC Core Glossary</h2><p>SMC is a language of "equilibrium". Before diving into strategies, we must unify the definitions of basic market vocabulary.</p></div>
                                 
                                 <div class="concept-box">
                                     <span class="lang-cn concept-title">结构破坏 (BOS)</span><span class="lang-en concept-title">Break of Structure (BOS)</span>
-                                    <div class="lang-cn"><strong>定义：</strong> 价格实体收盘突破了前一个有效的高点（上升趋势）或低点（下降趋势）。<br><strong>含义：</strong> 市场意愿强劲，机构正在推动价格向原方向扩展。</div>
-                                    <div class="lang-en"><strong>Definition:</strong> Price candle body closes above/below a previous valid high (uptrend) or low (downtrend).<br><strong>Meaning:</strong> Strong market intent; institutions are pushing price to expand in the original direction.</div>
+                                    <div class="lang-cn"><strong>定义：</strong> 价格实体收盘突破了前一个有效的高点（上升趋势）或低点（下降趋势）。这意味着机构意愿强劲。</div>
+                                    <div class="lang-en"><strong>Definition:</strong> Price candle body closes above/below a previous valid high (uptrend) or low (downtrend). Indicates strong institutional intent.</div>
                                 </div>
                                 <div class="concept-box">
                                     <span class="lang-cn concept-title">结构转变 (CHoCH)</span><span class="lang-en concept-title">Change of Character (CHoCH)</span>
-                                    <div class="lang-cn"><strong>定义：</strong> 价格反向打破了导致最新 BOS 的那个“次级低点/高点”。这是趋势反转的第一个信号。<br><strong>含义：</strong> 供需关系发生根本性变化，多头力竭，空头介入。</div>
-                                    <div class="lang-en"><strong>Definition:</strong> Price breaks the "last higher low/lower high" that caused the latest BOS. This is the first signal of a trend reversal.<br><strong>Meaning:</strong> A fundamental shift in supply and demand; bulls are exhausted, bears are stepping in.</div>
+                                    <div class="lang-cn"><strong>定义：</strong> 价格反向打破了导致最新 BOS 的那个“次级低点/高点”。这是趋势反转的第一个信号。</div>
+                                    <div class="lang-en"><strong>Definition:</strong> Price breaks the "last higher low/lower high" that caused the latest BOS. This is the first signal of a trend reversal.</div>
                                 </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 2 章：供需结构与订单块</h2><p>OB 是机构建仓留下的足迹。机构建仓流程：压价–收集–推动–回测。</p></div>
+                                <div class="lang-en"><h2>Chapter 2: Order Blocks & Repricing</h2><p>OBs are the footprints of institutional accumulation. Institutional process: Manipulate -> Accumulate -> Expand -> Retest.</p></div>
                                 <div class="concept-box">
-                                    <span class="lang-cn concept-title">订单块 (Order Block)</span><span class="lang-en concept-title">Order Block (OB)</span>
-                                    <div class="lang-cn"><strong>定义：</strong> 导致结构破坏 (BOS) 或 剧烈波动 (Displacement) 之前的最后一根反向 K 线。<br><strong>逻辑：</strong> 机构买入前需先压低价格吸筹。当价格飞涨后，底部空单被套。价格未来必须回到这里，让他们保本平仓并加仓多单。</div>
-                                    <div class="lang-en"><strong>Definition:</strong> The last opposing candle before a Break of Structure (BOS) or violent Displacement.<br><strong>Logic:</strong> Institutions must drive price down to accumulate before buying. When price rallies, their sell orders are trapped in drawdown. Price must return here to mitigate losses and stack more buy orders.</div>
+                                    <span class="lang-cn concept-title">订单块 (OB)</span><span class="lang-en concept-title">Order Block (OB)</span>
+                                    <div class="lang-cn"><strong>定义：</strong> 导致结构破坏 (BOS) 或 剧烈波动 (Displacement) 之前的最后一根反向 K 线。</div>
+                                    <div class="lang-en"><strong>Definition:</strong> The last opposing candle before a Break of Structure (BOS) or violent Displacement.</div>
                                 </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 3 章：价格失衡与 FVG 机制</h2><p>FVG 是市场效率低下的表现。由于订单挤压和不平衡撮合，算法总会试图修复它。</p></div>
+                                <div class="lang-en"><h2>Chapter 3: Imbalance & FVG</h2><p>FVGs represent market inefficiency. Due to order compression and matching imbalance, algorithms will always attempt to reprice them.</p></div>
                                 <div class="concept-box">
                                     <span class="lang-cn concept-title">公允价值缺口 (FVG)</span><span class="lang-en concept-title">Fair Value Gap (FVG)</span>
-                                    <div class="lang-cn"><strong>定义：</strong> 三根 K 线组合中，第一根影线与第三根影线未重叠的空白区域。<br><strong>逻辑：</strong> 价格运动过快导致市场“不平衡”。算法倾向于将价格拉回此区域进行“重新定价 (Repricing)”。</div>
-                                    <div class="lang-en"><strong>Definition:</strong> The gap between the wick of the 1st candle and the wick of the 3rd candle in a 3-candle sequence.<br><strong>Logic:</strong> Price moved too fast, creating an "imbalance". Algorithms tend to pull price back to this area for "Repricing" to restore balance.</div>
+                                    <div class="lang-cn"><strong>定义：</strong> 三根 K 线组合中，第一根影线与第三根影线未重叠的空白区域。</div>
+                                    <div class="lang-en"><strong>Definition:</strong> The gap between the wick of the 1st candle and the wick of the 3rd candle in a 3-candle sequence.</div>
+                                </div>
+                            </section>
+
+                            <!-- Part II -->
+                            <section>
+                                <div class="lang-cn"><h2>第 4 章：IPDA 与价格交付模型</h2><p>银行间价格交付算法 (IPDA) 是市场的操作系统。</p></div>
+                                <div class="lang-en"><h2>Chapter 4: IPDA & Price Delivery</h2><p>The Interbank Price Delivery Algorithm (IPDA) is the operating system of the market.</p></div>
+                                <div class="lang-cn">
+                                    <p>市场永远处于四个阶段的循环中：<strong>积累 (Accumulation) → 扩张 (Expansion) → 回撤 (Retracement) → 反转 (Reversal)</strong>。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <p>The market cycles through four stages: <strong>Accumulation → Expansion → Retracement → Reversal</strong>.</p>
                                 </div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 2 章：黄金的市场运作机制</h2><h3>2.1 IPDA 循环</h3><p>市场永远处于四个阶段的循环中：<strong>积累 (Accumulation) → 扩张 (Expansion) → 回撤 (Retracement) → 反转 (Reversal)</strong>。</p><h3>2.2 零和博弈本质</h3><p>机构需要巨大的对手盘来成交他们的巨额订单。如果机构想买入10亿美金的黄金，他们需要有人卖出。散户的“止损卖单”就是机构最好的“买入流动性”。</p></div>
-                                <div class="lang-en"><h2>Chapter 2: Market Mechanics of Gold</h2><h3>2.1 IPDA Cycle</h3><p>The market is forever in a four-stage cycle: <strong>Accumulation → Expansion → Retracement → Reversal</strong>.</p><h3>2.2 Zero-Sum Nature</h3><p>Institutions need massive liquidity to fill their orders. If they want to buy $1B of Gold, they need sellers. Retail "Stop Loss Sell Orders" are the best "Buy Liquidity" for institutions.</p></div>
+                                <div class="lang-cn"><h2>第 5 章：XAUUSD 的“猎杀行为”</h2><p>黄金是流动性猎杀之王。高波动、高密度止损是其特征。</p></div>
+                                <div class="lang-en"><h2>Chapter 5: The Hunt for Liquidity</h2><p>Gold is the king of liquidity hunts, characterized by high volatility and dense stop-loss clusters.</p></div>
+                                <div class="lang-cn">
+                                    <p><strong>机构逻辑：</strong> 做市商需要对手盘。如果他们想做多，必须先诱导散户做空（跌破支撑），或触发多头的止损卖单（Sell Stops）。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <p><strong>Institutional Logic:</strong> Market Makers need counterparties. To buy size, they must induce retail to sell (breaking support) or trigger long Sell Stops.</p>
+                                </div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 3 章：多时间框架分析</h2><p>不要迷失在 M1 的噪音中。SMC 分析必须像“套娃”一样层层递进。</p><ul><li><strong>宏观 (Macro)：</strong> 月线/周线/日线 —— 决定大方向 (Bias)。</li><li><strong>中观 (Intermediate)：</strong> 4小时/1小时 —— 决定关键兴趣区 (POI)。</li><li><strong>微观 (Micro)：</strong> 15分钟/5分钟 —— 决定入场触发 (Trigger)。</li></ul></div>
-                                <div class="lang-en"><h2>Chapter 3: Multi-Timeframe Analysis</h2><p>Don't get lost in M1 noise. SMC analysis must be layered like nesting dolls.</p><ul><li><strong>Macro:</strong> Monthly/Weekly/Daily — Determines Bias.</li><li><strong>Intermediate:</strong> H4/H1 — Determines Point of Interest (POI).</li><li><strong>Micro:</strong> M15/M5 — Determines Entry Trigger.</li></ul></div>
+                                <div class="lang-cn"><h2>第 6 章：高频交易与量化行为</h2><p>HFT 算法在毫秒级别寻找流动性路径 (Liquidity Routing)。</p></div>
+                                <div class="lang-en"><h2>Chapter 6: HFT & Algo Behavior</h2><p>HFT algorithms seek liquidity routing paths in milliseconds.</p></div>
+                            </section>
+
+                            <!-- Part III -->
+                            <section>
+                                <div class="lang-cn"><h2>第 7 章：多时间框架分析</h2></div>
+                                <div class="lang-en"><h2>Chapter 7: Top-Down Analysis</h2></div>
+                                <div class="lang-cn">
+                                    <ul>
+                                        <li><strong>宏观 (Macro)：</strong> 月线/周线/日线 —— 决定大方向 (Bias)。</li>
+                                        <li><strong>中观 (Intermediate)：</strong> 4小时/1小时 —— 决定关键兴趣区 (POI)。</li>
+                                        <li><strong>微观 (Micro)：</strong> 15分钟/5分钟 —— 决定入场触发 (Trigger)。</li>
+                                    </ul>
+                                </div>
+                                <div class="lang-en">
+                                    <ul>
+                                        <li><strong>Macro:</strong> Monthly/Weekly/Daily — Determines Bias.</li>
+                                        <li><strong>Intermediate:</strong> H4/H1 — Determines Point of Interest (POI).</li>
+                                        <li><strong>Micro:</strong> M15/M5 — Determines Entry Trigger.</li>
+                                    </ul>
+                                </div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 4 章：强弱结构辨析</h2></div><div class="lang-en"><h2>Chapter 4: Strong vs. Weak Structure</h2></div>
+                                <div class="lang-cn"><h2>第 8 章：强弱结构与“目标 vs 保护”</h2></div><div class="lang-en"><h2>Chapter 8: Strong vs. Weak Structure</h2></div>
                                 <div class="concept-box"><span class="lang-cn concept-title">强高点/低点 (Strong High/Low)</span><span class="lang-en concept-title">Strong High/Low</span><div class="lang-cn">导致了结构破坏 (BOS) 并创出新低的高点。它是<strong>受保护的</strong>，机构会捍卫这个位置。这是放置止损的最佳点。</div><div class="lang-en">A high/low that caused a BOS and created a new extreme. It is <strong>protected</strong>; institutions will defend it. Best place for Stop Loss.</div></div>
                                 <div class="concept-box"><span class="lang-cn concept-title">弱高点/低点 (Weak High/Low)</span><span class="lang-en concept-title">Weak High/Low</span><div class="lang-cn">未能推动价格创新低的高点。它是<strong>目标 (Target)</strong>，价格大概率会突破这里去扫损。永远不要在弱高点上方做空。</div><div class="lang-en">A high/low that failed to break structure. It is a <strong>Target</strong>; price will likely run through it for liquidity. Never short above a weak high.</div></div>
                             </section>
 
+                            <section id="ch9" class="chapter">
+                                <div class="lang-cn">
+                                    <h2>第 9 章：高阶结构模型与三协补单结构</h2>
+                                    <p>在理解了基础的市场结构（BOS/CHoCH）之后，我们需要解决一个实战中最大的痛点：<strong>“既然结构已经破坏，为什么回踩之后不延续趋势，反而继续深跌？”</strong></p>
+                                    <p>这是因为市场并非线性的“突破-回踩-延续”，而是一个<strong>三维的流动性平衡过程</strong>。L.K. Capital 将这一过程定义为<strong>“三协补单结构” (Three-Phase Retracement)</strong>。</p>
+                                    <div class="concept-box">
+                                        <span class="concept-title">核心定义</span>
+                                        <strong>三协结构 (Three-Phase Structure)：</strong> 指在主要趋势发起前或延续中，价格必然经历的三个特定阶段：<br>
+                                        1. <strong>扫荡 (Sweep)：</strong> 清除旧的流动性。<br>
+                                        2. <strong>回归 (Return)：</strong> 回到失衡区进行补单。<br>
+                                        3. <strong>扩张 (Expansion)：</strong> 真实趋势的释放。
+                                    </div>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>Chapter 9: Advanced Structure & Three-Phase Retracement</h2>
+                                    <p>After understanding basic Market Structure (BOS/CHoCH), we must address the biggest pain point in live trading: <strong>"Why does price break structure, retrace, and then fail to continue?"</strong></p>
+                                    <p>This happens because the market is a <strong>3-dimensional process of liquidity balancing</strong>. At L.K. Capital, we define this as the <strong>"Three-Phase Retracement"</strong> structure.</p>
+                                    <div class="concept-box">
+                                        <span class="concept-title">Core Definition</span>
+                                        <strong>Three-Phase Structure:</strong> A mandatory sequence price undergoes before or during a major trend:<br>
+                                        1. <strong>Sweep:</strong> Clearing old liquidity (Stops).<br>
+                                        2. <strong>Return (Mitigation):</strong> Returning to imbalance for order stacking.<br>
+                                        3. <strong>Expansion:</strong> Release of the true trend.
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Part IV -->
                             <section>
-                                <div class="lang-cn"><h2>第 5 章：流动性动力学</h2><p>流动性是市场的汽油。如果你在图表上找不到流动性，那么你就是流动性。</p><h3>5.1 犹大摆动 (Judas Swing)</h3><p>这是黄金的经典假动作，通常发生在伦敦盘开盘初期。价格先向一个方向猛冲（诱导散户追单），随后迅速反向猎杀，开启当天的真实趋势。</p><h3>5.2 Inducement (诱导)</h3><p>在价格到达真正的 POI 之前形成的小支撑。这是一个陷阱，诱导过早进场的交易者设置止损，随后被机构扫掉作为燃料。</p></div>
-                                <div class="lang-en"><h2>Chapter 5: Liquidity Dynamics</h2><p>Liquidity is fuel. If you can't find liquidity on the chart, you are the liquidity.</p><h3>5.1 Judas Swing</h3><p>A classic Gold fake-out, usually at London Open. Price aggressively pushes one way (inducing retail traders), then rapidly reverses to hunt them.</p><h3>5.2 Inducement (IDM)</h3><p>Minor support formed right before the real POI. It's a trap to induce early buyers to set stops, which institutions will then sweep for fuel.</p></div>
+                                <div class="lang-cn"><h2>第 10 章：流动性池 (Liquidity Pools)</h2><p>BSL (买方流动性) 和 SSL (卖方流动性) 是市场的目标。</p><p>为什么“你觉得安全的地方，通常是流动性集中区”？</p></div>
+                                <div class="lang-en"><h2>Chapter 10: Liquidity Pools</h2><p>BSL (Buy-Side Liquidity) and SSL (Sell-Side Liquidity) are the market's targets.</p><p>Why "where you feel safe is often where liquidity is concentrated"?</p></div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 6 章：订单块 (OB) 的优选</h2><p>图表上充满了 OB，如何筛选？遵循 SMC 三原则：</p><ul><li><strong>必须伴随 FVG：</strong> 说明买卖严重失衡。</li><li><strong>必须导致 BOS：</strong> 说明机构意愿强烈。</li><li><strong>必须完成扫损：</strong> 最强的 OB 通常是在扫掉前一根 K 线流动性后形成的。</li></ul></div>
-                                <div class="lang-en"><h2>Chapter 6: Order Block Selection</h2><p>How to filter valid OBs? Follow the 3 Golden Rules:</p><ul><li><strong>Must have FVG:</strong> Indicates severe imbalance.</li><li><strong>Must cause BOS:</strong> Indicates strong institutional intent.</li><li><strong>Must Sweep Liquidity:</strong> The strongest OBs are formed after sweeping the previous candle's liquidity.</li></ul></div>
+                                <div class="lang-cn"><h2>第 11 章：诱导结构 (Inducement)</h2><p>IDM 是陷阱。在价格到达真正的 POI 之前形成的小支撑，目的是诱导散户提前进场。</p></div>
+                                <div class="lang-en"><h2>Chapter 11: Inducement (IDM)</h2><p>IDM is a trap. Minor support formed right before the real POI to induce early retail entry.</p></div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 8 章：时间密码 (Kill Zones)</h2></div><div class="lang-en"><h2>Chapter 8: Time & Kill Zones</h2></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">伦敦开盘 (London Open)</span><span class="lang-en concept-title">London Open (07:00 - 10:00 UTC)</span><div class="lang-cn">经常制造当天的假方向 (Judas Swing) 和日内低点。</div><div class="lang-en">Often creates the "Fake Move" (Judas Swing) and the Low/High of the Day.</div></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">纽约开盘 (New York Open)</span><span class="lang-en concept-title">New York Open (13:00 - 16:00 UTC)</span><div class="lang-cn">黄金波动率最高时段，通常延续伦敦趋势或发生反转。</div><div class="lang-en">Highest volatility for Gold. Usually continues the London trend or triggers a reversal.</div></div>
+                                <div class="lang-cn"><h2>第 12 章：高级订单块过滤</h2><p>OB + FVG + Sweep = 高胜率。</p><p>何时放弃 OB：无效 OB 的特征。</p></div>
+                                <div class="lang-en"><h2>Chapter 12: Advanced OB Filters</h2><p>OB + FVG + Sweep = High Probability.</p><p>When to discard an OB: Characteristics of invalid OBs.</p></div>
+                            </section>
+
+                            <!-- Part V -->
+                            <section>
+                                <div class="lang-cn"><h2>第 13 章：高胜率入场模型</h2><p>模型 A：趋势延续（Continuation Model）；模型 B：海龟汤 / Sweep 反转模型；模型 C：结构反转模型。</p></div>
+                                <div class="lang-en"><h2>Chapter 13: Entry Models</h2><p>Model A: Trend Continuation; Model B: Turtle Soup Reversal; Model C: Structure Reversal.</p></div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 9 章：跨市场相关性与 SMT</h2><p><strong>SMT (Smart Money Tool) Divergence</strong> 是识别“陷阱”的核武器。</p><p><strong>看涨背离：</strong> 当美元指数 (DXY) 创出新高，但黄金 (XAUUSD) 拒绝创出新低。这意味着黄金内在极强，有人在被动买入护盘。这是在支撑位做多的 A+ 级信号。</p></div>
-                                <div class="lang-en"><h2>Chapter 9: Intermarket SMT Divergence</h2><p><strong>SMT Divergence</strong> is the nuclear weapon for spotting traps.</p><p><strong>Bullish SMT:</strong> When DXY makes a Higher High, but XAUUSD refuses to make a Lower Low. This signals immense underlying strength in Gold and is an A+ setup for longs.</p></div>
+                                <div class="lang-cn"><h2>第 14 章：时间结构与 Kill Zones</h2></div><div class="lang-en"><h2>Chapter 14: Time & Kill Zones</h2></div>
+                                <div class="concept-box"><span class="lang-cn concept-title">伦敦开盘 (London Open)</span><span class="lang-en concept-title">London Open (07:00 UTC)</span><div class="lang-cn">Judas Swing（犹大摆动）的典型形态。</div><div class="lang-en">Typical Judas Swing pattern.</div></div>
+                                <div class="concept-box"><span class="lang-cn concept-title">纽约开盘 (New York Open)</span><span class="lang-en concept-title">New York Open (13:00 UTC)</span><div class="lang-cn">黄金真正的“战场时段”。</div><div class="lang-en">The real "battleground" for Gold.</div></div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 11 章：自上而下的分析流程 (Routine)</h2><p>请遵循 L.K. Capital 的标准 SOP：</p><ol><li><strong>Daily：</strong> 确定大方向（看涨/看跌），标记大级别 FVG。</li><li><strong>H4：</strong> 确定当前的交易区间，标记 Premium/Discount。</li><li><strong>M15：</strong> 等待价格进入 H4 POI。</li><li><strong>M5/M1：</strong> 等待微观结构的 CHoCH 或扫损模型触发入场。</li></ol></div>
-                                <div class="lang-en"><h2>Chapter 11: Top-Down Routine</h2><p>Follow the L.K. Capital Standard SOP:</p><ol><li><strong>Daily:</strong> Determine Bias, mark HTF FVG.</li><li><strong>H4:</strong> Define Dealing Range, mark Premium/Discount.</li><li><strong>M15:</strong> Wait for price to enter H4 POI.</li><li><strong>M5/M1:</strong> Wait for micro CHoCH or Sweep trigger.</li></ol></div>
+                                <div class="lang-cn"><h2>第 15 章：SMT 背离与跨品种确认</h2><p>当 DXY 创新高而 XAUUSD 没创新低时，这是强烈的反转信号。</p></div>
+                                <div class="lang-en"><h2>Chapter 15: SMT Divergence</h2><p>When DXY makes a higher high but XAUUSD fails to make a lower low, it's a strong reversal signal.</p></div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 14 章：风险管理</h2><p><strong>失效模式：</strong> 当价格实体收盘击穿你的关键 POI，立即承认分析失效，不要扛单。</p><p><strong>保本策略：</strong> 黄金波动快。一旦盈利达到 1:1 或突破最近微观结构，必须推止损至保本位。</p><p><strong>R:R 管理：</strong> 永远追求 1:3 以上的盈亏比。</p></div>
-                                <div class="lang-en"><h2>Chapter 14: Risk Management</h2><p><strong>Invalidation:</strong> If a candle body closes beyond your POI, admit defeat immediately. Do not hold.</p><p><strong>Breakeven Rule:</strong> Gold moves fast. Once 1:1 R is reached or structure breaks, move SL to Breakeven.</p><p><strong>R:R Mandate:</strong> Always target minimum 1:3 Risk-to-Reward.</p></div>
+                                <div class="lang-cn"><h2>第 16 章：波动率与 ADR 模型</h2><p>利用 ADR (平均日波幅) 判断当日动能是否耗尽。</p></div>
+                                <div class="lang-en"><h2>Chapter 16: Volatility & ADR</h2><p>Using ADR (Average Daily Range) to judge if daily momentum is exhausted.</p></div>
+                            </section>
+
+                            <!-- Part VI -->
+                            <section>
+                                <div class="lang-cn"><h2>第 17 章：最大痛点路径 (Max Pain Path)</h2><p>市场总是沿着“让多数人最痛苦”的路径运行。做市商库存模型与“逼仓行为”。</p></div>
+                                <div class="lang-en"><h2>Chapter 17: Max Pain Path</h2><p>The market always follows the path of "maximum pain" for the majority. MM inventory models and squeezes.</p></div>
                             </section>
 
                             <section>
-                                <div class="lang-cn"><h2>第 15 章：机构订单流心理学</h2><blockquote>"SMC 交易者本质上是在交易散户的痛苦。"</blockquote><p>市场总是沿着“阻力最小”但“散户最痛苦”的路径运行。如果现在价格涨上去，大部分散户会赚钱还是亏钱？如果大部分人都在做多，市场大概率会先暴跌洗盘。</p></div>
-                                <div class="lang-en"><h2>Chapter 15: Institutional Psychology</h2><blockquote>"SMC traders essentially trade the pain of retail traders."</blockquote><p>The market follows the path of "least resistance" but "maximum retail pain". If the majority is long, the market will likely crash first to clear them out before rising.</p></div>
+                                <div class="lang-cn"><h2>第 18 章：概率思维 vs 预测思维</h2><p>放弃预测，拥抱概率。接受亏损是经营成本。大数定律与期望收益的本质。</p></div>
+                                <div class="lang-en"><h2>Chapter 18: Probability vs. Prediction</h2><p>Abandon prediction, embrace probability. Accept losses as operating costs. Law of Large Numbers.</p></div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn"><h2>第 19 章：执行、纪律与长期生存</h2><p>使用评分卡系统 (Scorecard) 过滤低质量交易。如何避免“连赢之后的冲动加杠杆”。</p></div>
+                                <div class="lang-en"><h2>Chapter 19: Execution & Discipline</h2><p>Use a Scorecard system to filter out low-quality trades. How to avoid over-leveraging after winning streaks.</p></div>
                             </section>
                         `
                     }
@@ -272,7 +367,7 @@
             }
         ];
 
-        // === 逻辑引擎 (Updated with Deep Linking & Sharing) ===
+        // === 3. 逻辑引擎 (Render Logic) ===
         const sidebarList = document.getElementById('sidebar-list');
         const viewWelcome = document.getElementById('view-welcome');
         const viewArticle = document.getElementById('view-article');
@@ -305,17 +400,11 @@
             currentArticleId = id; 
             viewWelcome.style.display = 'none';
             viewArticle.classList.add('visible');
-            shareToolbar.style.display = 'flex'; // Show share bar
+            shareToolbar.style.display = 'flex'; // Show share toolbar
             articleInject.innerHTML = targetArticle.content;
             mainScroll.scrollTop = 0;
             
             regenerateTOC();
-        }
-
-        function init() {
-            autoDetectLanguage();
-            const hash = window.location.hash.substring(1);
-            if (hash) loadArticle(hash); else renderCatalog();
         }
 
         function regenerateTOC() {
@@ -366,6 +455,12 @@
             if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); }
             else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
             if (currentArticleId) regenerateTOC(); else renderCatalog();
+        }
+
+        function init() {
+            autoDetectLanguage();
+            const hash = window.location.hash.substring(1);
+            if (hash) loadArticle(hash); else renderCatalog();
         }
 
         init();
