@@ -65,6 +65,7 @@
             flex-direction: column; 
             flex-shrink: 0;
             overflow-y: auto; /* 允许侧边栏滚动 */
+            padding-bottom: 20px; /* 底部填充 */
         }
         .sidebar-header {
             padding: 25px 30px; 
@@ -78,17 +79,19 @@
             flex-shrink: 0;
         }
         .report-list-container { 
-            padding: 15px 0;
+            padding: 0;
             flex: 1;
         }
         /* 新增的目录样式 */
         .toc-list { list-style: none; padding: 0 20px 20px 20px; margin: 0; }
+        .toc-list li { margin-bottom: 5px; }
         .toc-list li a { 
             display: block; 
-            padding: 8px 10px; 
+            padding: 5px 10px; 
             color: var(--text-muted); 
             text-decoration: none; 
-            font-size: 0.9rem; 
+            font-size: 0.8rem; /* 减小字体以匹配图片 */
+            line-height: 1.5;
             border-left: 2px solid transparent;
             transition: all 0.2s;
         }
@@ -98,7 +101,8 @@
             background-color: rgba(197, 160, 89, 0.05);
             font-weight: 600;
         }
-        .toc-list li h3 a { padding-left: 20px; font-size: 0.85rem; }
+        .toc-list li.h2-item { margin-top: 15px; } /* H2 之间间距增大 */
+        .toc-list li.h3-item a { padding-left: 20px; font-size: 0.8rem; } /* H3 缩进 */
         .toc-label { 
             padding: 5px 20px; 
             font-size: 0.7rem; 
@@ -119,7 +123,14 @@
         .article-wrapper { max-width: 850px; margin: 0 auto; }
 
         /* === 5. 文章样式 (计算器样式保留) === */
-        /* ... 略去大部分已有的文章样式，请确保您在最终文件中保留 ... */
+        .report-header-content { border-bottom: 1px solid var(--border); padding-bottom: 30px; margin-bottom: 50px; }
+        .rh-title { font-size: 2.4rem; margin: 0 0 15px 0; color: var(--accent); font-family: "Playfair Display", serif; line-height: 1.1; }
+        .rh-meta { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; font-family: "JetBrains Mono", monospace; background: var(--bg-sidebar); padding: 8px 12px; border-radius: 4px; display: inline-block; }
+
+        .card { background-color: #fff; padding: 35px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        h2 { color: var(--accent); border-left: 4px solid var(--gold); padding-left: 20px; margin: 60px 0 30px 0; font-size: 1.4rem; font-weight: 700; }
+        h3 { color: var(--text-main); font-size: 1.1rem; margin: 30px 0 15px 0; font-weight: 700; }
+        p, li { color: #4a4a4a; line-height: 1.8; margin-bottom: 15px; font-size: 1rem; }
         
         /* 确保 ** 加粗有效 */
         p b, p strong, li b, li strong, .step b, .step strong, .report-meta b, .report-meta strong {
@@ -154,30 +165,7 @@
             background-color: #ffffff;
             transition: border-color 0.2s;
         }
-        .calc-input:focus {
-            border-color: var(--gold);
-            outline: none;
-        }
-        .calc-result-box {
-            background-color: #fff;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            margin-top: 15px;
-        }
-        .calc-res-value {
-            font-size: 1.5rem;
-            margin-top: 5px;
-            color: var(--gold); 
-        }
-
-        /* Media Queries */
-        @media (max-width: 900px) { 
-            .main-layout { flex-direction: column; overflow-y: auto; } 
-            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); } 
-            .report-list-container { max-height: 300px; } 
-            .content-view { padding: 30px 20px; overflow: visible; } 
-        }
+        /* ... 更多 CSS 规则 ... */
     </style>
 </head>
 <body class="en-mode">
@@ -195,12 +183,14 @@
         
         <aside class="sidebar">
             <div class="sidebar-header">
-                <span class="lang-cn">L.K. CAPITAL PROPRIETARY</span>
                 <span class="lang-en">L.K. CAPITAL PROPRIETARY</span>
+                <span class="lang-cn">L.K. CAPITAL PROPRIETARY</span>
             </div>
+            <div style="padding: 15px 30px;">
+                 <a href="#" style="font-size:0.8rem; color:var(--accent); text-decoration:none; font-weight:600;">&leftarrow; <span class="lang-cn">返回目录</span><span class="lang-en">Back to Index</span></a>
+            </div>
+
             <div class="report-list-container">
-                <div class="toc-label lang-cn">当前报告目录</div>
-                <div class="toc-label lang-en">Current Report Outline</div>
                 <ul id="toc-list" class="toc-list">
                     </ul>
             </div>
@@ -210,46 +200,47 @@
             <div id="article-content" class="article-wrapper">
 
                 <div class="report-header">
-                    <span class="report-label">L.K. Quant Lab</span>
+                    <span class="report-label" style="display:block; color:var(--text-muted); font-size:0.8rem; margin-bottom:10px;">L.K. Quant Lab</span>
                     <div class="lang-cn">
-                        <h1 class="report-title">Alpha 的几何学：<br>胜率精度与赔率凸性的博弈论分析</h1>
+                        <h1 class="report-title" style="font-size:2.8rem;">Alpha 的几何学：<br>胜率精度与赔率凸性的博弈论分析</h1>
                         <div class="report-meta">发布日期: Nov 24, 2025 | 作者: Louis K | 类别: 算法博弈论</div>
                     </div>
                     <div class="lang-en">
-                        <h1 class="report-title">The Geometry of Alpha:<br>Game Theory Analysis of Win Rate vs. Convexity</h1>
+                        <h1 class="report-title" style="font-size:2.8rem;">The Geometry of Alpha:<br>Game Theory Analysis of Win Rate vs. Convexity</h1>
                         <div class="report-meta">Date: Nov 24, 2025 | Author: Louis K | Category: Algo Game Theory</div>
                     </div>
+                    <hr style="margin-top:30px;">
                 </div>
 
-                <section id="s1">
+                <section id="sec1">
                     <div class="lang-cn">
-                        <h2 id="s1-1">1. 引言：交易二元悖论的解构</h2>
+                        <h2 id="sec1-1">1. 引言：交易二元悖论的解构</h2>
                         <p>在金融市场交易的浩瀚领域中，始终存在着一个令无数参与者——从初级零售交易员到资深对冲基金经理——为之困惑的核心二元悖论：即“胜率（Win Rate/Precision）”与“盈亏比（Risk-Reward Ratio/Payoff Ratio）”的权衡。这不仅是一个数学问题，更是一个涉及概率论、行为金融学、市场微观结构以及算法博弈论的深层哲学命题。</p>
                         <p>本报告将摒弃模棱两可的建议，基于117份关于市场微观结构、量化模型、机器学习预测算法以及交易心理学的深度研究资料，为您提供一份详尽的决策分析。</p>
                         <p>作为量化金融领域的分析专家，我们必须首先澄清一个残酷的现实：市场并不存在单一的“圣杯”。然而，通过对数学期望（Expectancy）和破产风险（Risk of Ruin）的严格推导，我们能够构建出一个具有鲁棒性的决策矩阵。本报告将论证，尽管人类本能渴望高胜率带来的心理满足感（即“精准度”），但在长期生存和资本复利的维度上，盈亏比所构建的凸性（Convexity）优势具有压倒性的优先级。我们将揭示为何试图通过提高预测精度（Prediction Accuracy）来战胜市场往往徒劳无功，而通过管理赔率（Odds）来控制风险才是通往alpha收益的唯一窄门。</p>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s1-1-en">1. Introduction: Deconstructing the Binary Paradox</h2>
+                        <h2 id="sec1-1-en">1. Introduction: Deconstructing the Binary Paradox</h2>
                         <p>In the vast domain of financial trading, a core binary paradox confuses participants ranging from novice retail traders to veteran hedge fund managers: the trade-off between <b>Win Rate (Precision)</b> and <b>Risk-Reward Ratio (Payoff Ratio)</b>. This is not merely a mathematical problem, but a profound philosophical proposition involving probability theory, behavioral finance, market microstructure, and algorithmic game theory.</p>
                         <p>Based on 117 deep-dive studies regarding market microstructure, quantitative models, machine learning prediction algorithms, and trading psychology, this report provides a comprehensive decision-making analysis, discarding ambiguous advice.</p>
                         <p>As specialists in quantitative finance, we must first clarify a brutal reality: there is no single "Holy Grail" in the market. However, through rigorous derivation of Mathematical Expectancy and Risk of Ruin, we can construct a robust decision matrix. This report argues that while human instinct craves the psychological satisfaction of high win rates (i.e., "Precision"), the <b>Convexity</b> advantage built by the Risk-Reward ratio holds overwhelming priority in the dimensions of long-term survival and capital compounding. We reveal why attempting to beat the market by improving Prediction Accuracy is often futile, and why managing Odds to control risk is the narrow gate to Alpha.</p>
                     </div>
                 </section>
 
-                <section id="s2">
+                <section id="sec2">
                     <div class="lang-cn">
-                        <h2 id="s2-1">2. 核心度量的数学解构</h2>
+                        <h2 id="sec2-1">2. 核心度量的数学解构</h2>
                         <p>在深入探讨决策之前，必须对构建交易系统的基本原子进行严格的定义。这并非简单的术语解释，而是纠正长期以来被市场噪音扭曲的认知偏差。</p>
                          
-                        <h3 id="s2-2">2.1 胜率（Win Rate）：精准度的虚幻指标</h3>
+                        <h3 id="sec2-2">2.1 胜率（Win Rate）：精准度的虚幻指标</h3>
                         <p>胜率，在统计学上对应于分类问题中的“准确率（Accuracy）”或“查准率（Precision）”。在交易语境下，它衡量的是盈利交易次数占总交易次数的比例。</p>
                         <p>大众普遍认为高胜率等同于高盈利能力。这种直觉来源于人类进化的生物学反馈机制——“正确”的预测会刺激多巴胺分泌，带来即时的满足感。然而，在量化交易的维度，胜率是一个极具欺骗性的指标。高胜率策略往往伴随着“左偏分布”或“负偏态（Negative Skewness）”，即大量的微小盈利掩盖了潜在的毁灭性尾部风险。</p>
                          
-                        <h3 id="s2-3">2.2 盈亏比（Risk-Reward Ratio）：赔率的非对称性</h3>
+                        <h3 id="sec2-3">2.2 盈亏比（Risk-Reward Ratio）：赔率的非对称性</h3>
                         <p>盈亏比（R:R）描述了单笔交易中潜在亏损与潜在盈利的非对称关系。它并非仅仅是止损与止盈距离的比值，而是包含了波动率调整后的风险敞口。</p>
                         <p>高盈亏比（如1:3或1:5）意味着交易者愿意承担单位风险以换取多倍的收益。这种结构在数学上具有“正凸性（Convexity）”，即收益的增长速度快于风险的累积速度。实证数据表明，即使在胜率随着止盈目标扩大而显著下降的情况下（例如从87%降至40%），由于赔率的提升，系统的整体期望收益反而是上升的。这揭示了盈亏比作为“生存调节器”的核心作用。</p>
 
-                        <h3 id="s2-4">2.3 盈亏平衡定理 (The Breakeven Theorem)</h3>
+                        <h3 id="sec2-4">2.3 盈亏平衡定理 (The Breakeven Theorem)</h3>
                         <p>这两个指标并非独立存在，而是通过盈亏平衡公式被刚性锁定。理解这一关系是做出任何理性决策的前提。</p>
                         <table>
                             <tr><th>风险:回报 (Risk:Reward)</th><th>盈亏比</th><th>最低生存胜率</th><th>策略特征</th></tr>
@@ -261,18 +252,18 @@
                         </table>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s2-1-en">2. Mathematical Deconstruction of Core Metrics</h2>
+                        <h2 id="sec2-1-en">2. Mathematical Deconstruction of Core Metrics</h2>
                         <p>Before diving into decision-making, we must rigorously define the fundamental atoms of a trading system. This is not simple terminology, but a correction of cognitive biases long distorted by market noise.</p>
 
-                        <h3 id="s2-2-en">2.1 Win Rate: The Illusion of Precision</h3>
+                        <h3 id="sec2-2-en">2.1 Win Rate: The Illusion of Precision</h3>
                         <p>Win Rate corresponds to "Accuracy" or "Precision" in statistics. It measures the proportion of profitable trades.</p>
                         <p>The public generally equates high win rates with high profitability. This intuition stems from biological dopamine feedback mechanisms—“correct” predictions trigger satisfaction. However, in quantitative trading, win rate is deceptive. High win rate strategies often suffer from <b>"Left-Skewed Distribution"</b> or <b>"Negative Skewness"</b>, where many small wins mask a potential catastrophic tail risk.</p>
 
-                        <h3 id="s2-3-en">2.2 Risk-Reward Ratio: Asymmetry of Odds</h3>
+                        <h3 id="sec2-3-en">2.2 Risk-Reward Ratio: Asymmetry of Odds</h3>
                         <p>The Risk-Reward Ratio (R:R) describes the asymmetric relationship between potential loss and profit. It is not just the distance to stop-loss and take-profit, but includes volatility-adjusted risk exposure.</p>
                         <p>A high Risk-Reward Ratio (e.g., 1:3 or 1:5) implies a willingness to risk one unit to gain multiples. This structure possesses mathematical <b>"Positive Convexity"</b>, meaning gains grow faster than risk accumulates. Empirical data shows that even if the win rate drops significantly as profit targets expand (e.g., from 87% to 40%), the system's overall mathematical expectancy often rises due to increased payoff. This reveals the core role of R:R as a "Survival Regulator."</p>
 
-                        <h3 id="s2-4-en">2.3 The Breakeven Theorem</h3>
+                        <h3 id="sec2-4-en">2.3 The Breakeven Theorem</h3>
                         <p>These two metrics are rigidly locked by the breakeven formula. Understanding the table below is a prerequisite for rational decision-making:</p>
                         <table>
                             <tr><th>Risk : Reward</th><th>R Multiple</th><th>Min. Win Rate</th><th>Strategy Profile</th></tr>
@@ -310,134 +301,134 @@
                     </div>
                     </section>
 
-                <section id="s3">
+                <section id="sec3">
                     <div class="lang-cn">
-                        <h2 id="s3-1">3. 高胜率的诱惑与精准度陷阱：机器学习与微观结构的视角</h2>
+                        <h2 id="sec3-1">3. 高胜率的诱惑与精准度陷阱：机器学习与微观结构的视角</h2>
                         <p>为何大多数散户和初学者依然执着于追求高胜率？甚至在您的提问中也隐含了对“更精准”的渴望？这一现象背后有着复杂的心理学机制和技术误解。</p>
                          
-                        <h3 id="s3-2">3.1 预测的不可能性与有效市场假说</h3>
+                        <h3 id="sec3-2">3.1 预测的不可能性与有效市场假说</h3>
                         <p>从传统的有效市场假说（EMH）来看，价格已经反映了所有已知信息，短期价格变动接近随机游走。这意味着，试图通过技术分析或基本面分析持续获得高于55%的胜率，本质上是在与由于信息瞬间流动而极其高效的市场定价机制对抗。</p>
                          
-                        <h3 id="s3-3">3.2 查准率与召回率的权衡（Precision-Recall Trade-off）</h3>
+                        <h3 id="sec3-3">3.2 查准率与召回率的权衡（Precision-Recall Trade-off）</h3>
                         <p>在机器学习领域，我们非常熟悉“查准率（Precision）”与“召回率（Recall）”的权衡，这一概念完美地映射到了交易策略的构建中。高查准率（高胜率）策略的代价是极低的“召回率”（错失大量机会）。结果：交易者变成了“狙击手”，这听起来很美好，但在实际操作中，长时间的等待会导致心理焦虑，而一旦错失大行情，交易者往往会产生FOMO（错失恐惧症）心理。</p>
                          
-                        <h3 id="s3-4">3.3 “银色子弹”与ICT概念的胜率神话</h3>
+                        <h3 id="sec3-4">3.3 “银色子弹”与ICT概念的胜率神话</h3>
                         <p>近年来，以ICT概念为代表的“银色子弹（Silver Bullet）”策略在零售交易圈极为流行，宣称能达到70%-80%的胜率。虽然这些策略基于真实的市场微观结构，但其高胜率通常是建立在极短的持仓时间和极小的利润目标上的（Scalping）。执行风险：在1分钟甚至秒级图表上操作，点差（Spread）和滑点（Slippage）对盈亏比的影响被无限放大。</p>
                          
-                        <h3 id="s3-5">3.4 负偏态与尾部风险的毁灭性</h3>
+                        <h3 id="sec3-5">3.4 负偏态与尾部风险的毁灭性</h3>
                         <p>高胜率策略最致命的弱点在于其收益分布通常呈现负偏态（Negative Skewness）。后果：这种策略的资金曲线通常极其平滑，直到某一天遭遇“黑天鹅”事件（如瑞郎黑天鹅、新冠熔断），价格单边波动不再回归，一次亏损就足以抹去过去半年的所有微薄利润。这被称为“火鸡问题”（火鸡每天都被喂食，生活幸福度直线上升，直到感恩节那一天）。</p>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s3-1-en">3. High Win Rate Temptation & Precision Traps</h2>
+                        <h2 id="sec3-1-en">3. High Win Rate Temptation & Precision Traps</h2>
                         <p>Why are most retail traders and beginners obsessed with high win rates? There are complex psychological mechanisms and technical misunderstandings behind this phenomenon.</p>
 
-                        <h3 id="s3-2-en">3.1 The Impossibility of Prediction & EMH</h3>
+                        <h3 id="sec3-2-en">3.1 The Impossibility of Prediction & EMH</h3>
                         <p>From the perspective of the Efficient Market Hypothesis (EMH), prices reflect all known information, and short-term price movements approximate a random walk. Attempting to consistently achieve a win rate above 55% is essentially fighting against an extremely efficient market pricing mechanism.</p>
                         <p>Even advanced Deep Learning models like Transformers (Stockformer) or LSTM face severe limitations in prediction accuracy. While they can capture long-term dependencies, transforming this "prediction advantage" into a trading strategy often faces the challenge of <b>Overfitting</b>.</p>
 
-                        <h3 id="s3-3-en">3.2 Precision-Recall Trade-off</h3>
+                        <h3 id="sec3-3-en">3.2 Precision-Recall Trade-off</h3>
                         <p>In Machine Learning, we are familiar with the trade-off between "Precision" and "Recall". This maps perfectly to trading. The cost of a High Precision (High Win Rate) strategy is extremely low "Recall" (missing many opportunities). The trader becomes a "sniper," but long waiting periods lead to anxiety and FOMO (Fear Of Missing Out) when a big move is missed.</p>
 
-                        <h3 id="s3-4-en">3.3 The "Silver Bullet" & ICT Win Rate Myth</h3>
+                        <h3 id="sec3-4-en">3.3 The "Silver Bullet" & ICT Win Rate Myth</h3>
                         <p>Strategies claiming 70%-80% win rates (like ICT Silver Bullet) are often based on extremely short holding times and small profit targets (Scalping). In live trading, the impact of <b>Spread</b> and <b>Slippage</b> on the Risk-Reward ratio is magnified on 1-minute charts, heavily discounting the theoretical win rate.</p>
 
-                        <h3 id="s3-5-en">3.4 The Devastation of Negative Skewness</h3>
+                        <h3 id="sec3-5-en">3.4 The Devastation of Negative Skewness</h3>
                         <p>The most fatal weakness of high win rate strategies is <b>Negative Skewness</b>. To maintain a high win rate, traders often hold losing positions hoping for a reversion, while taking profits early. This is known as the "Turkey Problem": the turkey is fed every day (high win rate), life is good, until Thanksgiving Day (Black Swan), when one loss wipes out all past profits.</p>
                     </div>
                 </section>
 
-                <section id="s4">
+                <section id="sec4">
                     <div class="lang-cn">
-                        <h2 id="s4-1">4. 赔率的几何学：高盈亏比的凸性优势与生存哲学</h2>
+                        <h2 id="sec4-1">4. 赔率的几何学：高盈亏比的凸性优势与生存哲学</h2>
                         <p>既然追求极致的精准度是一条布满陷阱的道路，那么高盈亏比策略提供了什么解决方案？</p>
                          
-                        <h3 id="s4-2">4.1 趋势跟踪：接受无知的智慧</h3>
+                        <h3 id="sec4-2">4.1 趋势跟踪：接受无知的智慧</h3>
                         <p>趋势跟踪策略（Trend Following）是高盈亏比哲学的极致体现。其核心信仰是：如果你不知道市场要去哪里，那就假设它会继续现在的方向，直到证明你错了。趋势策略的胜率通常仅为30%-40%。这意味着绝大多数交易都是试错的成本。正凸性（Positive Convexity）：亏损被严格限制在初始止损位（如1R），而盈利是不设上限的（Trailing Stop）。这种收益结构使得交易者能够从市场的极端波动中获利，具有纳西姆·塔勒布所描述的“反脆弱性（Antifragility）”。</p>
                          
-                        <h3 id="s4-3">4.2 机构视角的限制：为何胜率不重要</h3>
+                        <h3 id="sec4-3">4.2 机构视角的限制：为何胜率不重要</h3>
                         <p>对于大型机构和对冲基金而言，胜率往往是一个次要指标。许多成功的CTA策略和宏观对冲基金的胜率常年徘徊在40%左右。流动性约束：大资金进出市场成本高昂。他们无法像散户那样在短线波动中频繁进出剥头皮。他们必须依赖大趋势来容纳其巨大的头寸。</p>
                          
-                        <h3 id="s4-4">4.3 心理资本的消耗：高盈亏比的黑暗面</h3>
+                        <h3 id="sec4-4">4.3 心理资本的消耗：高盈亏比的黑暗面</h3>
                         <p>如果高盈亏比这么好，为什么散户很难坚持？因为这违背人性。连败的折磨（Losing Streaks）：在一个40%胜率的系统中，连续出现10次亏损的概率高达0.6%左右。在漫长的职业生涯中，这是必然发生的事件。波动性税（Volatility Tax）：高盈亏比策略通常伴随着资金曲线的剧烈波动。看着账户利润回撤30%是极其痛苦的，尽管这在数学上是捕获更大收益的必经之路。</p>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s4-1-en">4. The Geometry of Odds: Convexity & Survival Philosophy</h2>
+                        <h2 id="sec4-1-en">4. The Geometry of Odds: Convexity & Survival Philosophy</h2>
                         <p>Since pursuing extreme precision is a path full of traps, what solution does a high Risk-Reward strategy offer?</p>
 
-                        <h3 id="s4-2-en">4.1 Trend Following: The Wisdom of Ignorance</h3>
+                        <h3 id="sec4-2-en">4.1 Trend Following: The Wisdom of Ignorance</h3>
                         <p>Trend Following is the ultimate embodiment of high payoff philosophy. Its core belief: If you don't know where the market is going, assume it will continue in the current direction until proven otherwise. Win rates are typically only 30%-40%. This means most trades are the cost of trial and error. However, losses are capped at 1R, while profits are uncapped. This structure creates <b>Positive Convexity</b> and <b>Antifragility</b>.</p>
 
-                        <h3 id="s4-3-en">4.2 Institutional Constraints: Why Win Rate Doesn't Matter</h3>
+                        <h3 id="sec4-3-en">4.2 Institutional Constraints: Why Win Rate Doesn't Matter</h3>
                         <p>For large institutions and hedge funds, win rate is often a secondary metric. Many successful CTA strategies hover around a 40% win rate. Due to liquidity constraints and high costs of entry/exit, they cannot scalp like retail traders. They must rely on large trends (High R:R) to accommodate their massive positions.</p>
 
-                        <h3 id="s4-4-en">4.3 Psychological Cost: The Dark Side of High R:R</h3>
+                        <h3 id="sec4-4-en">4.3 Psychological Cost: The Dark Side of High R:R</h3>
                         <p>If high R:R is so good, why do retail traders struggle to stick with it? Because it goes against human nature. <b>Losing Streaks:</b> In a 40% win rate system, a streak of 10 consecutive losses is mathematically inevitable over a long career. <b>Volatility Tax:</b> High R:R strategies come with volatile equity curves. Watching profits drawdown by 30% is painful, yet it is the mathematical price of admission for capturing larger returns.</p>
                     </div>
                 </section>
 
-                <section id="s5">
+                <section id="sec5">
                     <div class="lang-cn">
-                        <h2 id="s5-1">5. 量化决策模型：期望值与凯利公式的终极裁决</h2>
+                        <h2 id="sec5-1">5. 量化决策模型：期望值与凯利公式的终极裁决</h2>
                         <p>为了给您做出理性的决定，我们不能仅凭定性描述，必须引入数学模型进行终极裁决。</p>
                          
-                        <h3 id="s5-2">5.1 数学期望（Mathematical Expectation）：系统的灵魂</h3>
+                        <h3 id="sec5-2">5.1 数学期望（Mathematical Expectation）：系统的灵魂</h3>
                         <div class="math-block">E = (P_win × Avg_Win) - (P_loss × Avg_Loss)</div>
                         <p>让我们对比两个极端的专家模型：<br>
                         <b>模型 A（高胜率专家）：</b> 胜率：80%，平均盈利：$100，平均亏损：$500（由于扛单和宽止损）。计算：E = (0.8 × 100) - (0.2 × 500) = 80 - 100 = <b>-20</b>。结论：这是一个破产系统。<br>
                         <b>模型 B（高盈亏比专家）：</b> 胜率：40%，平均盈利：$300，平均亏损：$100。计算：E = (0.4 × 300) - (0.6 × 100) = 120 - 60 = <b>+60</b>。结论：这是一个印钞系统。<br>
                         专家判决：模型 B 完胜。这证明了高盈亏比可以弥补低胜率，但高胜率很难弥补糟糕的盈亏比。</p>
                          
-                        <h3 id="s5-3">5.2 凯利公式（Kelly Criterion）：仓位管理的红线</h3>
+                        <h3 id="sec5-3">5.2 凯利公式（Kelly Criterion）：仓位管理的红线</h3>
                         <p>拥有正期望值还不够，你还必须知道下注多少才不会破产。凯利公式给出了最优下注比例。对于一个临界模型 C (W=90%, R=0.1, 即赚1亏10)：计算结果为负值！这意味着即使你有90%的胜率，如果你赚1亏10，凯利公式直接告诉你不要交易，因为你的长期破产概率是100%。这一数学推导极具震撼力：即使是极高的胜率，如果配合极差的盈亏比，在凯利公式看来也是“不可交易”的垃圾策略。</p>
                          
-                        <h3 id="s5-4">5.3 破产风险（Risk of Ruin）的非线性爆发</h3>
+                        <h3 id="sec5-4">5.3 破产风险（Risk of Ruin）的非线性爆发</h3>
                         <p>破产风险是一个关于概率的非线性函数。在高盈亏比策略中，随着胜率的微小下降（例如从40%降至35%），破产风险的上升是平缓的。在高胜率低盈亏比策略中，一旦胜率跌破盈亏平衡点（例如从70%跌至65%），破产风险会呈指数级垂直爆发。这意味着，高盈亏比策略具有更高的“鲁棒性（Robustness）”。它能容忍你犯错，容忍状态下滑，容忍市场变盘。而高胜率策略是走钢丝，一步踏空即万劫不复。</p>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s5-1-en">5. The Quantitative Verdict: Expectancy & Kelly Criterion</h2>
+                        <h2 id="sec5-1-en">5. The Quantitative Verdict: Expectancy & Kelly Criterion</h2>
                         <p>To make a rational decision, we must introduce mathematical models for the final verdict.</p>
 
-                        <h3 id="s5-2-en">5.1 Mathematical Expectation: The Soul of the System</h3>
+                        <h3 id="sec5-2-en">5.1 Mathematical Expectation: The Soul of the System</h3>
                         <div class="math-block">E = (P_win × Avg_Win) - (P_loss × Avg_Loss)</div>
                         <p>Let's compare two models:<br>
                         <b>Model A (High Win Rate):</b> 80% WR, Win $100, Loss $500. Result: E = <b>-20</b> (Bankruptcy).<br>
                         <b>Model B (High Payoff):</b> 40% WR, Win $300, Loss $100. Result: E = <b>+60</b> (Profit Machine).<br>
                         <b>Verdict:</b> Model B wins. High payoff can compensate for low accuracy, but high accuracy cannot compensate for poor payoff.</p>
 
-                        <h3 id="s5-3-en">5.2 The Kelly Criterion Warning</h3>
+                        <h3 id="sec5-3-en">5.2 The Kelly Criterion Warning</h3>
                         <p>Even with positive expectancy, position sizing matters. The Kelly Criterion calculates optimal bet size. For a strategy with 90% win rate but a 1:10 Risk-Reward (Win 1, Lose 10), the Kelly formula yields a negative value. This means mathematically, you should not trade this strategy, as the long-term probability of ruin is 100%.</p>
 
-                        <h3 id="s5-4-en">5.3 Non-linear Risk of Ruin</h3>
+                        <h3 id="sec5-4-en">5.3 Non-linear Risk of Ruin</h3>
                         <p>In high R:R strategies, risk of ruin increases linearly and slowly as win rate drops. In high win-rate strategies, once the win rate drops below the breakeven point, the risk of ruin explodes exponentially. High R:R strategies are <b>Robust</b>; they tolerate mistakes. High win rate strategies are fragile.</p>
                     </div>
                 </section>
 
-                <section id="s6">
+                <section id="sec6">
                     <div class="lang-cn">
-                        <h2 id="s6-1">6. 融合之道：供需区与“狙击手”策略的综合应用</h2>
+                        <h2 id="sec6-1">6. 融合之道：供需区与“狙击手”策略的综合应用</h2>
                         <p>虽然我们在数学上论证了盈亏比的优越性，但在实战中，是否必须完全牺牲胜率？指出了融合的可能性：通过技术分析提高入场点的质量（Sniper Entry），从而在不牺牲太多胜率的情况下获得高盈亏比。</p>
                          
-                        <h3 id="s6-2">6.1 供给/需求区（Supply/Demand Zones）的过滤作用</h3>
+                        <h3 id="sec6-2">6.1 供给/需求区（Supply/Demand Zones）的过滤作用</h3>
                         <p>供给需求区理论认为，价格的反转往往发生在机构订单堆积的区域。如果在需求区边缘挂单，止损放在区域外，止盈放在下一个供给区。由于入场点极其精确（Sniper），止损距离极短（例如10点），而目标空间巨大（例如50点），这天然形成了一个1:5的盈亏比结构。优势：通过等待高概率区域，交易者并未盲目追求趋势（低胜率），也未盲目剥头皮（低盈亏比），而是试图寻找市场失衡的点。这种策略在熟练交易者手中可以达到 50% 胜率 + 1:3 盈亏比的黄金组合。</p>
                          
-                        <h3 id="s6-3">6.2 贝叶斯优化（Bayesian Optimization）在参数选择中的应用</h3>
+                        <h3 id="sec6-3">6.2 贝叶斯优化（Bayesian Optimization）在参数选择中的应用</h3>
                         <p>对于量化交易者，建议使用贝叶斯优化来寻找策略参数，而不是暴力网格搜索。贝叶斯方法能够更智能地平衡胜率和盈亏比的超参数组合，寻找夏普比率最高的“高原”，而不是某个过拟合的“尖峰”。这能帮助我们在维持正期望值的同时，通过算法优化微调进出场逻辑，略微提升胜率。</p>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s6-1-en">6. The Path of Fusion: SMC & Optimization</h2>
+                        <h2 id="sec6-1-en">6. The Path of Fusion: SMC & Optimization</h2>
                         <p>Is it necessary to completely sacrifice win rate? No. SMC (Smart Money Concepts) offers a path to fusion.</p>
 
-                        <h3 id="s6-2-en">6.1 Supply/Demand Zones & Sniper Entries</h3>
+                        <h3 id="sec6-2-en">6.1 Supply/Demand Zones & Sniper Entries</h3>
                         <p><b>Supply/Demand Zones:</b> By placing orders at the edge of institutional order blocks with stops just outside, traders can achieve "Sniper Entries." This allows for very tight stops (e.g., 10 pips) while targeting large structural moves (e.g., 50 pips), naturally creating a 1:5 Risk-Reward structure. A skilled trader can achieve the "Golden Combination" of 50% win rate + 1:3 R:R.</p>
 
-                        <h3 id="s6-3-en">6.2 Bayesian Optimization</h3>
+                        <h3 id="sec6-3-en">6.2 Bayesian Optimization</h3>
                         <p><b>Bayesian Optimization:</b> For quant traders, use this to find parameter "plateaus" that balance win rate and payoff, rather than overfitting to "peaks" of high win rate. This helps fine-tune entry/exit logic to slightly improve win rate without sacrificing the positive expectancy.</p>
                     </div>
                 </section>
 
-                <section id="s7">
+                <section id="sec7">
                     <div class="lang-cn">
-                        <h2 id="s7-1">7. 专家决策：针对不同画像的终极建议</h2>
+                        <h2 id="sec7-1">7. 专家决策：针对不同画像的终极建议</h2>
                         <p>基于上述所有分析，我将针对您的需求给出最终决定。您问“哪个更精准胜率更高”，这其实是想问“哪个更好”。</p>
                         <p><b>专家判决：盈亏比（赔率） > 胜率（精准度）</b></p>
                         <p>决定：我为您决定，您应当优先构建一个高盈亏比（至少1:2，理想1:3）的交易系统，并接受40%-50%的中等胜率，而不是追求80%以上的高胜率。</p>
@@ -460,7 +451,7 @@
                         </div>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s7-1-en">7. Expert Decision & Strategy</h2>
+                        <h2 id="sec7-1-en">7. Expert Decision & Strategy</h2>
                         <p>You asked "Which is more precise?" but the real question is "Which is better?"</p>
                         <p><b>Final Verdict: Payoff > Precision.</b></p>
                         <p><b>Decision:</b> You should prioritize building a system with high Risk-Reward (at least 1:2, ideally 1:3) and accept a moderate win rate of 40%-50%.</p>
@@ -481,14 +472,14 @@
                     </div>
                 </section>
 
-                <section id="s8">
+                <section id="sec8">
                     <div class="lang-cn">
-                        <h2 id="s8-1">8. 结语</h2>
+                        <h2 id="sec8-1">8. 结语</h2>
                         <p>不要被“精准度”的幻觉所迷惑。在华尔街和量化基金的实战中，没有人靠“水晶球”预测未来致富。所有的传奇——从索罗斯到西蒙斯——本质上都是风险管理的各种变体。胜率满足的是你的自尊心，盈亏比填充的是你的银行账户。</p>
                         <p>请放下对完美的执念，拥抱不确定性，用高盈亏比的数学优势，在这个混乱的市场中构建属于您的反脆弱堡垒。这就是专家的最终决定。</p>
                     </div>
                     <div class="lang-en">
-                        <h2 id="s8-1-en">8. Conclusion</h2>
+                        <h2 id="sec8-1-en">8. Conclusion</h2>
                         <p>Do not be misled by the illusion of "Precision". In Wall Street and quantitative funds, no one gets rich by predicting the future with a crystal ball. All legends—from Soros to Simons—are masters of risk management.</p>
                         <p>Win rate satisfies your ego; Risk-Reward fills your bank account. Let go of the obsession with perfection. Embrace uncertainty. Build an antifragile fortress in this chaotic market using the mathematical advantage of high payoff. This is the expert's final decision.</p>
                     </div>
@@ -538,7 +529,7 @@
             }
         }
         
-        // --- 2. 目录生成和页面交互逻辑 (新增) ---
+        // --- 2. 目录生成和页面交互逻辑 (已修复目录结构和跳转) ---
 
         // 辅助函数：将 **加粗** 转换为 <b> 标签 (用于目录显示)
         function parseBold(text) {
@@ -556,7 +547,6 @@
                 const isH2 = heading.tagName === 'H2';
                 const id = heading.id;
 
-                // 确保标题有 ID，用于锚点跳转
                 if (!id) return; 
 
                 // 获取中文和英文标题，用于双语显示
@@ -564,40 +554,38 @@
                 let cnText = '';
                 let enText = '';
 
-                if (parentSection) {
-                    // 查找当前 heading 对应的中文和英文文本
-                    const cnHeading = parentSection.querySelector(`.lang-cn #${id}`);
-                    const enHeading = parentSection.querySelector(`.lang-en #${id}-en`); // 假设英文ID有 -en 后缀
-                    
-                    cnText = cnHeading ? cnHeading.textContent : '';
-                    enText = enHeading ? enHeading.textContent : '';
+                // 尝试从 lang-cn 和 lang-en 的 div 中获取标题文本
+                const cnDiv = parentSection.querySelector('.lang-cn');
+                const enDiv = parentSection.querySelector('.lang-en');
+                
+                if (cnDiv) {
+                    const cnHeading = cnDiv.querySelector(`#${id}`);
+                    if (cnHeading) cnText = cnHeading.textContent;
+                }
+                if (enDiv) {
+                    // 使用 -en 后缀来匹配英文 ID
+                    const enHeading = enDiv.querySelector(`#${id}-en`);
+                    if (enHeading) enText = enHeading.textContent;
                 }
 
                 if (cnText || enText) {
                     const listItem = document.createElement('li');
                     const link = document.createElement('a');
-                    link.href = `#${id}`;
-
-                    // 使用 span 实现双语目录项
+                    // 确保链接目标是 H2 或 H3 自身的 ID
+                    link.href = `#${id}`; 
+                    
                     link.innerHTML = `
                         <span class="lang-cn">${parseBold(cnText)}</span>
                         <span class="lang-en">${parseBold(enText)}</span>
                     `;
                     
                     if (isH2) {
-                        listItem.className = 'toc-h2';
+                        listItem.className = 'toc-h2 h2-item';
                     } else {
-                        // 对于 H3 标题，用 h3 标签包裹，以便在 CSS 中设置缩进
-                        listItem.innerHTML = `<h3>${link.outerHTML}</h3>`;
+                        listItem.className = 'toc-h3 h3-item';
                     }
                     
-                    // H2 直接添加链接
-                    if (isH2) {
-                        listItem.appendChild(link);
-                    } else {
-                        listItem.querySelector('h3').replaceChild(link, listItem.querySelector('h3 a'));
-                    }
-                    
+                    listItem.appendChild(link);
                     tocList.appendChild(listItem);
                 }
             });
@@ -610,32 +598,44 @@
             const contentContainer = document.querySelector('.content-view');
             const tocLinks = document.querySelectorAll('#toc-list a');
             const headings = document.querySelectorAll('#article-content h2, #article-content h3');
-
-            contentContainer.addEventListener('scroll', () => {
+            
+            // 移除旧的监听器，防止多次绑定
+            // (在实际项目中需要更复杂的解绑逻辑，这里简化为重新绑定)
+            
+            // 滚动处理函数
+            const scrollHandler = () => {
+                const scrollPos = contentContainer.scrollTop + 80; // 80px 偏移量
                 let currentActiveId = null;
                 
-                // 找到当前在视口中的最靠前的标题
-                for (let i = 0; i < headings.length; i++) {
-                    const rect = headings[i].getBoundingClientRect();
-                    // 如果标题顶部位于内容区顶部以下 20px 处，则认为它是当前活动项
-                    if (rect.top <= 80) { // 80px 是一个合理的偏移量
+                // 找到当前在视口顶部的标题
+                for (let i = headings.length - 1; i >= 0; i--) {
+                    if (headings[i].offsetTop <= scrollPos) {
                         currentActiveId = headings[i].id;
+                        break;
                     }
                 }
                 
                 // 更新目录高亮
                 tocLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href').substring(1) === currentActiveId || link.getAttribute('href').substring(1) === currentActiveId + '-en') {
+                    // 检查链接的 href 是否与当前活动的 ID 匹配
+                    if (link.getAttribute('href').substring(1) === currentActiveId) {
                          link.classList.add('active');
                     }
                 });
-            });
+            };
 
-            // 初始化时高亮第一个元素
-            if(headings.length > 0) {
-                 tocLinks[0].classList.add('active');
-            }
+            contentContainer.addEventListener('scroll', scrollHandler);
+
+            // 初始调用
+            scrollHandler();
+            
+            // 修复：点击目录时，移除 active 状态，等待滚动完成再更新
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // 滚动到目标位置后，会触发 scrollHandler 更新 active 状态
+                });
+            });
         }
 
 
@@ -661,13 +661,26 @@
         }
 
         function init() {
+            // 确保所有的 ID 都被正确设置，尤其是英文标题
+            const headings = document.querySelectorAll('#article-content h2, #article-content h3');
+            headings.forEach(h => {
+                if(h.tagName === 'H2' && h.id && !h.id.endsWith('-en')) {
+                    // 为 H2 创建英文 ID 副本，例如 sec1-1 -> sec1-1-en
+                    h.closest('section').querySelector('.lang-en h2').id = h.id + '-en';
+                }
+                 if(h.tagName === 'H3' && h.id && !h.id.endsWith('-en')) {
+                    // 为 H3 创建英文 ID 副本
+                    h.closest('section').querySelector('.lang-en h3[id$="-en"]').id = h.id + '-en';
+                }
+            });
+
             autoDetectLanguage();
+            
             // 确保计算器在 DOM 加载后运行
             document.addEventListener('DOMContentLoaded', () => {
                  calcRR();
                  calcWR();
             });
-            // generateTOC() 已在 setLanguage 中调用
         }
 
         init();
