@@ -1,77 +1,166 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD 金融分析报告系统</title>
+    <title>Market Intelligence | L.K. Capital</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #1e1e1e; color: #dcdcdc; }
-        .container { display: flex; max-width: 1200px; margin: 20px auto; background-color: #252526; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
-        .list-view { width: 300px; background-color: #333333; padding: 20px 0; overflow-y: auto; border-right: 1px solid #444; }
-        .content-view { flex-grow: 1; padding: 30px; overflow-y: auto; max-height: 80vh; }
+        /* === 核心配色 (Light Institutional Theme) === */
+        :root {
+            --bg-app: #ffffff;       
+            --bg-sidebar: #f8f9fa;   
+            --bg-card: #ffffff;      
+            --border: #eef0f2;       
+            --text-main: #1a1a1a;    
+            --text-muted: #666666;   
+            --accent: #0a2540;       
+            --gold: #c5a059;         
+            --green: #089981;        
+            --red: #f23645;          
+            --shadow: 0 4px 20px rgba(0,0,0,0.03); 
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         
-        .rh-meta { font-size: 0.9em; margin-top: -10px; margin-bottom: 20px; color: #b5b5b5; }
+        body { 
+            font-family: "Inter", -apple-system, BlinkMacFont, sans-serif; 
+            background-color: var(--bg-app); 
+            color: var(--text-main); 
+            margin: 0; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+        }
+
+        /* === 双语控制 (严格分离) === */
+        .lang-cn { display: none !important; } .lang-en { display: block !important; }
+        body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
+
+        /* === 1. 顶部导航栏 === */
+        .top-bar {
+            height: 70px; background-color: #fff; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
+            flex-shrink: 0; z-index: 1000; position: relative;
+        }
+        .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; letter-spacing: 0.5px; }
         
-        /* 语言切换控制 */
-        .lang-cn { display: none; }
-        .lang-en { display: none; }
-        .cn-mode .lang-cn, .en-mode .lang-en { display: block; }
+        /* 导航右侧 */
+        .nav-right { display: flex; gap: 30px; align-items: center; }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
+        .nav-link:hover { color: var(--accent); }
+
+        /* === 2. 主布局 === */
+        .main-layout { display: flex; flex: 1; overflow: hidden; }
+
+        /* === 3. 左侧目录栏 (Sidebar) - 按月分组样式 === */
+        .sidebar {
+            width: 320px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; flex-shrink: 0;
+        }
+        .sidebar-header {
+            padding: 25px 30px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--gold); font-weight: 800; border-bottom: 1px solid var(--border); background: #fff;
+        }
+        .report-list-container { overflow-y: auto; flex: 1; }
+
+        /* 分组折叠组件 */
+        .group-header {
+            padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid transparent;
+            transition: 0.2s; user-select: none;
+        }
+        .group-header:hover { color: var(--accent); background: rgba(0,0,0,0.02); }
+        .group-header svg { width: 10px; height: 10px; transition: transform 0.3s ease; fill: #999; }
+        .group-header.open svg { transform: rotate(180deg); fill: var(--accent); }
+        .group-content { display: none; padding: 10px; border-bottom: 1px solid var(--border); }
+        .group-content.show { display: block; }
+
+        /* 列表项 */
+        .report-item {
+            padding: 15px 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 2px;
+            border-left: 3px solid transparent; 
+        }
+        .report-item.active { 
+            background-color: #fff; border-left-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .item-date { font-size: 0.7rem; color: #999; margin-bottom: 4px; display: block; font-family: "JetBrains Mono"; }
+        .item-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
+        .report-item.active .item-title { color: var(--accent); }
+
+        /* === 4. 右侧阅读区 === */
+        .content-view { flex: 1; overflow-y: auto; background-color: var(--bg-app); padding: 50px 60px; scroll-behavior: smooth; }
+        .article-wrapper { max-width: 850px; margin: 0 auto; }
+
+        /* === 5. 文章样式 === */
+        .report-header-content { border-bottom: 1px solid var(--border); padding-bottom: 30px; margin-bottom: 50px; }
+        .rh-title { font-size: 2.4rem; margin: 0 0 15px 0; color: var(--accent); font-family: "Playfair Display", serif; line-height: 1.1; }
+        .rh-meta { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; font-family: "JetBrains Mono", monospace; background: var(--bg-sidebar); padding: 8px 12px; border-radius: 4px; display: inline-block; }
+
+        .card { background-color: #fff; padding: 35px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-left: 10px; vertical-align: middle; }
+        .tag.bullish { background-color: #e6fcf5; color: var(--green); border: 1px solid rgba(8, 153, 129, 0.2); }
+        .tag.neutral { background-color: #f0f7ff; color: #2962ff; border: 1px solid rgba(41, 98, 255, 0.2); }
+        .price-highlight { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-right: 10px; font-family: "Inter"; }
+        .price-sub { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+        h2 { color: var(--accent); border-left: 4px solid var(--gold); padding-left: 20px; margin: 60px 0 30px 0; font-size: 1.4rem; font-weight: 700; }
+        h3 { color: var(--text-main); font-size: 1.1rem; margin: 30px 0 15px 0; font-weight: 700; }
+        p, li { color: #4a4a4a; line-height: 1.8; margin-bottom: 15px; font-size: 1rem; }
+        hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
+
+        /* Chart/Image Styles */
+        .chart-container { width: 100%; margin: 30px 0; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .chart-container img { width: 100%; height: auto; display: block; }
+        .chart-placeholder { width: 100%; height: 400px; background-color: #f8f9fa; border: 2px dashed #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #aaa; margin: 30px 0; font-family: "JetBrains Mono"; font-size: 0.9rem; }
+        .step { display: flex; align-items: flex-start; margin-bottom: 25px; }
+        .step-num { background-color: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(10, 37, 64, 0.2); }
         
-        h1, h2, h3 { color: #66ccff; margin-top: 0; padding-bottom: 5px; border-bottom: 1px solid #444; }
-        .card { background-color: #2d2d30; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #66ccff; }
-        .price-highlight { font-size: 1.5em; font-weight: bold; color: #f7b731; margin-right: 10px; }
-        .price-sub { font-size: 0.8em; color: #b5b5b5; }
-        /* 颜色变量在样式中定义为具体的颜色值，以避免JS变量冲突 */
-        .tag { padding: 4px 8px; border-radius: 4px; font-size: 0.8em; margin-left: 5px; font-weight: 600; }
-        .bullish { background-color: #38761d; color: white; }
-        .neutral { background-color: #8b8b8b; color: white; }
-        .step { display: flex; align-items: flex-start; margin-bottom: 10px; }
-        .step-num { background-color: #66ccff; color: #1e1e1e; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8em; margin-right: 10px; flex-shrink: 0; }
-        .chart-container { margin: 15px 0; }
-        .chart-container img { max-width: 100%; height: auto; display: block; border-radius: 4px; }
-        
-        /* 列表样式 */
-        .group-header { cursor: pointer; padding: 10px 20px; font-weight: bold; color: #dcdcdc; background-color: #3e3e40; border-top: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
-        .group-header svg { width: 18px; height: 18px; fill: #dcdcdc; transition: transform 0.3s; }
-        .group-header.open svg { transform: rotate(180deg); }
-        .group-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
-        .group-content.show { max-height: 500px; /* 足够大以显示所有内容 */ }
-        .report-item { padding: 8px 20px 8px 30px; cursor: pointer; transition: background-color 0.2s; border-bottom: 1px solid #444; position: relative; }
-        .report-item:hover { background-color: #4a4a4a; }
-        .report-item.active { background-color: #66ccff; color: #1e1e1e; font-weight: 600; }
-        .report-item.active .item-date { color: #1e1e1e; }
-        .item-date { font-size: 0.75em; color: #b5b5b5; display: block; }
-        .item-title { font-size: 0.9em; line-height: 1.2; }
-        
-        .language-toggle { text-align: right; padding: 10px 30px 0; }
-        .language-toggle button { background-color: #66ccff; color: #1e1e1e; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 5px; font-weight: bold; }
-        .language-toggle button:disabled { background-color: #4a4a4a; color: #dcdcdc; cursor: default; }
+        /* Media Queries */
+        @media (max-width: 900px) { .main-layout { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); } .report-list-container { max-height: 300px; } .content-view { padding: 30px 20px; overflow: visible; } }
     </style>
 </head>
-<body class="cn-mode">
-    <div class="language-toggle">
-        <button onclick="setLanguage('cn')" id="lang-cn-btn">中文</button>
-        <button onclick="setLanguage('en')" id="lang-en-btn">English</button>
-    </div>
-    <div class="container">
-        <div class="list-view">
-            <div id="report-list">
-                </div>
-        </div>
-        <div class="content-view">
-            <div id="article-content">
-                </div>
+<body class="en-mode">
+
+    <div class="top-bar">
+        <a href="index.html" class="brand">L.K. Terminal</a>
+        <div class="nav-right">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="research.html" class="nav-link">Research</a>
         </div>
     </div>
-    
-    <script>
-        // 声明全局变量
-        let currentReportId = null;
-        let currentLang = 'cn';
+
+    <div class="main-layout">
         
-        // 报告数据 (已优化文案和日期)
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="lang-en">Strategy Logs</span>
+                <span class="lang-cn">交易策略日志</span>
+            </div>
+            <div class="report-list-container" id="report-list"></div>
+        </aside>
+
+        <main class="content-view">
+            <div id="article-content" class="article-wrapper"></div>
+            <div style="margin-top:80px; border-top:1px solid var(--border); padding-top:20px; text-align:center; font-size:0.8rem; color:var(--text-muted);">
+                &copy; 2025 L.K. Capital. Institutional Analysis.
+            </div>
+        </main>
+    </div>
+
+    <div id="copy-toast">Link Copied to Clipboard</div>
+
+    <script>
+        let currentLang = 'en'; 
+        // 确保默认加载最新的报告 (11-25)
+        let currentReportId = "xauusd_20251125_intraday_outlook_v2"; 
+
+        // === 报告数据库 (已应用优化和日期修正) ===
         const reports = [
-            // 报告 1：日内展望 (2025-11-25) - 优化后的文案
+            // --- 报告 1 (最新，日内分析 - 2025-11-25) ---
             {
                 id: "xauusd_20251125_intraday_outlook_v2",
                 date: "2025-11-25", 
@@ -80,11 +169,11 @@
                     <div class="report-header-content">
                         <div class="lang-cn">
                             <h1 class="rh-title">XAUUSD 关键折扣区结构测试</h1>
-                            <div class="rh-meta">📅 发布: 2025年11月25日 &nbsp;|&nbsp; <span style="color:#8b8b8b">●</span> 观点: 震荡 (Neutral)</div>
+                            <div class="rh-meta">📅 发布: 2025年11月25日 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> 观点: 震荡 (Neutral)</div>
                         </div>
                         <div class="lang-en">
                             <h1 class="rh-title">XAUUSD Key Discount Zone Structure Test</h1>
-                            <div class="rh-meta">📅 Date: Nov 25, 2025 &nbsp;|&nbsp; <span style="color:#8b8b8b">●</span> Bias: Neutral</div>
+                            <div class="rh-meta">📅 Date: Nov 25, 2025 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> Bias: Neutral</div>
                         </div>
                     </div>
 
@@ -151,20 +240,20 @@
                     </section>
                 `
             },
-            // 报告 2：周度展望 (2025-11-23) - 优化后的文案和日期
+            // --- 报告 2 (历史，周度展望 - 2025-11-23) ---
             {
-                id: "xauusd_20251125_weekly_outlook",
-                date: "2025-11-23", // 修正日期为 11/23
+                id: "xauusd_20251123_weekly_outlook", // 修正 ID
+                date: "2025-11-23", // 修正日期
                 title: { en: "XAUUSD Weekly Outlook: Bullish Accumulation Continues", cn: "XAUUSD 周度展望：多头持续吸筹" },
                 content: `
                     <div class="report-header-content">
                         <div class="lang-cn">
                             <h1 class="rh-title">XAUUSD 周度展望：多头持续吸筹</h1>
-                            <div class="rh-meta">📅 发布: 2025年11月23日 &nbsp;|&nbsp; <span style="color:#38761d">●</span> 观点: 看涨 (Bullish)</div>
+                            <div class="rh-meta">📅 发布: 2025年11月23日 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> 观点: 看涨 (Bullish)</div>
                         </div>
                         <div class="lang-en">
                             <h1 class="rh-title">XAUUSD Weekly Outlook: Bullish Accumulation Continues</h1>
-                            <div class="rh-meta">📅 Date: Nov 23, 2025 &nbsp;|&nbsp; <span style="color:#38761d">●</span> Bias: Bullish</div>
+                            <div class="rh-meta">📅 Date: Nov 23, 2025 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> Bias: Bullish</div>
                         </div>
                     </div>
 
@@ -222,7 +311,7 @@
                             </div>
                             <div class="step">
                                 <div class="step-num">3</div>
-                                <div class="lang-cn"><strong>目标锁定：</strong> 第一目标位 (TP1) 设在 $4200 附近的上方 **FVG/BOS (结构突破)**，第二目标位 (TP2) 设在 $4380 的**外部流动性高点 (External Liquidity High)**。</div>
+                                <div class="lang-cn"><strong>目标锁定：：</strong> 第一目标位 (TP1) 设在 $4200 附近的上方 **FVG/BOS (结构突破)**，第二目标位 (TP2) 设在 $4380 的**外部流动性高点 (External Liquidity High)**。</div>
                                 <div class="lang-en"><strong>Target Lock:</strong> Set Target Price 1 (TP1) at the overhead **FVG/BOS** around $4200, and Target Price 2 (TP2) at the **External Liquidity High** of $4380.</div>
                             </div>
                             <hr>
@@ -234,20 +323,13 @@
         ];
 
         // === 逻辑引擎 (按月分组、加载) ===
-        function getGroupKey(dateStr) { 
-            const date = new Date(dateStr); 
-            if(isNaN(date)) return 'Invalid Date';
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; 
-            return `${months[date.getMonth()]} ${date.getFullYear()}`; 
-        }
-
+        function getGroupKey(dateStr) { const date = new Date(dateStr); const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return `${months[date.getMonth()]} ${date.getFullYear()}`; }
         const listContainer = document.getElementById('report-list');
         const contentContainer = document.getElementById('article-content');
 
         function renderList() {
             listContainer.innerHTML = '';
-            const groups = {}; 
-            const groupOrder = []; 
+            const groups = {}; const groupOrder = []; 
             
             reports.forEach(item => { 
                 const groupName = getGroupKey(item.date); 
@@ -258,10 +340,15 @@
                 groups[groupName].push(item); 
             });
             
-            // 排序：按日期降序排列月份
-            groupOrder.sort((a, b) => new Date(b.replace(/(\w+) (\d+)/, '$1 1, $2')) - new Date(a.replace(/(\w+) (\d+)/, '$1 1, $2')));
+            // 确保日期是倒序排列（新文章在前）
+            groupOrder.sort((a, b) => {
+                // 修正月份排序逻辑，确保 Nov 2025 在前
+                const dateA = new Date(a.replace(/(\w+) (\d+)/, '$1 1, $2'));
+                const dateB = new Date(b.replace(/(\w+) (\d+)/, '$1 1, $2'));
+                return dateB - dateA;
+            });
+
             for (const groupName in groups) {
-                // 排序：按报告日期降序排列报告
                 groups[groupName].sort((a, b) => new Date(b.date) - new Date(a.date));
             }
             
@@ -277,6 +364,7 @@
 
                 groups[groupName].forEach(item => {
                     const div = document.createElement('div');
+                    // 确保高亮逻辑准确
                     div.className = `report-item ${item.id === currentReportId ? 'active' : ''}`; 
                     const titleText = item.title[currentLang] || item.title.en;
                     
@@ -302,53 +390,33 @@
             if(data) {
                 currentReportId = id;
                 contentContainer.innerHTML = data.content;
-                // 替换图片标签中的占位符
-                contentContainer.innerHTML = contentContainer.innerHTML.replace('<img src="assets/analysis/XAUUSD_2025-11-25_09-38-16.png" alt="XAUUSD Daily Intraday Analysis" loading="lazy">', '').replace('<img src="assets/analysis/xauusd_nov25.jpg" alt="XAUUSD Weekly Outlook Chart Analysis" loading="lazy">', '');
-                
                 document.querySelector('.content-view').scrollTop = 0;
             }
         }
 
-        function init() {
-            autoDetectLanguage();
-            if (reports.length > 0) {
-                // 加载最新的报告 (11-25的日内报告)
-                currentReportId = reports[0].id; 
-                renderList();
-                loadReport(currentReportId); 
-            } else {
-                 contentContainer.innerHTML = '<div class="lang-cn">暂无分析报告</div><div class="lang-en">No analysis reports available</div>';
-            }
-        }
-
+        // === 语言与初始化 ===
         function autoDetectLanguage() {
             const userLang = navigator.language || navigator.userLanguage; 
-            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn', false); } else { setLanguage('en', false); }
+            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
         }
 
-        function setLanguage(lang, reload = true) {
+        function setLanguage(lang) {
             currentLang = lang;
-            
-            // 更新按钮状态
-            document.getElementById('lang-cn-btn').disabled = (lang === 'cn');
-            document.getElementById('lang-en-btn').disabled = (lang === 'en');
+            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); }
+            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
+            // 每次切换语言，刷新列表和内容
+            renderList();
+            loadReport(currentReportId); 
+        }
 
-            if (lang === 'cn') { 
-                document.body.classList.remove('en-mode'); 
-                document.body.classList.add('cn-mode'); 
-            } else { 
-                document.body.classList.remove('cn-mode'); 
-                document.body.classList.add('en-mode'); 
+        function init() {
+            // 根据 reports 数组确保 currentReportId 是最新的（数组第一项）
+            if (reports.length > 0) {
+                 // reports[0] 始终是 11-25 的日内报告，确保默认加载最新
+                currentReportId = reports[0].id; 
             }
-            
-            if (reload && currentReportId) {
-                renderList();
-                loadReport(currentReportId); 
-            } else if (reload && reports.length > 0) {
-                currentReportId = reports[0].id;
-                renderList();
-                loadReport(currentReportId);
-            }
+            autoDetectLanguage(); // 自动设置语言
+            // renderList 和 loadReport 已在 setLanguage 中调用
         }
 
         init();
