@@ -1,199 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Intelligence | L.K. Capital</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <style>
-        /* === 核心配色 (Light Institutional Theme) === */
-        :root {
-            --bg-app: #ffffff;       
-            --bg-sidebar: #f8f9fa;   
-            --bg-card: #ffffff;      
-            --border: #eef0f2;       
-            --text-main: #1a1a1a;    
-            --text-muted: #666666;   
-            --accent: #0a2540;       
-            --gold: #c5a059;         
-            --green: #089981;        
-            --red: #f23645;          
-            --shadow: 0 4px 20px rgba(0,0,0,0.03); 
-        }
-
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        
-        body { 
-            font-family: "Inter", -apple-system, BlinkMacMacFont, sans-serif; 
-            background-color: var(--bg-app); 
-            color: var(--text-main); 
-            margin: 0; 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
-        }
-
-        /* === 双语控制 (严格分离) === */
-        .lang-cn { display: none !important; } .lang-en { display: block !important; }
-        body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
-
-        /* === 1. 顶部导航栏 === */
-        .top-bar {
-            height: 70px; background-color: #fff; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
-            flex-shrink: 0; z-index: 1000; position: relative;
-        }
-        .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; letter-spacing: 0.5px; }
-        
-        /* 导航右侧 */
-        .nav-right { display: flex; gap: 30px; align-items: center; }
-        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
-        .nav-link:hover { color: var(--accent); }
-
-        /* === 2. 主布局 === */
-        .main-layout { display: flex; flex: 1; overflow: hidden; }
-
-        /* === 3. 左侧目录栏 (Sidebar) - 按月分组样式 === */
-        .sidebar {
-            width: 320px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; flex-shrink: 0;
-        }
-        .sidebar-header {
-            padding: 25px 30px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
-            color: var(--gold); font-weight: 800; border-bottom: 1px solid var(--border); background: #fff;
-        }
-        .report-list-container { overflow-y: auto; flex: 1; }
-
-        /* 分组折叠组件 */
-        .group-header {
-            padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.8rem; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid transparent;
-            transition: 0.2s; user-select: none;
-        }
-        .group-header:hover { color: var(--accent); background: rgba(0,0,0,0.02); }
-        .group-header svg { width: 10px; height: 10px; transition: transform 0.3s ease; fill: #999; }
-        .group-header.open svg { transform: rotate(180deg); fill: var(--accent); }
-        .group-content { display: none; padding: 10px; border-bottom: 1px solid var(--border); }
-        .group-content.show { display: block; }
-
-        /* 列表项 */
-        .report-item {
-            padding: 15px 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 2px;
-            border-left: 3px solid transparent; 
-        }
-        .report-item.active { 
-            background-color: #fff; border-left-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .item-date { font-size: 0.7rem; color: #999; margin-bottom: 4px; display: block; font-family: "JetBrains Mono"; }
-        .item-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
-        .report-item.active .item-title { color: var(--accent); }
-
-        /* === 4. 右侧阅读区 === */
-        .content-view { flex: 1; overflow-y: auto; background-color: var(--bg-app); padding: 50px 60px; scroll-behavior: smooth; }
-        .article-wrapper { max-width: 850px; margin: 0 auto; }
-
-        /* === 5. 文章样式 === */
-        .report-header-content { border-bottom: 1px solid var(--border); padding-bottom: 30px; margin-bottom: 50px; }
-        .rh-title { font-size: 2.4rem; margin: 0 0 15px 0; color: var(--accent); font-family: "Playfair Display", serif; line-height: 1.1; }
-        .rh-meta { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; font-family: "JetBrains Mono", monospace; background: var(--bg-sidebar); padding: 8px 12px; border-radius: 4px; display: inline-block; }
-
-        .card { background-color: #fff; padding: 35px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-        .tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-left: 10px; vertical-align: middle; }
-        .tag.bullish { background-color: #e6fcf5; color: var(--green); border: 1px solid rgba(8, 153, 129, 0.2); }
-        .tag.neutral { background-color: #f0f7ff; color: #2962ff; border: 1px solid rgba(41, 98, 255, 0.2); }
-        .price-highlight { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-right: 10px; font-family: "Inter"; }
-        .price-sub { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
-        h2 { color: var(--accent); border-left: 4px solid var(--gold); padding-left: 20px; margin: 60px 0 30px 0; font-size: 1.4rem; font-weight: 700; }
-        h3 { color: var(--text-main); font-size: 1.1rem; margin: 30px 0 15px 0; font-weight: 700; }
-        p, li { color: #4a4a4a; line-height: 1.8; margin-bottom: 15px; font-size: 1rem; }
-        hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
-
-        /* Chart/Image Styles */
-        .chart-container { width: 100%; margin: 30px 0; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .chart-container img { width: 100%; height: auto; display: block; }
-        .chart-placeholder { width: 100%; height: 400px; background-color: #f8f9fa; border: 2px dashed #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #aaa; margin: 30px 0; font-family: "JetBrains Mono"; font-size: 0.9rem; }
-        .step { display: flex; align-items: flex-start; margin-bottom: 25px; }
-        .step-num { background-color: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(10, 37, 64, 0.2); }
-        
-        /* Media Queries */
-        @media (max-width: 900px) { .main-layout { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); } .report-list-container { max-height: 300px; } .content-view { padding: 30px 20px; overflow: visible; } }
-    </style>
-</head>
-<body class="en-mode">
-
-    <div class="top-bar">
-        <a href="index.html" class="brand">L.K. Terminal</a>
-        <div class="nav-right">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="services.html" class="nav-link">Services</a>
-            <a href="research.html" class="nav-link">Research</a>
+{
+    id: "xauusd_20251125_intraday_outlook_v2",
+    date: "2025-11-25", 
+    title: { en: "XAUUSD Key Discount Zone Structure Test", cn: "XAUUSD 关键折扣区结构测试" },
+    content: `
+        <div class="report-header-content">
+            <div class="lang-cn">
+                <h1 class="rh-title">XAUUSD 关键折扣区结构测试</h1>
+                <div class="rh-meta">📅 发布: 2025年11月25日 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> 观点: 震荡 (Neutral)</div>
+            </div>
+            <div class="lang-en">
+                <h1 class="rh-title">XAUUSD Key Discount Zone Structure Test</h1>
+                <div class="rh-meta">📅 Date: Nov 25, 2025 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> Bias: Neutral</div>
+            </div>
         </div>
-    </div>
 
-    <div class="main-layout">
-        
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <span class="lang-en">Strategy Logs</span>
-                <span class="lang-cn">交易策略日志</span>
+        <section>
+            <div class="lang-cn"><h2>01. 日线结构与当前位置 (Market Pulse)</h2></div>
+            <div class="lang-en"><h2>01. Daily Structure & Current Position</h2></div>
+
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                    <div><span class="price-highlight">XAUUSD: $4145.18</span><span class="price-sub"> / Spot Gold</span></div>
+                    <div><span class="tag neutral">Consolidation</span><span class="tag neutral">0.5 Fib Test</span></div>
+                </div>
+                
+                <div class="lang-cn"><p>市场处于一个关键的十字路口。价格在上周快速扩张后，目前正处于日线回调的 **0.50 (中位) 区域**和 **0.618 (黄金分割) 区域**之间。这个区间（大约 $4121 - $4151）是关键的“折扣区”，它同时也是此前盘整的顶部，形成了强有力的阻力。市场意图正在进行双向测试，需要等待结构确认。</p></div>
+                <div class="lang-en"><p>The market is at a critical juncture. Price is currently testing the **0.50 (Midpoint) and 0.618 (Golden Ratio) Fibonacci Retracement** levels of the recent Daily move. This zone (approx. $4121 - $4151) is a key "Discount Zone" acting as strong resistance from the prior consolidation high. Market intent requires structural confirmation.</p></div>
+                
+                <div class="chart-container"><img src="assets/analysis/XAUUSD_2025-11-25_09-38-16.png" alt="XAUUSD Daily Intraday Analysis" loading="lazy"></div>
+
+                <div class="lang-cn">
+                    <h3>📊 核心逻辑复盘</h3>
+                    <ul>
+                        <li><strong>日线结构：</strong> 价格处于大级别牛市结构，但短期在修复 $4245 至 $3998 的日线下跌空间。</li>
+                        <li><strong>关键阻力：</strong> $4151 (0.618 Fib) 和 $4121 (0.50 Fib) 是日内多空争夺焦点。站稳 $4151，则通道打开至 $4245。</li>
+                        <li><strong>下方 POI：</strong> 重要的未回补订单块位于 $4056 - $4080 区域 (23.6% Fib 下方)，这是如果 $4121 失守，价格必然回踩的关键支撑。</li>
+                    </ul>
+                </div>
+                <div class="lang-en">
+                    <h3>📊 Core Logic Review</h3>
+                    <ul>
+                        <li><strong>Daily Structure:</strong> Price is in a major bullish structure but is correcting the Daily drop from $4245 to $3998.</li>
+                        <li><strong>Key Resistance:</strong> $4151 (0.618 Fib) and $4121 (0.50 Fib) are the current focal points. A close above $4151 opens the path towards $4245.</li>
+                        <li><strong>Lower POI:</strong> A key unmitigated Order Block sits around the $4056 - $4080 zone, which is the critical support if $4121 fails.</li>
+                    </ul>
+                </div>
             </div>
-            <div class="report-list-container" id="report-list"></div>
-        </aside>
+        </section>
 
-        <main class="content-view">
-            <div id="article-content" class="article-wrapper"></div>
-            <div style="margin-top:80px; border-top:1px solid var(--border); padding-top:20px; text-align:center; font-size:0.8rem; color:var(--text-muted);">
-                &copy; 2025 L.K. Capital. Institutional Analysis.
+        <section>
+            <div class="lang-cn"><h2>02. 实战执行 (Execution)</h2></div>
+            <div class="lang-en"><h2>02. Execution Plan</h2></div>
+            
+            <div class="card">
+                <div class="lang-cn"><h3>📈 剧本：高位双向观察 (Two-Sided Observation)</h3></div>
+                <div class="lang-en"><h3>📈 Scenario: Two-Sided Observation</h3></div>
+
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="lang-cn"><strong>高位测试：</strong> 观察 $4151 - $4160 区域的价格行为。若出现 M15 级别的 **流动性扫荡 (Sweep)** + **结构反转 (CHoCH)**，可考虑短线回调空单至 $4080 区域。</div>
+                    <div class="lang-en"><strong>High Test:</strong> Observe the $4151 - $4160 zone. If an M15 **Liquidity Sweep** + **CHoCH** occurs, consider a short-term short position targeting the $4080 zone.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="lang-cn"><strong>低位回踩：</strong> 重点关注 $4080 附近的未回补订单块。这是多头二次入场的安全港。在此处寻找 **M5/M1 确认入场**。</div>
+                    <div class="lang-en"><strong>Low Retest:</strong> Focus on the unmitigated Order Block near $4080. This is the safe harbor for a second long entry. Look for **M5/M1 confirmation** at this level.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="lang-cn"><strong>扩张目标：</strong> 若价格实体突破 $4160 并持续站稳，则放弃回调思路，追涨至 $4245（趋势扩张目标）。</div>
+                    <div class="lang-en"><strong>Expansion Target:</strong> If price breaks $4160 and holds, abandon retracement bias and seek longs towards $4245 (Expansion Target).</div>
+                </div>
+                <hr>
+                <p><strong>🎯 Targets:</strong> Short-term targets: $4080. Long-term targets: $4245 (If $4160 holds).</p>
             </div>
-        </main>
-    </div>
+        </section>
+    `
+},
+// --- 历史报告 ---
+{
+    id: "xauusd_20251125_weekly_outlook",
+    date: "2025-11-25",
+    title: { en: "XAUUSD Weekly Outlook: Bullish Accumulation Continues", cn: "XAUUSD 周度展望：多头持续吸筹" },
+    content: `
+        <div class="report-header-content">
+            <div class="lang-cn">
+                <h1 class="rh-title">XAUUSD 周度展望：多头持续吸筹</h1>
+                <div class="rh-meta">📅 发布: 2025年11月25日 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> 观点: 看涨 (Bullish)</div>
+            </div>
+            <div class="lang-en">
+                <h1 class="rh-title">XAUUSD Weekly Outlook: Bullish Accumulation Continues</h1>
+                <div class="rh-meta">📅 Date: Nov 25, 2025 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> Bias: Bullish</div>
+            </div>
+        </div>
 
-    <div id="copy-toast">Link Copied to Clipboard</div>
+        <section>
+            <div class="lang-cn"><h2>01. 本周市场分析 (Market Pulse)</h2></div>
+            <div class="lang-en"><h2>01. Market Pulse Analysis</h2></div>
 
-    <script>
-        let currentLang = 'en'; 
-        let currentReportId = "xauusd_20251125_weekly_outlook"; // 默认加载最新的报告 ID
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                    <div><span class="price-highlight">XAUUSD: $4064.70</span><span class="price-sub"> / Spot Gold</span></div>
+                    <div><span class="tag bullish">Strong Bullish Flow</span><span class="tag neutral">H4 FVG Mitigated</span></div>
+                </div>
+                
+                <div class="lang-cn"><p>上周 XAUUSD 展现出强劲的多头机构订单流。价格在两次重要的 **H4 FVG (公允价值缺口) 回补**后均获得了有力支撑，并且在关键的上升趋势线（如您图中所标记）上进行了三次成功的低点测试，每次测试都伴随着快速的向上反弹。这清楚表明了机构在回撤区域的坚定买入意愿。</p></div>
+                <div class="lang-en"><p>Last week, XAUUSD demonstrated strong institutional bullish order flow. Price found robust support after two significant **H4 FVG (Fair Value Gap) mitigations**, and successfully tested the crucial ascending trendline (as marked in your chart) three times, each followed by a swift upward bounce. This clearly indicates strong institutional buying intent in retracement zones.</p></div>
+                
+                <div class="chart-container"><img src="assets/analysis/xauusd_nov25.jpg" alt="XAUUSD Weekly Outlook Chart Analysis" loading="lazy"></div>
 
-        // === 语言与初始化 ===
-        function autoDetectLanguage() {
-            const userLang = navigator.language || navigator.userLanguage; 
-            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
-        }
+                <div class="lang-cn">
+                    <h3>📊 核心逻辑复盘</h3>
+                    <ul>
+                        <li><strong>趋势线支撑：</strong> 价格多次触及并反弹自清晰的上升趋势线，这是散户止损和机构建仓的共振区域。</li>
+                        <li><strong>H4 FVG 回补：</strong> 图表显示价格两次回补了 H4 级别的 FVG 区域 ($3980-$4000 和 $4030-$4045 附近)，这些都是算法用于再平衡订单的“效率低下区”，回补后即反弹，表明多头力量的强劲。</li>
+                        <li><strong>流动性池累积：</strong> 观察到高点（如 $4200 和 $4380 区域）上方存在明显的**买方流动性 (BSL)**，这些将成为价格未来的主要目标。</li>
+                    </ul>
+                </div>
+                <div class="lang-en">
+                    <h3>📊 Core Logic Review</h3>
+                    <ul>
+                        <li><strong>Trendline Support:</strong> Price repeatedly touched and bounced off the clear ascending trendline, a confluence area for retail stop-losses and institutional accumulation.</li>
+                        <li><strong>H4 FVG Mitigations:</strong> The chart shows price mitigating H4 FVGs twice (around $3980-$4000 and $4030-$4045), which are "inefficiency zones" algorithms rebalance orders. The bounces after mitigation indicate strong bullish power.</li>
+                        <li><strong>Liquidity Pool Accumulation:</strong> Obvious **Buy-Side Liquidity (BSL)** is observed above highs (e.g., $4200 and $4380 zones), which will be primary targets for future price action.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); }
-            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
-            renderList();
-            loadReport(currentReportId);
-        }
+        <section>
+            <div class="lang-cn"><h2>02. 实战执行 (Execution)</h2></div>
+            <div class="lang-en"><h2>02. Execution Plan</h2></div>
+            
+            <div class="card">
+                <div class="lang-cn"><h3>📈 剧本：顺势回撤逢低做多 (Buy the Dip in Trend)</h3></div>
+                <div class="lang-en"><h3>📈 Scenario: Buy the Dip in Trend</h3></div>
 
-        // === 报告数据库 (仅包含最新的展望报告) ===
-        const reports = [
-            // --- XAUUSD 下周展望 (作为第一篇帖子) ---
-            {
-                id: "xauusd_20251125_weekly_outlook",
-                date: "2025-11-25", // 发布日期为下周一
-                title: { en: "XAUUSD Weekly Outlook: Bullish Accumulation Continues", cn: "XAUUSD 周度展望：多头持续吸筹" },
-                content: `
-                    <div class="report-header-content">
-                        <div class="lang-cn">
-                            <h1 class="rh-title">XAUUSD 周度展望：多头持续吸筹</h1>
-                            <div class="rh-meta">📅 发布: 2025年11月25日 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> 观点: 看涨 (Bullish)</div>
-                        </div>
-                        <div class="lang-en">
-                            <h1 class="rh-title">XAUUSD Weekly Outlook: Bullish Accumulation Continues</h1>
-                            <div class="rh-meta">📅 Date: Nov 25, 2025 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> Bias: Bullish</div>
-                        </div>
-                    </div>
-
-                    <section>
-                        <div class="lang-cn"><h2>01. 本周市场分析 (Market Pulse)</h2></div>
-                        <div class="lang-en"><h2>01. Market Pulse Analysis</h2></div>
-
+<<<<<<< HEAD
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="lang-cn"><strong>入场等待：</strong> 等待价格回踩至 $4030 - $4050 区域，寻找低时间周期（M15/M5）的结构转换 (CHoCH) 信号，例如假突破后的反转。</div>
+                    <div class="lang-en"><strong>Entry Wait:</strong> Wait for price to retrace to the $4030 - $4050 zone, looking for a low-timeframe (M15/M5) Change of Character (CHoCH) signal, such as a reversal after a false breakout.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="lang-cn"><strong>风险控制：</strong> 将止损 (SL) 设置在 $4010 下方（破位趋势线下方或 H4 OB 底部），确保风险回报比。</div>
+                    <div class="lang-en"><strong>Risk Control:</strong> Place Stop Loss (SL) below $4010 (below the broken trendline or H4 OB bottom) to ensure a favorable risk-reward ratio.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="lang-cn"><strong>目标锁定：</strong> 第一目标位 (TP1) 设在 $4200 附近的上方 FVG，第二目标位 (TP2) 设在 $4380 的外部流动性高点。</div>
+                    <div class="lang-en"><strong>Target Lock:</strong> Set Target Price 1 (TP1) at the overhead FVG around $4200, and Target Price 2 (TP2) at the external liquidity high of $4380.</div>
+                </div>
+                <hr>
+                <p><strong>🎯 Targets:</strong> TP1: $4200 / TP2: $4380 (Potential R:R 1:3+)</p>
+            </div>
+        </section>
+    `
+}
+=======
                         <div class="card">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                                 <div><span class="price-highlight">XAUUSD: $4064.70</span><span class="price-sub"> / Spot Gold</span></div>
@@ -254,6 +219,7 @@
                     </section>
                 `
             }
+>>>>>>> 4b6c744da495e324ea92b90c979a3e7b32999f5c
         ];
 
         // === 逻辑引擎 (按月分组、加载) ===
