@@ -3,89 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="L.K. Capital Quantitative Research Library">
-    <title>L.K. Capital | Quantitative Research</title>
+    <title>L.K. Capital | Research Library</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
 
     <style>
-        /* === 1. 核心配色 === */
-        :root { --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; --code-bg: #f4f6f8; }
+        /* === 核心样式继承 (保持一致性) === */
+        :root {
+            --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555;
+            --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa;
+            --border: #e5e5e5; --code-bg: #f4f6f8;
+            --font-heading: "Playfair Display", serif;
+        }
         * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg); font-family: "Inter", sans-serif; color: var(--text-main); overflow: hidden; display: flex; flex-direction: column; }
-
-        /* === 2. 双语控制 === */
-        .lang-cn { display: none !important; } .lang-en { display: block !important; }
-        body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
-
-        /* === 3. 布局样式 === */
-        .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; }
-        .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
-        .nav-right { display: flex; gap: 30px; align-items: center; }
-        .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; }
-        .nav-link:hover { color: var(--accent); }
-        .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
+        body { margin: 0; padding: 0; font-family: "Inter", sans-serif; color: var(--text-main); background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
+        /* 导航栏 (精简版) */
+        .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; }
+        .brand { font-family: var(--font-heading); font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
+        .nav-right { display: flex; gap: 30px; align-items: center; }
+        .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .nav-link:hover { color: var(--accent); }
+        .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: transparent; color: var(--accent); font-weight: 700; font-size: 0.75rem; }
+
+        /* === 布局系统 (Research Layout) === */
         .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
+        
+        /* 左侧侧边栏 */
         .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
         .sidebar-header { padding: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .sidebar-title { font-family: "Playfair Display"; font-size: 1.2rem; color: var(--accent); margin: 0; }
-        .sidebar-subtitle { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: block; }
+        .sidebar-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin: 0; }
         .sidebar-content { padding: 30px; }
-
-        .cat-group { margin-bottom: 40px; }
-        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
-        .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; border-left: 2px solid transparent; }
-        .article-link:hover { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); }
-
-        .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #fff; }
-        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-image: radial-gradient(#e5e5e5 1px, transparent 1px); background-size: 30px 30px; }
-        .slogan-main { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s forwards; }
-        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; display: none; }
-        .article-container.visible { display: block; animation: fadeIn 0.5s ease; }
-
-        /* === 样式组件 === */
-        .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
-        .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
-        .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
-        .report-meta { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: #888; background: var(--code-bg); padding: 10px 15px; display: inline-block; border-radius: 4px; }
         
-        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 80px; margin-bottom: 30px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
-        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 50px; margin-bottom: 20px; color: #333; }
+        /* 目录项样式 */
+        .cat-group { margin-bottom: 30px; }
+        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+        .article-link { 
+            display: block; padding: 10px 0; color: #444; font-size: 0.95rem; cursor: pointer; 
+            transition: 0.2s; border-left: 2px solid transparent; padding-left: 0; line-height: 1.4;
+        }
+        .article-link:hover, .article-link.active { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); font-weight: 600; }
+
+        /* 右侧主视图 */
+        .main-view { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; background: #fff; padding: 0; }
+        
+        /* 欢迎屏幕 */
+        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 1; transition: 0.3s; }
+        .welcome-title { font-family: var(--font-heading); font-size: 3rem; color: var(--accent); margin-bottom: 10px; opacity: 0; animation: fadeUp 0.8s forwards; }
+        .welcome-sub { color: #888; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; }
+
+        /* 文章容器 */
+        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; opacity: 0; transform: translateY(20px); transition: 0.5s ease; display: none; }
+        .article-container.active { opacity: 1; transform: translateY(0); display: block; }
+
+        /* 文章内部样式重置 (配合你的独立文件) */
+        .report-header { margin-bottom: 50px; border-bottom: 1px solid var(--border); padding-bottom: 30px; }
+        .report-label { color: var(--gold); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        .report-title { font-family: var(--font-heading); font-size: 2.5rem; color: var(--accent); margin: 15px 0; line-height: 1.1; }
+        .report-meta { font-family: "Inter"; font-size: 0.85rem; color: #888; background: var(--code-bg); padding: 8px 12px; display: inline-block; border-radius: 4px; }
+        
+        h2 { font-family: var(--font-heading); font-size: 1.8rem; color: var(--accent); margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
+        h3 { font-size: 1.3rem; font-weight: 700; margin-top: 40px; margin-bottom: 15px; color: #333; }
         p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
-        ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
         
-        .concept-box { background: var(--code-bg); border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
-        .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; }
-        blockquote { font-family: "Playfair Display"; font-size: 1.4rem; font-style: italic; color: var(--gold); text-align: center; margin: 60px 0; padding: 30px; background: #fafafa; border-radius: 8px; }
-        
-        /* 计算器样式 */
-        .calc-wrapper { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin: 40px 0; }
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .calc-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: "JetBrains Mono"; font-size: 1rem; }
-        .calc-result-box { margin-top: 20px; padding: 20px; background: #fff; border-left: 4px solid var(--gold); }
-        .calc-res-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: "JetBrains Mono"; }
+        .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: var(--font-heading); font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; }
 
-        /* 目录样式修正 */
-        .toc-back-btn { display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; }
-        .toc-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid #eee; }
-        .toc-link { display: block; padding: 6px 0 6px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; cursor: pointer; }
-        .toc-link:hover { color: var(--accent); font-weight: 700; border-left-color: var(--gold); }
-        .toc-h3 { padding-left: 30px; font-size: 0.8rem; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 40px 0; font-size: 0.95rem; }
-        th, td { padding: 15px; border: 1px solid var(--border); text-align: left; }
-        th { background: var(--accent); color: #fff; }
-        .math-block { text-align: center; font-family: "Times New Roman", serif; font-style: italic; font-size: 1.3rem; padding: 20px; background: #fff; border: 1px dashed #ddd; margin: 30px 0; }
-        .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: "Playfair Display", serif; font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; }
+        /* 加载动画 */
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--gold); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 50px auto; display: none; }
 
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media(max-width: 900px) { .library-layout { flex-direction: column; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; } .calc-grid { grid-template-columns: 1fr; } }
+
+        @media(max-width: 900px) { .library-layout { flex-direction: column; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; border-right: none; border-bottom: 1px solid var(--border); } .main-view { overflow: visible; } }
     </style>
 </head>
-<body class="en-mode"> 
+<body>
 
     <div class="top-bar">
         <a href="index.html" class="brand">L.K. Research</a>
@@ -99,533 +92,146 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Library</h2>
-                <span class="sidebar-subtitle">L.K. Capital Proprietary</span>
+                <span style="font-size:0.75rem; color:#888; letter-spacing:1px;">PROPRIETARY ANALYSIS</span>
             </div>
-            <div class="sidebar-content" id="sidebar-list"></div>
+            <div class="sidebar-content" id="catalog-list">
+                <div style="color:#999; font-size:0.9rem;">Loading Database...</div>
+            </div>
         </aside>
 
-        <main class="main-view" id="main-scroll">
-            <div id="view-welcome" class="welcome-screen">
-                <div class="slogan-main">Discipline Creates Freedom.</div>
+        <main class="main-view" id="main-view">
+            <div id="welcome-screen" class="welcome-screen">
+                <div class="welcome-title">Alpha & Structure.</div>
+                <div class="welcome-sub">Select a report to begin</div>
             </div>
 
-            <div id="view-article" class="article-container">
-                <div class="brand-watermark">Louis K</div>
-                <div id="article-inject-point"></div>
-                <div style="margin-top: 60px; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem;">
-                    &copy; 2025 Louis K. Institutional Use Only.
+            <div id="loader" class="loader"></div>
+            <div id="article-display" class="article-container">
+                <div class="brand-watermark">L.K. Capital</div>
+                <div id="inject-content"></div>
+                
+                <div style="margin-top:80px; padding-top:30px; border-top:1px solid #eee; text-align:center; color:#999; font-size:0.8rem;">
+                    &copy; 2025 L.K. Capital Research. Institutional Use Only.
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        let currentLang = 'en'; 
-        let currentArticleId = null; 
+        let currentLang = 'en';
+        let database = []; // 存储所有文章数据
 
-        function toggleLanguage() {
-            setLanguage(currentLang === 'en' ? 'cn' : 'en');
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); } 
-            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
-            if (currentArticleId) regenerateTOC(); else renderCatalog();
-        }
-
-        // === 📚 核心数据库 ===
-        const articleDatabase = [
-            {
-                category: { en: "Quantitative Research", cn: "量化决策分析" },
-                articles: [
-                    {
-                        id: "alpha_geometry_2025",
-                        title: { en: "The Geometry of Alpha: Win Rate vs. Payoff", cn: "Alpha 的几何学：胜率与赔率的博弈论" },
-                        content: `
-                            <div class="report-header">
-                                <span class="report-label">L.K. Quant Lab</span>
-                                <div class="lang-cn">
-                                    <h1 class="report-title">Alpha 的几何学：<br>胜率精度与赔率凸性的博弈论分析</h1>
-                                    <div class="report-meta">Author: Louis K | 类别: 算法博弈论 | 阅读时间: 15min</div>
-                                </div>
-                                <div class="lang-en">
-                                    <h1 class="report-title">The Geometry of Alpha:<br>Game Theory Analysis of Win Rate vs. Convexity</h1>
-                                    <div class="report-meta">Author: Louis K | Category: Algo Game Theory | Read: 15min</div>
-                                </div>
-                            </div>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>1. 引言：交易二元悖论的解构</h2>
-                                    <p>在金融市场交易的浩瀚领域中，始终存在着一个令无数参与者——从初级零售交易员到资深对冲基金经理——为之困惑的核心二元悖论：即“胜率（Win Rate/Precision）”与“盈亏比（Risk-Reward Ratio/Payoff Ratio）”的权衡。这不仅是一个数学问题，更是一个涉及概率论、行为金融学、市场微观结构以及算法博弈论的深层哲学命题。</p>
-                                    <p>本报告将摒弃模棱两可的建议，基于117份关于市场微观结构、量化模型、机器学习预测算法以及交易心理学的深度研究资料，为您提供一份详尽的决策分析。</p>
-                                    <p>作为量化金融领域的分析专家，我们必须首先澄清一个残酷的现实：市场并不存在单一的“圣杯”。然而，通过对数学期望（Expectancy）和破产风险（Risk of Ruin）的严格推导，我们能够构建出一个具有鲁棒性的决策矩阵。本报告将论证，尽管人类本能渴望高胜率带来的心理满足感（即“精准度”），但在长期生存和资本复利的维度上，盈亏比所构建的凸性（Convexity）优势具有压倒性的优先级。我们将揭示为何试图通过提高预测精度（Prediction Accuracy）来战胜市场往往徒劳无功，而通过管理赔率（Odds）来控制风险才是通往alpha收益的唯一窄门。</p>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>1. Introduction: Deconstructing the Binary Paradox</h2>
-                                    <p>In the vast domain of financial trading, a core binary paradox confuses participants from retail to hedge funds: the trade-off between **Win Rate (Precision)** and **Risk-Reward Ratio (Payoff)**. This is not merely a math problem, but a philosophical proposition involving probability theory, behavioral finance, and algorithmic game theory.</p>
-                                    <p>Based on 117 deep-dive studies, this report argues that while humans instinctively crave the psychological satisfaction of high win rates ("Precision"), the **Convexity** built by high payoff ratios holds overwhelming priority for long-term survival and compounding.</p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>2. 核心度量的数学解构</h2>
-                                    <p>在深入探讨决策之前，必须对构建交易系统的基本原子进行严格的定义。这并非简单的术语解释，而是纠正长期以来被市场噪音扭曲的认知偏差。</p>
-                                    
-                                    <h3>2.1 胜率 (Win Rate)：精准度的虚幻指标</h3>
-                                    <p>胜率，在统计学上对应于分类问题中的“准确率（Accuracy）”或“查准率（Precision）”。在交易语境下，它衡量的是盈利交易次数占总交易次数的比例。</p>
-                                    <p>大众普遍认为高胜率等同于高盈利能力。这种直觉来源于人类进化的生物学反馈机制——“正确”的预测会刺激多巴胺分泌，带来即时的满足感。然而，在量化交易的维度，胜率是一个极具欺骗性的指标。高胜率策略往往伴随着“左偏分布”或“负偏态（Negative Skewness）”，即大量的微小盈利掩盖了潜在的毁灭性尾部风险。</p>
-                                    
-                                    <h3>2.2 盈亏比 (Risk-Reward Ratio)：赔率的非对称性</h3>
-                                    <p>盈亏比（R:R）描述了单笔交易中潜在亏损与潜在盈利的非对称关系。它并非仅仅是止损与止盈距离的比值，而是包含了波动率调整后的风险敞口。</p>
-                                    <p>高盈亏比（如1:3或1:5）意味着交易者愿意承担单位风险以换取多倍的收益。这种结构在数学上具有“正凸性（Convexity）”，即收益的增长速度快于风险的累积速度。实证数据表明，即使在胜率随着止盈目标扩大而显著下降的情况下（例如从87%降至40%），由于赔率的提升，系统的整体期望收益反而是上升的。这揭示了盈亏比作为“生存调节器”的核心作用。</p>
-
-                                    <h3>2.3 盈亏平衡定理 (The Breakeven Theorem)</h3>
-                                    <p>这两个指标并非独立存在，而是通过盈亏平衡公式被刚性锁定。理解这一关系是做出任何理性决策的前提。</p>
-                                    <table>
-                                        <tr><th>风险:回报 (Risk:Reward)</th><th>盈亏比</th><th>最低生存胜率</th><th>策略特征</th></tr>
-                                        <tr><td>2:1</td><td>0.5</td><td>66.7%</td><td>剥头皮、高频套利（容错率极低）</td></tr>
-                                        <tr><td>1:1</td><td>1.0</td><td>50.0%</td><td>随机漫步的边界</td></tr>
-                                        <tr><td>1:2</td><td>2.0</td><td>33.3%</td><td>机构与零售的分水岭</td></tr>
-                                        <tr><td>1:3</td><td>3.0</td><td>25.0%</td><td>趋势跟踪（宽容的容错空间）</td></tr>
-                                        <tr><td>1:5</td><td>5.0</td><td>16.7%</td><td>极端趋势策略（依靠黑天鹅）</td></tr>
-                                    </table>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>2. Mathematical Deconstruction</h2>
-                                    <h3>2.1 Win Rate: The Illusion of Precision</h3>
-                                    <p>High win rate strategies often suffer from **Negative Skewness**: many small wins masking a potential catastrophic tail risk.</p>
-                                    <h3>2.2 Risk-Reward: Convexity</h3>
-                                    <p>High payoff provides **Positive Convexity**, where gains grow faster than risk accumulates.</p>
-                                    <h3>2.3 The Breakeven Theorem</h3>
-                                    <table>
-                                        <tr><th>Risk : Reward</th><th>Min. Win Rate</th><th>Strategy Profile</th></tr>
-                                        <tr><td>2 : 1</td><td>66.7%</td><td>Scalping (High Stress)</td></tr>
-                                        <tr><td>1 : 1</td><td>50.0%</td><td>Random Walk Boundary</td></tr>
-                                        <tr><td>1 : 2</td><td>33.3%</td><td>Institutional Threshold</td></tr>
-                                        <tr><td>1 : 3</td><td>25.0%</td><td>Trend Following</td></tr>
-                                    </table>
-                                </div>
-
-                                <div class="calc-wrapper">
-                                    <div class="lang-cn" style="margin-bottom:15px; font-weight:bold;">L.K. 盈亏平衡计算器</div>
-                                    <div class="lang-en" style="margin-bottom:15px; font-weight:bold;">L.K. Breakeven Simulator</div>
-                                    <div class="calc-grid">
-                                        <div>
-                                            <label class="lang-cn">输入胜率 (%)</label><label class="lang-en">Input Win Rate (%)</label>
-                                            <input type="number" id="input-wr" class="calc-input" placeholder="e.g. 40" oninput="calculateRR()">
-                                            <div class="calc-result-box"><div id="res-rr" class="calc-res-value">--</div></div>
-                                        </div>
-                                        <div>
-                                            <label class="lang-cn">输入盈亏比 (1:X)</label><label class="lang-en">Input Reward (1:X)</label>
-                                            <input type="number" id="input-rr" class="calc-input" placeholder="e.g. 2.5" oninput="calculateWR()">
-                                            <div class="calc-result-box"><div id="res-wr" class="calc-res-value">--</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>3. 高胜率的诱惑与精准度陷阱：机器学习与微观结构的视角</h2>
-                                    <h3>3.1 预测的不可能性与有效市场假说</h3>
-                                    <p>从传统的有效市场假说（EMH）来看，价格已经反映了所有已知信息，短期价格变动接近随机游走。这意味着，试图通过技术分析或基本面分析持续获得高于55%的胜率，本质上是在与由于信息瞬间流动而极其高效的市场定价机制对抗。</p>
-                                    <p>即使引入了最前沿的深度学习模型，如Transformer架构（Stockformer）或长短期记忆网络（LSTM）进行股价预测，研究也表明其预测的准确性受到极大限制。虽然Transformer模型通过自注意力机制（Self-Attention）能够捕捉时间序列中的长期依赖关系，优于传统的RNN模型，但这种“预测优势”在转化为实际交易策略时，往往面临过拟合（Overfitting）的严峻挑战。</p>
-                                    
-                                    <h3>3.2 查准率与召回率的权衡（Precision-Recall Trade-off）</h3>
-                                    <p>在机器学习领域，我们非常熟悉“查准率（Precision）”与“召回率（Recall）”的权衡，这一概念完美地映射到了交易策略的构建中。高查准率（高胜率）策略的代价是极低的“召回率”（错失大量机会）。交易者变成了“狙击手”，长时间的等待会导致心理焦虑，而一旦错失大行情，交易者往往会产生FOMO心理。</p>
-                                    
-                                    <h3>3.3 “银色子弹”与ICT概念的胜率神话</h3>
-                                    <p>近年来，以ICT概念为代表的“银色子弹（Silver Bullet）”策略宣称能达到70%-80%的胜率。虽然这些策略基于真实的市场微观结构，但其高胜率通常是建立在极短的持仓时间和极小的利润目标上的。在实盘中，点差和滑点对盈亏比的影响被无限放大，使得理论上的高胜率大打折扣。</p>
-                                    
-                                    <h3>3.4 负偏态与尾部风险的毁灭性</h3>
-                                    <p>高胜率策略最致命的弱点在于其收益分布通常呈现负偏态（Negative Skewness）。为了维持高胜率，交易者往往倾向于在浮亏时“扛单”，寄希望于价格均值回归；而在浮盈时“落袋为安”。这被称为“火鸡问题”：火鸡每天都被喂食，生活幸福度直线上升，直到感恩节那一天，一次亏损就足以抹去过去半年的所有微薄利润。</p>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>3. High Win Rate Temptation & Precision Traps</h2>
-                                    <p>The pursuit of high win rates often battles against the Efficient Market Hypothesis. Even advanced ML models like Transformers face overfitting when applied to non-stationary market data.</p>
-                                    <p>This reflects the **Precision-Recall Trade-off**: High precision requires extremely strict filters, leading to low recall (missed opportunities) and psychological FOMO.</p>
-                                    <p>Strategies like "Silver Bullet" claiming 80% win rates often rely on scalping with negative skewness. This is the "Turkey Problem": many small wins wiped out by a single "Thanksgiving Day" event (Tail Risk).</p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>4. 赔率的几何学：高盈亏比的凸性优势与生存哲学</h2>
-                                    <h3>4.1 趋势跟踪：接受无知的智慧</h3>
-                                    <p>趋势跟踪策略（Trend Following）是高盈亏比哲学的极致体现。其核心信仰是：如果你不知道市场要去哪里，那就假设它会继续现在的方向，直到证明你错了。趋势策略的胜率通常仅为30%-40%。这意味着绝大多数交易都是试错的成本。但其亏损被严格限制在初始止损位，而盈利是不设上限的。这种收益结构使得交易者能够从市场的极端波动中获利，具有纳西姆·塔勒布所描述的“反脆弱性（Antifragility）”。</p>
-                                    
-                                    <h3>4.2 机构视角的限制：为何胜率不重要</h3>
-                                    <p>对于大型机构和对冲基金而言，胜率往往是一个次要指标。许多成功的CTA策略和宏观对冲基金的胜率常年徘徊在40%左右。因为大资金进出市场成本高昂，无法像散户那样在短线波动中频繁进出剥头皮。他们必须依赖大趋势来容纳其巨大的头寸。</p>
-                                    
-                                    <h3>4.3 心理资本的消耗：高盈亏比的黑暗面</h3>
-                                    <p>如果高盈亏比这么好，为什么散户很难坚持？因为这违背人性。在一个40%胜率的系统中，连续出现10次亏损的概率高达0.6%左右。在漫长的职业生涯中，这是必然发生的事件。大多数散户在连续亏损5次后就会产生自我怀疑。高盈亏比策略通常伴随着资金曲线的剧烈波动（Volatility Tax），这是捕获更大收益的必经之路。</p>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>4. Geometry of Odds: Convexity & Survival</h2>
-                                    <p>**Trend Following** embodies high payoff philosophy. With win rates of 30-40%, it relies on "cutting losses short and letting profits run," creating Antifragility.</p>
-                                    <p>**Institutional Constraints:** Large funds cannot scalp due to liquidity size; they rely on large trends (High R:R) to move volume.</p>
-                                    <p>**Psychological Cost:** Low win rate strategies guarantee losing streaks. Enduring the "Volatility Tax" is the price of admission for higher long-term returns.</p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>5. 量化决策模型：期望值与凯利公式的终极裁决</h2>
-                                    <h3>5.1 数学期望（Mathematical Expectation）</h3>
-                                    <div class="math-block">E = (P_win × Avg_Win) - (P_loss × Avg_Loss)</div>
-                                    <p>对比两个极端的专家模型：<br>
-                                    <strong>模型 A（高胜率）：</strong> 80% 胜率，赚 $100 亏 $500 → E = -20 (破产)<br>
-                                    <strong>模型 B（高盈亏比）：</strong> 40% 胜率，赚 $300 亏 $100 → E = +60 (印钞)<br>
-                                    这证明了高盈亏比可以弥补低胜率，但高胜率很难弥补糟糕的盈亏比。</p>
-                                    
-                                    <h3>5.2 凯利公式（Kelly Criterion）：仓位管理的红线</h3>
-                                    <p>拥有正期望值还不够，你还必须知道下注多少才不会破产。凯利公式给出了最优下注比例。对于一个临界模型（W=90%, R=0.1, 即赚1亏10），凯利公式计算结果为负值！这意味着即使你有90%的胜率，如果你赚1亏10，凯利公式直接告诉你不要交易，因为你的长期破产概率是100%。</p>
-                                    
-                                    <h3>5.3 破产风险（Risk of Ruin）的非线性爆发</h3>
-                                    <p>破产风险是一个关于概率的非线性函数。在高盈亏比策略中，随着胜率的微小下降，破产风险的上升是平缓的。而在高胜率低盈亏比策略中，一旦胜率跌破盈亏平衡点，破产风险会呈指数级垂直爆发。这意味着，高盈亏比策略具有更高的“鲁棒性（Robustness）”。</p>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>5. The Quantitative Verdict</h2>
-                                    <p>**Mathematical Expectancy:** A 40% win rate system with 1:3 R:R vastly outperforms an 80% win rate system with 1:5 R:R.</p>
-                                    <p>**Kelly Criterion:** Warns that high-win-rate/low-payoff strategies often have negative geometric growth, making bankruptcy mathematically certain over time.</p>
-                                    <p>**Risk of Ruin:** High payoff strategies are robust; a small drop in win rate is survivable. High precision strategies are fragile; a small drop in win rate leads to exponential risk of ruin.</p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>6. 融合之道：供需区与“狙击手”策略的综合应用</h2>
-                                    <p>虽然我们在数学上论证了盈亏比的优越性，但在实战中，是否必须完全牺牲胜率？SMC理论指出了融合的可能性。</p>
-                                    
-                                    <h3>6.1 供给/需求区（Supply/Demand Zones）的过滤作用</h3>
-                                    <p>通过技术分析提高入场点的质量（Sniper Entry）。如果在需求区边缘挂单，止损放在区域外，止盈放在下一个供给区。由于入场点极其精确，止损距离极短（例如10点），而目标空间巨大（例如50点），这天然形成了一个1:5的盈亏比结构。这种策略在熟练交易者手中可以达到 50% 胜率 + 1:3 盈亏比的黄金组合。</p>
-                                    
-                                    <h3>6.2 贝叶斯优化（Bayesian Optimization）在参数选择中的应用</h3>
-                                    <p>对于量化交易者，建议使用贝叶斯优化来寻找策略参数，而不是暴力网格搜索。贝叶斯方法能够更智能地平衡胜率和盈亏比的超参数组合，寻找夏普比率最高的“高原”，而不是某个过拟合的“尖峰”。</p>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>6. The Path of Fusion: SMC & Optimization</h2>
-                                    <p>**Supply/Demand Zones:** Allow for "Sniper Entries" with tight stops, naturally creating high R:R structures (e.g., 1:5) without needing impossible win rates.</p>
-                                    <p>**Bayesian Optimization:** Use this to find parameter "plateaus" that balance win rate and payoff, rather than overfitting to "peaks" of high win rate.</p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>7. 专家决策：针对不同画像的终极建议</h2>
-                                    <p>基于上述所有分析，我将针对您的需求给出最终决定。您问“哪个更精准胜率更高”，这其实是想问“哪个更好”。</p>
-                                    <p><strong>专家判决：盈亏比（赔率） > 胜率（精准度）</strong></p>
-                                    <p><strong>核心原因：</strong> 生存的数学必然性、可控性（盈亏比可控，胜率不可控）以及扩展性。</p>
-                                    
-                                    <div class="concept-box">
-                                        <span class="concept-title">针对 Louis K 的执行策略</span>
-                                        <p><strong>1. 小资金（追求爆发）：</strong> 严格的趋势跟踪或突破策略。目标盈亏比 1:3 以上。准备好接受连续5-8笔的亏损。</p>
-                                        <p><strong>2. 大资金（追求稳健）：</strong> 供给需求区 + 价格行为的日内波段。目标盈亏比 1:2，胜率争取维持在 50% 左右。利用技术分析的“精准入场”来减少止损距离。</p>
-                                    </div>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>7. Expert Decision & Strategy</h2>
-                                    <p><strong>Verdict: Payoff > Precision.</strong></p>
-                                    <div class="concept-box">
-                                        <span class="concept-title">Execution Strategy for Louis K</span>
-                                        <p>1. **For Growth:** Strict trend following. Target R:R 1:3+. Accept losing streaks as cost of business.</p>
-                                        <p>2. **For Stability:** Supply/Demand intraday swings. Target R:R 1:2 with ~50% win rate.</p>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h2>8. 结语</h2>
-                                    <p>不要被“精准度”的幻觉所迷惑。在华尔街和量化基金的实战中，没有人靠“水晶球”预测未来致富。所有的传奇——从索罗斯到西蒙斯——本质上都是风险管理的各种变体。胜率满足的是你的自尊心，盈亏比填充的是你的银行账户。</p>
-                                    <p>请放下对完美的执念，拥抱不确定性，用高盈亏比的数学优势，在这个混乱的市场中构建属于您的反脆弱堡垒。这就是专家的最终决定。</p>
-                                </div>
-                                <div class="lang-en">
-                                    <h2>8. Conclusion</h2>
-                                    <p>Do not be misled by the illusion of precision. No one gets rich by predicting the future with a crystal ball. Win rate satisfies your ego; Risk-Reward fills your bank account.</p>
-                                    <p>Embrace uncertainty. Build an antifragile fortress using the mathematical advantage of high payoff.</p>
-                                </div>
-                            </section>
-                        `
-                    },
-                    {
-                        id: "placeholder_2026",
-                        title: { en: "Coming Soon...", cn: "更多研究报告..." },
-                        content: `<div style="text-align:center; padding:100px;"><h2>Research in Progress</h2></div>`
-                    }
-                ]
-            },
-            {
-                category: { en: "Whitepapers (SMC)", cn: "核心研报 (SMC)" },
-                articles: [
-                    {
-                        id: "xauusd_whitepaper_2025",
-                        title: { en: "XAUUSD Institutional Order Flow", cn: "XAUUSD 机构订单流分析" },
-                        content: `
-                            <div class="report-header">
-                                <span class="report-label">Institutional Whitepaper</span>
-                                <div class="lang-cn"><h1 class="report-title">XAUUSD 机构订单流与<br>量化行为分析报告</h1><div class="report-meta">版本: 2025 终极版 | 作者: Louis K | 属性: 机密策略</div></div>
-                                <div class="lang-en"><h1 class="report-title">XAUUSD Institutional Order Flow &<br>Quantitative Behavior Analysis</h1><div class="report-meta">Version: 2025 Ultimate | Author: Louis K | Class: Confidential</div></div>
-                            </div>
-
-                            <section>
-                                <div class="lang-cn">
-                                    <h3>序言：关于“聪明钱”的误区</h3>
-                                    <p>在零和博弈的金融市场中，价格并非随机游走，而是由<strong>流动性 (Liquidity)</strong> 和 <strong>不平衡 (Imbalance)</strong> 驱动的。对于黄金 (XAUUSD) 这一全球流动性最充裕、算法博弈最激烈的品种，传统的零售技术分析（如 RSI、均线交叉）往往失效。</p>
-                                    <p>本报告基于 Smart Money Concepts (SMC) 理论体系，旨在揭示银行间价格交付算法 (IPDA) 的运作逻辑。我们不预测市场，我们追踪“聪明钱”留下的脚印。<strong>XAUUSD 的行为是机构库存管理和高频套利策略的直接映射。</strong></p>
-                                </div>
-                                <div class="lang-en">
-                                    <h3>Preface: The Misconception of Smart Money</h3>
-                                    <p>In the zero-sum game of financial markets, price does not move randomly; it is driven by <strong>Liquidity</strong> and <strong>Imbalance</strong>. For Gold (XAUUSD), an asset with immense global liquidity and intense algorithmic competition, traditional retail technical analysis often fails.</p>
-                                    <p>This report is based on the Smart Money Concepts (SMC) framework, aiming to reveal the operational logic of the Interbank Price Delivery Algorithm (IPDA). We do not predict the market; we track the footprints left by "Smart Money". <strong>XAUUSD behavior is a direct mapping of institutional inventory management and high-frequency arbitrage strategies.</strong></p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 1 章：SMC 核心术语与结构定义</h2><p>SMC 是一门关于“平衡”的语言。在深入策略之前，我们必须统一定义市场的基本词汇，以区分 **真实结构 (True Structure)** 和 **诱导结构 (Inducement Structure)**。</p></div>
-                                <div class="lang-en"><h2>Chapter 1: SMC Core Glossary & Structure Definition</h2><p>SMC is a language of "equilibrium". Before diving into strategies, we must unify the definitions of basic market vocabulary to distinguish **True Structure** from **Inducement Structure**.</p></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">结构破坏 (BOS)</span><span class="lang-en concept-title">Break of Structure (BOS)</span><div class="lang-cn"><strong>定义：</strong> 价格实体在 **主要/次要趋势结构** 中，以 **收盘价** 明确突破了上一个 **Protected High/Low**。这标志着 **Interbank Price Delivery Algorithm (IPDA)** 持续向特定方向交付价格的意图得到 **Confirmed Continuation**。</div><div class="lang-en"><strong>Definition:</strong> Price candle body closes above/below a previous **Protected High/Low** in the primary/secondary trend. This signifies **Confirmed Continuation** of the **Interbank Price Delivery Algorithm's (IPDA)** intent to continue delivering price in that direction.</div></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">结构转变 (CHoCH)</span><span class="lang-en concept-title">Change of Character (CHoCH)</span><div class="lang-cn"><strong>定义：</strong> 价格反向打破了导致最新 BOS 的那个 **次级支撑/阻力** (通常是最近的 **Inducement Low/High**)。它预示着 **Higher Time Frame (HTF) Bias** 发生潜在转换，是 **Mitigation & Reversal** 阶段的 **早期确认**。</div><div class="lang-en"><strong>Definition:</strong> Price breaks the "last higher low/lower high" that caused the latest BOS. It signals a potential change in **Higher Time Frame (HTF) Bias** and is the **earliest confirmation** of the **Mitigation & Reversal** phase.</div></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">流动性扫荡 (Liquidity Sweep)</span><span class="lang-en concept-title">Liquidity Sweep / Raid</span><div class="lang-cn"><strong>定义：</strong> 价格的 **Wick (影线)** 穿透了上一个有效高点/低点，但 **K线实体 (Body)** 未能收盘突破。这是一种 **Manipulation** 行为，目的是收集止损订单并为机构提供 **Optimal Entry** 的对冲流动性。</div><div class="lang-en"><strong>Definition:</strong> The price **Wick** penetrates a previous valid high/low, but the **Candle Body** fails to close beyond it. This **Manipulation** gathers stop-loss orders to provide **Optimal Entry** hedging liquidity for institutions.</div></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 2 章：供需结构、订单块与平抑机制</h2><p>OBs 是机构建仓留下的足迹。机构建仓流程：<strong>操作 (Manipulation) – 收集 (Accumulate) – 推动 (Expand) – 回测/平抑 (Retest/Mitigate)</strong>。</p></div>
-                                <div class="lang-en"><h2>Chapter 2: Order Blocks (OB) & Repricing Mechanisms</h2><p>OBs are the footprints of institutional accumulation. Institutional process: **Manipulate → Accumulate → Expand → Retest/Mitigate**.</p></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">订单块 (Order Block)</span><span class="lang-en concept-title">Order Block (OB) / POI</span><div class="lang-cn"><strong>定义：</strong> 导致 **Significant Displacement (剧烈扩张)** 或 **BOS** 之前的 **最后一根反向 K 线**。它代表了机构在市场中留下的 **Unmitigated Orders (未平抑订单)** 集中区。其有效性取决于其是否 **Swept Liquidity**。</div><div class="lang-en"><strong>Definition:</strong> The **last opposing candle** before a **Break of Structure (BOS)** or violent **Displacement**. It represents an area of **Unmitigated Orders** left by institutions. Its validity is amplified if it **Swept Liquidity**.</div></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">平抑块 (Mitigation Block)</span><span class="lang-en concept-title">Mitigation Block</span><div class="lang-cn"><strong>定义：</strong> 机构在首次推动价格后未能完全平抑的 **Remaining Order (剩余订单)** 所在的区域。价格返回此区域时，常引发第二次反向平抑，即 **Re-entry for the institution**。</div><div class="lang-en"><strong>Definition:</strong> The area where the **Remaining Orders** that institutions failed to fully mitigate after the initial price push reside. A return to this zone often triggers a second, balancing move; a **Re-entry for the institution**.</div></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 3 章：价格失衡与 FVG 机制</h2><p>FVG 是市场效率低下的表现。由于订单挤压和不平衡撮合，IPDA 总会试图修复它。这是价格的 **吸力中心 (Center of Gravity)**。</p></div>
-                                <div class="lang-en"><h2>Chapter 3: Imbalance (IMB) & Fair Value Gap (FVG)</h2><p>FVGs represent market inefficiency. Due to order compression and matching imbalance, the IPDA will always attempt to reprice them. They act as the price's **Center of Gravity**.</p></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">公允价值缺口 (FVG)</span><span class="lang-en concept-title">Fair Value Gap (FVG)</span><div class="lang-cn"><strong>定义：</strong> 三根连续K线中，**C1 的影线** 与 **C3 的影线** 之间未能发生价格交互的 **Inefficient Pricing Range**。IPDA 的核心任务之一是 **Reprice (重新定价)** 回到 **FVG EQ (中点)** 进行平衡。</div><div class="lang-en"><strong>Definition:</strong> The **Inefficient Pricing Range** where the wick of the 1st candle and the wick of the 3rd candle in a 3-candle sequence fail to overlap. A core IPDA task is to **Reprice** back to the **FVG EQ (midpoint)** for balancing.</div></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">平衡价格范围 (BPR)</span><span class="lang-en concept-title">Balanced Price Range (BPR)</span><div class="lang-cn"><strong>定义：</strong> 两个重叠的、但方向相反的 FVG。此区域通常被视为市场已经达到 **Efficiency (效率)**，因此不是理想的入场兴趣点，但可作为 **Potential Target**。</div><div class="lang-en"><strong>Definition:</strong> Two overlapping FVGs of opposite directions. This area is generally considered **Efficient**, hence not an ideal entry point, but it serves as a **Potential Target**.</div></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 4 章：IPDA 运作原理与价格交付模型</h2><p>银行间价格交付算法 (IPDA) 是市场的操作系统，它通过平衡供需、清算流动性池来驱动价格。其目标是 **Efficiency**。</p></div>
-                                <div class="lang-en"><h2>Chapter 4: IPDA Operating Principle & Price Delivery Model</h2><p>The Interbank Price Delivery Algorithm (IPDA) is the market's operating system, driving price by balancing Supply/Demand and clearing Liquidity Pools. Its ultimate goal is **Efficiency**.</p></div>
-                                <div class="lang-cn"><p>市场永远处于四个阶段的循环中：<strong>积累 (Accumulation) → 扩张 (Expansion) → 回撤/平抑 (Retracement/Mitigation) → 反转 (Reversal)</strong>。每一次 **Expansion** 都是对未平抑订单和平抑价格失衡 (FVG) 的承诺。</p><p>IPDA 使用 **Higher Time Frame (HTF) Bias** 作为导航，将价格推向下一个 **Primary Liquidity Target (主要流动性目标)**。</p></div>
-                                <div class="lang-en"><p>The market cycles through four stages: **Accumulation → Expansion → Retracement/Mitigation → Reversal**. Every **Expansion** is a commitment to mitigate pending orders and reprice imbalances (FVG).</p><p>The IPDA uses **Higher Time Frame (HTF) Bias** for navigation, driving price toward the next **Primary Liquidity Target**.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 5 章：XAUUSD 的“猎杀行为”与流动性突袭</h2><p>黄金是流动性猎杀之王。高波动、高密度止损是其特征。其 **Judas Swing** 行为在主要交易时段频繁发生。</p></div>
-                                <div class="lang-en"><h2>Chapter 5: The Hunt for Liquidity & XAUUSD Raid Behavior</h2><p>Gold is the king of liquidity hunts, characterized by high volatility and dense stop-loss clusters. Its **Judas Swing** behavior is frequent during major sessions.</p></div>
-                                <div class="lang-cn"><p><strong>机构逻辑：</strong> 做市商需要对手盘。如果他们想做多，必须先诱导散户做空（跌破支撑），或触发多头的止损卖单 (Sell Stops)。**流动性 (Stops/Pending Orders)** 是市场的燃料。**突袭 (Raid)** 通常发生在日线或 4 小时图上的 **Equal Highs/Lows** 区域。</p></div>
-                                <div class="lang-en"><p><strong>Institutional Logic:</strong> Market Makers need counterparties. To buy size, they must induce retail to sell (breaking support) or trigger long Sell Stops. **Liquidity (Stops/Pending Orders)** is the market's fuel. **Raids** often occur at **Equal Highs/Lows** on the Daily or H4 chart.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 6 章：高频交易 (HFT) 与量化行为</h2><p>HFT 算法在毫秒级别寻找流动性路径 (Liquidity Routing)。它们利用微小的 **Latency (延迟)** 和 **Spread (点差)** 进行套利，并执行机构的 **Iceberg Orders (冰山订单)**。</p></div>
-                                <div class="lang-en"><h2>Chapter 6: High Frequency Trading (HFT) & Algo Behavior</h2><p>HFT algorithms seek **Liquidity Routing Paths** in milliseconds. They exploit minor **Latency** and **Spread** for arbitrage and execute institutional **Iceberg Orders**.</p></div>
-                                <div class="lang-cn"><p>理解 HFT 的作用：它们是 IPDA 的执行者。我们观察到的 **Displacement**、**FVG** 和 **Clean BOS** 都是 HFT 算法高速执行 **Market Orders** 造成的结果。它们是市场效率和失衡的根源。</p></div>
-                                <div class="lang-en"><p>Understanding HFT's role: They are the executors of the IPDA. The **Displacement**, **FVG**, and **Clean BOS** we observe are the results of HFT algorithms executing **Market Orders** at high speed. They are the source of both market efficiency and imbalance.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 7 章：多时间框架分析 (Top-Down Analysis)</h2><p>交易成功在于对市场 **Hiearchy (层次结构)** 的理解。<strong>HTF (高时间框架) 决定方向，LTF (低时间框架) 决定时机。</strong></p></div>
-                                <div class="lang-en"><h2>Chapter 7: Multi-Timeframe (Top-Down) Analysis</h2><p>Trading success lies in understanding market **Hierarchy**. **HTF determines the Bias; LTF determines the Timing.**</p></div>
-                                <div class="lang-cn"><ul><li><strong>宏观 (Macro / HTF)：</strong> 月线/周线/日线 —— 识别 **Primary Structure** 和 **Major Liquidity Pool**，决定交易的 **Bias (偏向)**。</li><li><strong>中观 (Intermediate / MTF)：</strong> 4小时/1小时 —— 识别 **Key Point of Interest (POI)**：如未平抑的 **Daily OB** 或 **FVG**，这是我们计划入场的区域。</li><li><strong>微观 (Micro / LTF)：</strong> 15分钟/5分钟/1分钟 —— 观察价格到达 POI 后的 **Confirmation (确认)** 行为，例如 **CHoCH** 或 **Sweep & Rejection**，决定入场触发 (Trigger)。</li></ul></div>
-                                <div class="lang-en"><ul><li><strong>Macro (HTF):</strong> Monthly/Weekly/Daily — Identifies **Primary Structure** and **Major Liquidity Pools**, determines trading **Bias**.</li><li><strong>Intermediate (MTF):</strong> H4/H1 — Identifies **Key Points of Interest (POI)**: such as unmitigated **Daily OBs** or **FVGs**. This is the zone for planning entries.</li><li><strong>Micro (LTF):</strong> M15/M5/M1 — Observes **Confirmation** when price arrives at the POI, e.g., **CHoCH** or **Sweep & Rejection**, determining the Entry Trigger.</li></ul></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 8 章：强弱结构与“目标 vs 保护”</h2><p>区分 **Strong High/Low** 和 **Weak High/Low** 是风险管理和目标设定的基石。保护强结构，瞄准弱结构。</p></div><div class="lang-en"><h2>Chapter 8: Strong vs. Weak Structure: Target & Protection</h2><p>Distinguishing between **Strong High/Low** and **Weak High/Low** is the cornerstone of risk management and target setting. Protect the Strong, Target the Weak.</p></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">强高点/低点 (Strong High/Low)</span><span class="lang-en concept-title">Strong High/Low</span><div class="lang-cn">导致了结构破坏 (BOS) 并创出新低/高点的反向高点/低点。它是 **受保护的 (Protected)**，机构会捍卫这个位置，因为它是 **Order Accumulation** 的起点。这是放置 **Stop Loss** 的最佳点。</div><div class="lang-en">A high/low that caused a BOS and created a new extreme. It is **Protected**; institutions will defend it as it marks the beginning of **Order Accumulation**. The ideal place for a **Stop Loss**.</div></div>
-                                <div class="concept-box"><span class="lang-cn concept-title">弱高点/低点 (Weak High/Low)</span><span class="lang-en concept-title">Weak High/Low</span><div class="lang-cn">未能推动价格创新低/高的反向高点/低点。它是 **目标 (Target)**，价格大概率会突破这里去扫损（形成 **Equal Highs/Lows**）。永远不要在弱高点上方做空，因为那是 **Buy-Side Liquidity (BSL)** 的聚集区。</div><div class="lang-en">A high/low that failed to break structure. It is a **Target**; price will likely run through it to sweep liquidity (forming **Equal Highs/Lows**). Never short above a weak high, as it is a **Buy-Side Liquidity (BSL)** pool.</div></div>
-                            </section>
-
-                            <section id="ch9" class="chapter">
-                                <div class="lang-cn"><h2>第 9 章：高阶结构模型与三协补单结构</h2><p>在理解了基础的市场结构（BOS/CHoCH）之后，我们需要解决一个实战中最大的痛点：<strong>“既然结构已经破坏，为什么回踩之后不延续趋势，反而继续深跌？”</strong></p><p>这是因为市场并非线性的“突破-回踩-延续”，而是一个<strong>三维的流动性平衡过程</strong>。L.K. Capital 将这一过程定义为<strong>“三协补单结构” (Three-Phase Retracement)</strong>。</p><div class="concept-box"><span class="concept-title">核心定义：三协补单结构 (Three-Phase Retracement)</span><strong>三协结构 (Three-Phase Structure)：</strong> 指在主要趋势发起前或延续中，价格必然经历的三个特定阶段：<br>1. <strong>扫荡 (Sweep)：</strong> 价格以影线形式清除 **Inducement Liquidity** (内部流动性，如 Equal Lows/Highs)。<br>2. <strong>回归/平抑 (Return / Mitigation)：</strong> 价格精确回踩 **Premium/Discount Zone** 内的 **Unmitigated OB** 或 **Breaker**，填补 **FVG**。<br>3. <strong>扩张 (Expansion)：</strong> 在 LTF 确认 **CHoCH** (Trigger) 后，价格发生剧烈推动，释放真实的趋势。</div></div>
-                                <div class="lang-en"><h2>Chapter 9: Advanced Structure & Three-Phase Retracement</h2><p>After understanding basic Market Structure (BOS/CHoCH), we must address the biggest pain point in live trading: <strong>"Why does price break structure, retrace, and then fail to continue?"</strong></p><p>This happens because the market is a <strong>3-dimensional process of liquidity balancing</strong>. At L.K. Capital, we define this as the **"Three-Phase Retracement"** structure.</p><div class="concept-box"><span class="concept-title">Core Definition: Three-Phase Retracement</span><strong>Three-Phase Structure:</strong> A mandatory sequence price undergoes before or during a major trend:<br>1. <strong>Sweep:</strong> Price wicks through **Inducement Liquidity** (internal LQs, e.g., Equal Lows/Highs).<br>2. <strong>Return (Mitigation):</strong> Price precisely returns to an **Unmitigated OB** or **Breaker** within the **Premium/Discount Zone**, filling the **FVG**.<br>3. <strong>Expansion:</strong> After an LTF **CHoCH** (Trigger), price violently pushes, releasing the true trend.</div></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 10 章：流动性池 (Liquidity Pools)</h2><p>BSL (买方流动性) 和 SSL (卖方流动性) 是市场的目标。它们是 **Stop Loss (止损)** 和 **Pending Orders (挂单)** 聚集的区域。</p><p>为什么“你觉得安全的地方，通常是流动性集中区”？因为散户倾向于在 **双顶/双底** 处设置止损，而这正是机构需要清算的 **Equal Highs/Lows**。</p></div>
-                                <div class="lang-en"><h2>Chapter 10: Liquidity Pools</h2><p>BSL (Buy-Side Liquidity) and SSL (Sell-Side Liquidity) are the market's targets. They are zones where **Stop Loss** and **Pending Orders** cluster.</p><p>Why "where you feel safe is often where liquidity is concentrated"? Because retail traders tend to place stops at **Double Tops/Bottoms**, which are exactly the **Equal Highs/Lows** that institutions need to clear.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 11 章：诱导结构 (Inducement - IDM)</h2><p>IDM 是陷阱。在价格到达真正的 **POI (兴趣点)** 之前形成的小支撑/阻力。其目的是诱导散户提前进场，从而产生供机构利用的 **Internal Liquidity (内部流动性)**。</p><p><strong>实战应用：</strong> 只有价格清除了 **IDM** 之后，剩余的 **OB/FVG** 才被视为高胜率的 **True POI**。在 IDM 被扫荡之前进场，几乎一定会遭遇止损。</p></div>
-                                <div class="lang-en"><h2>Chapter 11: Inducement (IDM)</h2><p>IDM is a trap. Minor support/resistance formed right before the **Real POI** to induce early retail entry. Its purpose is to create **Internal Liquidity** for institutional use.</p><p><strong>Practical Application:</strong> Only after price has cleared the **IDM** should the remaining **OB/FVG** be considered a high-probability **True POI**. Entering before the IDM sweep is almost guaranteed to result in a stop-out.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 12 章：高级订单块过滤 (Advanced OB Filters)</h2><p>并非所有的 **OB** 都是平抑区。**高胜率 OB** 必须满足以下 **三要素**：</p><p><strong>高胜率 OB 判别：</strong></p><ul><li>**BOS/Displacement：** OB 必须导致了强烈的结构破坏或剧烈推动。</li><li>**FVG/IMB：** OB 必须紧邻一个未平抑的 FVG，表明其推动具有 **Inefficiency**。</li><li>**Sweep Liquidity：** OB 之前的 K 线必须清除了上一个重要的 **Liquidity Pool**。</li></ul></div>
-                                <div class="lang-en"><h2>Chapter 12: Advanced Order Block (OB) Filters</h2><p>Not all **OBs** are mitigation zones. A **High Probability OB** must meet the following **Three Criteria**:</p><p><strong>High Probability OB Criteria:</strong></p><ul><li>**BOS/Displacement:** The OB must have led to a strong break of structure or violent expansion.</li><li>**FVG/IMB:** The OB must be immediately followed by an unmitigated FVG, indicating **Inefficiency** in the move.</li><li>**Sweep Liquidity:** The candle preceding the OB must have swept a significant **Liquidity Pool**.</li></ul></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 13 章：高胜率入场模型详解 (Detailed Entry Models)</h2><p>我们将入场策略分为三类。成功的关键在于等待 **Confluence (共振)**。以下模型假设你已经确定了 **HTF POI**。</p>
-                                    <h3>Model A: 极端位置延续 (Extreme Continuation)</h3><p>HTF 趋势向上，价格回踩 H4 OB，M15 出现 CHoCH 且伴随 Sweep，回踩新 FVG 入场。</p>
-                                    <h3>Model B: 海龟汤 / 流动性猎杀 (Turtle Soup)</h3><p>价格 Wick 刺穿高点但实体收回 (SFP)，配合看跌吞没确认入场。</p>
-                                    <h3>Model C: 失败反转结构 (Breaker Reversal)</h3><p>当看涨 OB 被强力击穿失效后，利用其底部作为阻力位入场做空。</p>
-                                </div>
-                                <div class="lang-en"><h2>Chapter 13: High-Probability Entry Models</h2><p>We classify entry strategies into three types. The key to success is waiting for **Confluence**.</p>
-                                    <h3>Model A: Extreme Continuation</h3><p>HTF Trend Bullish. Price retraces to H4 OB. M15 CHoCH with Sweep. Enter on new FVG.</p>
-                                    <h3>Model B: Turtle Soup</h3><p>Price wicks high but body closes below (SFP). Enter on confirmation candle.</p>
-                                    <h3>Model C: Breaker Reversal</h3><p>Bullish OB smashed. Re-test underside as resistance to go short.</p>
-                                </div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 14 章：时间结构与 Kill Zones (Time & Price)</h2><p>黄金的波动由算法在特定时间窗口释放。在窗口之外交易是赌博。</p>
-                                    <div class="concept-box"><span class="lang-cn concept-title">伦敦开盘 (London Open / LO)</span><span class="lang-en concept-title">London Open (07:00 - 10:00 UTC)</span><div class="lang-cn">特征：Judas Swing (假动作扫荡)。</div><div class="lang-en">Characteristics: Judas Swing.</div></div>
-                                    <div class="concept-box"><span class="lang-cn concept-title">纽约开盘 (New York Open / NYO)</span><span class="lang-en concept-title">New York Open (12:00 - 15:00 UTC)</span><div class="lang-cn">特征：趋势延续或复杂回调。</div><div class="lang-en">Characteristics: Trend Continuation or Complex Retracement.</div></div>
-                                </div>
-                                <div class="lang-en"><h2>Chapter 14: Time Structure & Kill Zones</h2><p>Gold volatility is released by algorithms during specific time windows. Trading outside these windows is gambling.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 15 章：SMT 背离与跨品种确认</h2><p>当 DXY 创新高而黄金拒绝创新低 (Higher Low)，为看涨 SMT 背离，暗示机构护盘。</p></div>
-                                <div class="lang-en"><h2>Chapter 15: SMT Divergence</h2><p>Bullish SMT: DXY makes Higher High, Gold refuses to make Lower Low (Higher Low).</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 16 章：波动率与 ADR 量化边界</h2><p>如果价格已运行超过 1.5 倍 ADR 并触及 HTF POI，大概率为反转点。</p></div>
-                                <div class="lang-en"><h2>Chapter 16: ADR Quantitative Boundaries</h2><p>Price at 1.5x ADR hitting HTF POI is a high probability reversal.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 17 章：最大痛点路径 (Max Pain & Sentiment)</h2><p>做市商是被动接单者。如果散户疯狂买入，做市商持有净空头库存，必须打压价格以获利。</p></div>
-                                <div class="lang-en"><h2>Chapter 17: Max Pain Path</h2><p>Market Makers are net short when retail buys aggressively. They must drive price down to profit.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 18 章：概率思维与数学期望</h2><p>不要在一笔交易中冒超过 2% 的风险。SMC 策略追求 40%-50% 胜率配合 1:3 盈亏比。</p></div>
-                                <div class="lang-en"><h2>Chapter 18: Probabilistic Thinking</h2><p>Never risk >2%. Aim for 40%-50% WR with 1:3 RR.</p></div>
-                            </section>
-
-                            <section>
-                                <div class="lang-cn"><h2>第 19 章：专业执行与评分卡系统</h2><p>满分 5 分系统：1. HTF结构 2. 扫荡流动性 3. FVG 4. Kill Zone时间 5. 盈亏比>1:2。低于 3 分不交易。</p></div>
-                                <div class="lang-en"><h2>Chapter 19: Execution Scorecard</h2><p>5-Point System: 1. HTF Structure 2. Sweep 3. FVG 4. Time 5. RR > 1:2. Below 3 points = NO TRADE.</p></div>
-                            </section>
-                        `
-                    }
-                ]
-            }
-        ];
-
-        // === 逻辑控制 ===
-        const sidebarList = document.getElementById('sidebar-list');
-        const viewWelcome = document.getElementById('view-welcome');
-        const viewArticle = document.getElementById('view-article');
-        const articleInject = document.getElementById('article-inject-point');
-        const mainScroll = document.getElementById('main-scroll');
-
-        // 监听页面哈希变化（修复浏览器后退键问题）
-        window.addEventListener('hashchange', () => {
+        // 1. 初始化：加载数据库
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 简单的语言检测
+            const userLang = navigator.language || navigator.userLanguage;
+            currentLang = userLang.includes('zh') ? 'cn' : 'en';
+            
+            await loadDatabase(); // 第一步：读取 database.json
+            
+            // 检查 URL 是否带有文章 ID (例如 research.html#alpha_math)
             const hash = window.location.hash.substring(1);
-            if (!hash) {
-                goBackToCatalog();
-            } else if (hash !== currentArticleId) {
+            if (hash) {
                 loadArticle(hash);
             }
         });
 
+        // 2. 读取清单文件
+        async function loadDatabase() {
+            try {
+                // 这里的路径 research_data/database.json 必须对应实际文件夹
+                const response = await fetch('research_data/database.json');
+                if (!response.ok) throw new Error('Database not found');
+                
+                database = await response.json();
+                renderCatalog(); // 渲染左侧目录
+            } catch (error) {
+                console.error("System Error:", error);
+                document.getElementById('catalog-list').innerHTML = `<div style="color:red; font-size:0.8rem;">Error: Cannot load library index.<br>Make sure 'research_data/database.json' exists.</div>`;
+            }
+        }
+
+        // 3. 渲染左侧目录
         function renderCatalog() {
-            currentArticleId = null; 
+            const listEl = document.getElementById('catalog-list');
             let html = '';
-            articleDatabase.forEach(group => {
-                const catName = group.category[currentLang] || group.category.en;
-                html += `<div class="cat-group"><span class="cat-name">${catName}</span>`;
-                group.articles.forEach(art => {
-                    const artTitle = art.title[currentLang] || art.title.en;
-                    html += `<div class="article-link" onclick="updateHashAndLoad('${art.id}')">${artTitle}</div>`;
+
+            database.forEach(category => {
+                const catTitle = currentLang === 'cn' ? category.category_cn : category.category_en;
+                
+                html += `<div class="cat-group">`;
+                html += `<span class="cat-name">${catTitle}</span>`;
+                
+                category.articles.forEach(article => {
+                    const artTitle = currentLang === 'cn' ? article.title_cn : article.title_en;
+                    // 点击时调用 loadArticle('文章ID')
+                    html += `<div class="article-link" onclick="loadArticle('${article.id}')">${artTitle}</div>`;
                 });
+                
                 html += `</div>`;
             });
-            sidebarList.innerHTML = html;
+
+            listEl.innerHTML = html;
         }
 
-        function updateHashAndLoad(id) { 
-            window.location.hash = id; 
-            // hashchange 监听器会自动调用 loadArticle
-        }
-
-        function loadArticle(id) {
+        // 4. 核心功能：加载独立文章文件
+        async function loadArticle(articleId) {
+            // 4.1 找到文章对应的文件路径
             let targetArticle = null;
-            articleDatabase.forEach(group => { const found = group.articles.find(a => a.id === id); if (found) targetArticle = found; });
-            
-            if (!targetArticle) return; 
-
-            currentArticleId = id; 
-            viewWelcome.style.display = 'none';
-            viewArticle.classList.add('visible');
-            articleInject.innerHTML = targetArticle.content;
-            mainScroll.scrollTop = 0;
-            regenerateTOC();
-        }
-
-        function regenerateTOC() {
-            let targetArticle = null;
-            articleDatabase.forEach(group => { const found = group.articles.find(a => a.id === currentArticleId); if (found) targetArticle = found; });
-            if (!targetArticle) return;
-            const backText = currentLang === 'en' ? "← Back to Library" : "← 返回知识库";
-            const currentTitle = targetArticle.title[currentLang] || targetArticle.title.en;
-            let tocHTML = `<div class="toc-back-btn" onclick="goBackToCatalogAndClearHash()">${backText}</div>`;
-            tocHTML += `<div style="font-weight:700; color:#0a2540; margin-bottom:15px; font-size:0.9rem; line-height:1.4;">${currentTitle}</div>`;
-            tocHTML += `<ul class="toc-list">`;
-            const allHeaders = articleInject.querySelectorAll('h2, h3');
-            allHeaders.forEach((header, index) => {
-                const langParent = header.closest('.lang-cn, .lang-en');
-                if (langParent) {
-                      if (currentLang === 'en' && langParent.classList.contains('lang-cn')) return;
-                      if (currentLang === 'cn' && langParent.classList.contains('lang-en')) return;
+            for (const cat of database) {
+                const found = cat.articles.find(a => a.id === articleId);
+                if (found) {
+                    targetArticle = found;
+                    break;
                 }
-                const anchorId = 'toc-' + index; header.id = anchorId;
-                const isH3 = header.tagName === 'H3'; const className = isH3 ? 'toc-link toc-h3' : 'toc-link';
-                // 关键修复：使用 JS 滚动而不是 href="#..."，防止 URL 变化导致刷新后找不到页面
-                tocHTML += `<li class="toc-item"><a onclick="scrollToSection('${anchorId}')" class="${className}">${header.innerText}</a></li>`;
-            });
-            tocHTML += `</ul>`;
-            sidebarList.innerHTML = tocHTML;
+            }
+
+            if (!targetArticle) return;
+
+            // 4.2 UI 状态切换
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('article-display').classList.remove('active');
+            document.getElementById('loader').style.display = 'block';
+            
+            // 更新 URL (方便分享)
+            window.location.hash = articleId;
+
+            // 4.3 去读取那个独立的 HTML 文件
+            try {
+                const response = await fetch(targetArticle.file); // 读取 post_xxx.html
+                if (!response.ok) throw new Error('Article file missing');
+                const htmlContent = await response.text();
+
+                // 4.4 注入内容
+                document.getElementById('inject-content').innerHTML = htmlContent;
+                
+                // 4.5 显示文章
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('article-display').classList.add('active');
+                document.getElementById('main-view').scrollTop = 0;
+
+                // 如果文章里有计算器脚本，这里重新激活一下 (可选)
+                if(window.initCalculator) window.initCalculator();
+
+            } catch (error) {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('inject-content').innerHTML = `<h2 style="color:red">Error Loading Report</h2><p>Could not find file: ${targetArticle.file}</p>`;
+                document.getElementById('article-display').classList.add('active');
+            }
         }
 
-        function scrollToSection(id) {
-            const el = document.getElementById(id);
-            if(el) el.scrollIntoView({behavior: 'smooth'});
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'cn' : 'en';
+            renderCatalog(); // 重新渲染目录语言
+            // 如果当前正打开着文章，也可以在这里加逻辑重新加载文章标题等
         }
+        
+        // 5. 防复制逻辑 (继承主页)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.key === 'u')) e.preventDefault();
+        });
 
-        function goBackToCatalogAndClearHash() {
-            history.pushState("", document.title, window.location.pathname + window.location.search);
-            goBackToCatalog();
-        }
-
-        function goBackToCatalog() {
-            viewArticle.classList.remove('visible'); viewWelcome.style.display = 'flex'; viewArticle.style.display = 'none'; renderCatalog();
-        }
-
-        function calculateRR() {
-            const wr = parseFloat(document.getElementById('input-wr').value);
-            if (!wr || wr <= 0 || wr >= 100) { document.getElementById('res-rr').innerText = "--"; return; }
-            const decimalWR = wr / 100;
-            const requiredRR = (1 - decimalWR) / decimalWR;
-            document.getElementById('res-rr').innerText = "1 : " + requiredRR.toFixed(2);
-            document.getElementById('input-rr').value = ""; 
-        }
-
-        function calculateWR() {
-            const rr = parseFloat(document.getElementById('input-rr').value);
-            if (!rr || rr <= 0) { document.getElementById('res-wr').innerText = "--"; return; }
-            const requiredWR = 1 / (1 + rr);
-            document.getElementById('res-wr').innerText = (requiredWR * 100).toFixed(1) + "%";
-            document.getElementById('input-wr').value = ""; 
-        }
-
-        function init() {
-            const userLang = navigator.language || navigator.userLanguage; 
-            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
-            const hash = window.location.hash.substring(1);
-            if (hash) loadArticle(hash); else renderCatalog();
-        }
-
-        init();
     </script>
 </body>
 </html>
