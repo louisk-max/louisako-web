@@ -26,53 +26,169 @@
             --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555;
             --accent: #0a2540; --gold: #c5a059; --ease: cubic-bezier(0.25, 1, 0.5, 1);
             --shadow-gold: 0 4px 15px rgba(197, 160, 89, 0.2);
+            --font-heading: "Playfair Display", serif;
         }
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background-color: var(--bg); }
         body { 
             font-family: "Inter", sans-serif; color: var(--text-main); line-height: 1.6; 
             /* **防复制优化 (CSS)** */
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* IE10+/Edge */
-            user-select: none; /* Standard syntax */
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
         }
-        a { text-decoration: none; } /* Ensure links are not underlined by default */
+        body.menu-open { overflow: hidden; } /* 菜单打开时禁用页面滚动 */
+        a { text-decoration: none; }
 
         /* === 动画 === */
         .reveal-on-scroll { opacity: 1; transform: translateY(0); transition: opacity 1s var(--ease), transform 1s var(--ease); }
         .js-loaded .reveal-on-scroll.hidden { opacity: 0; transform: translateY(30px); }
 
         /* === 导航 === */
-        nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(255,255,255,0.98); backdrop-filter: blur(5px); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; }
+        nav { 
+            position: fixed; top: 0; width: 100%; height: 80px; 
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(5px); z-index: 100; 
+            border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; 
+            transition: background 0.3s;
+        }
         .nav-inner { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--accent); cursor: pointer; transition: color 0.3s; }
+        .logo { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--accent); cursor: pointer; transition: color 0.3s; }
         .logo:hover { color: var(--gold); }
-        .nav-right { display: flex; gap: 32px; align-items: center; }
-        .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; transition: color 0.3s, transform 0.2s; text-transform: uppercase; letter-spacing: 1px; padding: 5px 0; }
-        .nav-link:hover, .nav-link.active { color: var(--accent); transform: translateY(-1px); }
         
-        /* **移动端导航优化** */
+        /* **桌面端链接优化** */
+        .nav-right { display: flex; gap: 40px; align-items: center; } 
+        .nav-link { 
+            font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; 
+            transition: color 0.3s, transform 0.2s; text-transform: uppercase; letter-spacing: 1px; 
+            padding: 5px 0; position: relative;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--accent); transform: translateY(-1px); }
+        /* 桌面端链接下划线动画 */
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; 
+            width: 0%; height: 2px; background: var(--gold); 
+            transition: width 0.3s var(--ease);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+
+        /* === 移动端菜单图标样式 (Menu Toggle) === */
+        .menu-toggle {
+            width: 25px; height: 20px; position: relative; cursor: pointer; 
+            display: none; /* 默认隐藏，仅在移动端显示 */
+            transition: transform 0.3s; z-index: 110;
+        }
+        .menu-toggle .bar {
+            display: block; width: 100%; height: 2px; background: var(--accent); 
+            border-radius: 1px; position: absolute; left: 0; 
+            transition: all 0.3s ease;
+        }
+        .menu-toggle .top { top: 0; }
+        .menu-toggle .middle { top: 9px; }
+        .menu-toggle .bottom { top: 18px; }
+
+        .menu-toggle.active .top { transform: translateY(9px) rotate(45deg); }
+        .menu-toggle.active .middle { opacity: 0; }
+        .menu-toggle.active .bottom { transform: translateY(-9px) rotate(-45deg); }
+
+        /* === 全屏菜单抽屉样式 (#mobile-menu-drawer) === */
+        #mobile-menu-drawer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: var(--accent); z-index: 105; 
+            display: flex; justify-content: center; align-items: center;
+            transform: translateX(100%); 
+            opacity: 0;
+            transition: transform 0.5s var(--ease), opacity 0.4s var(--ease);
+            will-change: transform, opacity;
+        }
+        #mobile-menu-drawer.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .drawer-close {
+            position: absolute; top: 20px; right: 25px; 
+            font-size: 3rem; color: #fff; cursor: pointer;
+            line-height: 1; transition: color 0.3s;
+        }
+        .drawer-close:hover { color: var(--gold); }
+        .drawer-content {
+            display: flex; flex-direction: column; text-align: center;
+        }
+        .drawer-link {
+            font-family: var(--font-heading); font-size: 2rem; 
+            color: rgba(255, 255, 255, 0.6); margin: 15px 0; 
+            transition: all 0.3s;
+        }
+        .drawer-link:hover, .drawer-link.active {
+            color: var(--gold); 
+            transform: scale(1.05); 
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+        .drawer-cta-wrapper { margin-top: 50px; }
+        #mobile-menu-drawer .btn-main { 
+            background: var(--gold); 
+            color: var(--accent);
+        }
+        #mobile-menu-drawer .btn-main:hover {
+            background: #fff;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        /* **移动端媒体查询优化 (768px)** */
         @media(max-width: 768px) { 
             nav { height: 60px; }
             .nav-inner { padding: 0 15px; }
             .logo { font-size: 1.2rem; }
-            .nav-right { gap: 10px; } 
-            .nav-link { font-size: 0.65rem; letter-spacing: 0.5px; padding: 8px 5px; } 
+            
+            #desktop-nav-links { display: none; }
+            .menu-toggle { display: block; }
+
+            .hero-section { padding: 60px 20px 60px; } 
+            h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; } 
+            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
+            .btn-main { padding: 15px 35px; font-size: 0.9rem; }
+
+            .core-section { margin-bottom: 80px; }
+            .core-bar { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; border-radius: 4px; } 
+            .core-item { padding: 0; }
+            .core-item:not(:last-child)::after { display: none; } 
+            .core-desc { font-size: 1.2rem; } 
+            
+            .protocol-section { padding: 80px 24px; margin-bottom: 80px; }
+            .protocol-header h2 { font-size: 2.2rem; }
+            .protocol-header p { font-size: 1rem; }
+            .protocol-grid { gap: 20px; padding: 0; }
+            .protocol-step { padding: 25px; }
+
+            .rt-title { font-size: 2.5rem; }
+
+            .broker-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } 
+            .news-form { flex-direction: column; } 
+            .news-input { padding: 12px 15px; }
+            .news-btn { padding: 12px; } 
+            .b-item { padding: 0; }
+            
+            .footer-msg { font-size: 2.2rem; }
+            .sticky-footer a { font-size: 0.7rem !important; }
+
+            .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            .telegram-btn svg { width: 24px; height: 24px; }
         }
 
-        /* === 页面结构与切换动画 === */
+        /* === 页面结构与基础组件 (微调) === */
         .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
         .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease); }
         .view.active { display: block; }
         .view.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
-
+        
         .ticker-wrapper { width: 100%; height: 72px; border-bottom: 1px solid #f0f0f0; overflow: hidden; }
 
-        /* === Hero === */
+        /* Hero */
         .hero-section { padding: 120px 24px 100px; max-width: 900px; margin: 0 auto; text-align: center; }
         .hero-label { font-size: 0.85rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; display: inline-block; }
-        h1 { font-family: "Playfair Display", serif; font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: var(--accent); }
+        h1 { font-family: var(--font-heading); font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: var(--accent); }
         .hero-desc { font-size: 1.25rem; color: var(--text-light); max-width: 680px; margin: 0 auto 48px; font-weight: 300; }
         
         /* **按钮优化** */
@@ -89,64 +205,64 @@
             transform: translateY(-2px) scale(1.02); 
             box-shadow: var(--shadow-gold);
         }
-        
-        @media(max-width: 768px) { 
-            .hero-section { padding: 60px 20px 60px; } 
-            h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; } 
-            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
-            .btn-main { padding: 15px 35px; font-size: 0.9rem; }
-        }
 
-        /* === 核心优势栏优化 === */
+        /* 核心优势栏 */
         .core-section { max-width: 1200px; margin: 0 auto 100px; padding: 0 24px; position: relative; z-index: 5; }
-        .core-bar { background: var(--accent); color: #fff; border-radius: 8px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
+        .core-bar { background: var(--accent); color: #fff; border-radius: 8px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
         .core-bar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #c5a059, #e6c79a); }
         .core-item { text-align: center; padding: 0 20px; position: relative; transition: transform 0.3s; }
         .core-item:hover { transform: translateY(-5px); }
         .core-item:not(:last-child)::after { content: ''; position: absolute; right: -10px; top: 20%; height: 60%; width: 1px; background: rgba(255,255,255,0.15); }
         .core-title { font-family: "Inter", sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px; display: block; }
-        .core-desc { font-family: "Playfair Display", serif; font-size: 1.4rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.95; }
-        
-        /* **移动端核心优势栏优化** */
-        @media(max-width: 768px) { 
-            .core-section { margin-bottom: 80px; }
-            .core-bar { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; } 
-            .core-item { padding: 0; }
-            .core-item:not(:last-child)::after { display: none; } 
-            .core-desc { font-size: 1.2rem; } 
-        }
+        .core-desc { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.95; }
 
-        /* === 核心执行协议优化 === */
+        /* === 核心执行协议 (含连接线优化) === */
         .protocol-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto 100px; }
         .protocol-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
-        .protocol-header h2 { font-family: "Playfair Display", serif; font-size: 3rem; margin-bottom: 16px; color: var(--accent); font-weight: 500; }
+        .protocol-header h2 { font-family: var(--font-heading); font-size: 3rem; margin-bottom: 16px; color: var(--accent); font-weight: 500; }
         .protocol-header p { color: var(--text-light); font-size: 1.15rem; font-weight: 300; }
-        .protocol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .protocol-grid { 
+            position: relative; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 60px; /* 增加间隔，给连接线留出空间 */
+            padding: 20px 0; 
+        }
         .protocol-step { background: #fff; padding: 35px; border-radius: 12px; border: 1px solid #f0f0f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); transition: 0.4s; position: relative; overflow: hidden; }
         .protocol-step:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); }
         .step-num { 
             font-size: 3.5rem; font-weight: 900; 
             color: var(--gold); line-height: 1; margin-bottom: 15px; 
-            opacity: 0.8; font-family: "Playfair Display";
+            opacity: 0.8; font-family: var(--font-heading);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
         .step-title { font-size: 1.4rem; margin: 0 0 10px 0; color: var(--accent); font-weight: 600; }
         .step-content { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
         
-        @media(max-width: 768px) { 
-            .protocol-section { padding: 80px 24px; margin-bottom: 80px; }
-            .protocol-header h2 { font-size: 2.2rem; }
-            .protocol-header p { font-size: 1rem; }
-            .protocol-grid { gap: 20px; }
-            .protocol-step { padding: 25px; }
+        /* 桌面端连接线 */
+        @media(min-width: 769px) {
+            .protocol-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: -30px; 
+                width: 20px; 
+                height: 2px;
+                background: var(--gold);
+                opacity: 0.8;
+                transform: translateY(-50%);
+                box-shadow: 0 0 5px rgba(197, 160, 89, 0.4);
+            }
         }
 
-        /* === 宏观情报入口优化 === */
+
+        /* 宏观情报入口 */
         .research-teaser { background: var(--accent); color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; border-radius: 0; }
         .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
         .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
         .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 700; }
-        .rt-title { font-family: "Playfair Display"; font-size: 3.5rem; margin-bottom: 30px; line-height: 1.2; font-weight: 500; }
+        .rt-title { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 30px; line-height: 1.2; font-weight: 500; }
         
         /* **按钮优化** */
         .rt-btn { 
@@ -159,9 +275,8 @@
             background: var(--gold); color: var(--accent);
             box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
         }
-        @media(max-width: 768px) { .rt-title { font-size: 2.5rem; } }
-
-        /* === 圈层/Newsletter/Broker 优化 === */
+        
+        /* 圈层/Newsletter/Broker */
         .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
         .comm-card { 
             background: linear-gradient(135deg, #181c20, #0a2540); 
@@ -170,7 +285,7 @@
             transition: transform 0.3s;
         }
         .comm-card:hover { transform: translateY(-5px); }
-        .comm-title { font-family: "Playfair Display"; font-size: 2.8rem; margin-bottom: 20px; font-weight: 500; }
+        .comm-title { font-family: var(--font-heading); font-size: 2.8rem; margin-bottom: 20px; font-weight: 500; }
         .comm-desc { color: #ccc; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; font-weight: 300; }
         
         /* **按钮优化** */
@@ -190,7 +305,7 @@
 
         .newsletter-section { background: #f7f7f7; padding: 80px 24px; text-align: center; margin-bottom: 80px; }
         .news-container { max-width: 600px; margin: 0 auto; }
-        .news-title { font-family: "Playfair Display"; font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); font-weight: 500; }
+        .news-title { font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); font-weight: 500; }
         .news-desc { color: #666; margin-bottom: 30px; font-size: 1rem; }
         .news-form { display: flex; gap: 15px; }
         .news-input { 
@@ -208,26 +323,18 @@
         .news-btn:hover { background: var(--gold); color: var(--accent); transform: translateY(-1px); }
 
         .broker-section { max-width: 1000px; margin: 80px auto; padding: 0 24px; text-align: center; }
-        .broker-logo { font-family: "Playfair Display", serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -1px; color: var(--accent); }
+        .broker-logo { font-family: var(--font-heading); font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -1px; color: var(--accent); }
         .broker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin-top: 60px; text-align: left; }
         .b-item { padding: 0 10px; }
-        .b-item h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); font-weight: 600; }
+        .b-item h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); font-weight: 600; position: relative;}
+        .b-item h4::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 30px; height: 2px; background: var(--gold); }
         .b-item p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; }
         
-        /* **移动端券商信息优化** */
-        @media(max-width: 768px) { 
-            .broker-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } 
-            .news-form { flex-direction: column; } 
-            .news-input { padding: 12px 15px; }
-            .news-btn { padding: 12px; } 
-            .b-item { padding: 0; }
-        }
-
-        /* === Footer 优化 === */
+        /* Footer */
         .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: linear-gradient(0deg, #111, #1a1a1a); z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
         .footer-msg { 
-            font-family: "Playfair Display", serif; font-size: 4rem; text-align: center; 
-            opacity: 0.3; transition: 0.8s cubic-bezier(0.25, 1, 0.5, 1); padding: 0 20px; 
+            font-family: var(--font-heading); font-size: 4rem; text-align: center; 
+            opacity: 0.3; transition: 0.8s var(--ease); padding: 0 20px; 
             color: var(--gold);
         }
         .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); text-shadow: 0 0 20px rgba(197, 160, 89, 0.5); }
@@ -235,17 +342,11 @@
         .disclaimer-box { max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin: 0; }
 
-        /* **移动端 Footer 优化** */
-        @media(max-width: 768px) {
-            .footer-msg { font-size: 2.2rem; }
-            .sticky-footer a { font-size: 0.7rem !important; }
-        }
-
-        /* === ABOUT PAGE 优化 === */
+        /* About Page */
         .story-container { max-width: 1100px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 3fr 2fr; gap: 80px; align-items: start; }
         .story-left { padding-right: 40px; border-right: 1px solid #eee; }
         .story-label { font-family: "Inter"; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 30px; display: block; }
-        .story-title { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; font-weight: 500; }
+        .story-title { font-family: var(--font-heading); font-size: 3.5rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; font-weight: 500; }
         
         .story-text p { font-size: 1.05rem; color: #333; line-height: 1.9; margin-bottom: 25px; text-align: justify; font-weight: 400; }
         .story-text strong { color: var(--accent); font-weight: 600; }
@@ -253,7 +354,7 @@
         .story-text li { margin-bottom: 12px; font-weight: 500; font-size: 1rem; color: #222; }
         .quote-highlight { 
             border-left: 5px solid var(--gold); padding-left: 30px; 
-            font-family: "Playfair Display"; font-size: 1.6rem; font-style: italic; 
+            font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; 
             color: var(--accent); margin: 50px 0; line-height: 1.4; 
             background: #fcfcfc; padding: 30px; border-radius: 4px;
         }
@@ -263,7 +364,7 @@
         .infra-card p { color: #555; font-size: 1rem; line-height: 1.6; font-weight: 400; }
 
         .hq-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 40px; }
-        .hq-address { font-family: "Playfair Display", serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
+        .hq-address { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
         
         @media(max-width: 900px) { 
             .story-container { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; } 
@@ -282,16 +383,12 @@
         }
         .telegram-btn:hover { transform: scale(1.15) rotate(5deg); }
         .telegram-btn svg { fill: var(--accent); transition: fill 0.3s; }
-        @media(max-width: 768px) {
-            .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
-            .telegram-btn svg { width: 24px; height: 24px; }
-        }
 
         /* Intro Animation */
         #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d0d0e; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
         .play-intro-animation { animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; animation-delay: 3.5s; }
         .intro-quote-box { text-align: center; opacity: 0; }
-        .intro-quote { font-family: "Playfair Display", serif; font-size: 3rem; font-style: italic; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a8a8a8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .intro-quote { font-family: var(--font-heading); font-size: 3rem; font-style: italic; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a8a8a8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .intro-author { font-family: "Inter", sans-serif; font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); opacity: 0; }
         
         @keyframes quoteFadeUp { 0% { opacity: 0; transform: translateY(30px); filter: blur(5px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
@@ -311,12 +408,17 @@
     <nav>
         <div class="nav-inner">
             <div class="logo" onclick="switchPage('home')">L.K. Capital.</div>
-            <div class="nav-right">
+            <div class="nav-right" id="desktop-nav-links"> 
                 <div class="nav-link active" id="nav-home" onclick="switchPage('home')">Home</div>
                 <a href="services.html" class="nav-link">Services</a>
                 <a href="analysis.html" class="nav-link">Strategy Analysis</a> 
                 <a href="research.html" class="nav-link">Research</a>
                 <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span class="bar top"></span>
+                <span class="bar middle"></span>
+                <span class="bar bottom"></span>
             </div>
         </div>
     </nav>
@@ -474,6 +576,643 @@
     <a href="https://t.me/LKC_CIO" target="_blank" class="telegram-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M18.384,22.779c0.322,0.228 0.737,0.285 1.107,0.145c0.37,-0.141 0.642,-0.457 0.724,-0.84c0.869,-4.084 2.977,-14.421 3.768,-18.136c0.06,-0.28 -0.04,-0.571 -0.26,-0.758c-0.22,-0.187 -0.525,-0.241 -0.797,-0.14c-4.193,1.552 -17.106,6.397 -22.384,8.35c-0.535,0.198 -0.566,0.969 0.107,1.232c2.385,0.932 5.538,2.175 5.538,2.175l0.002,0l0.008,0.002l0,0.003c0.115,0.043 0.241,0.041 0.355,-0.007c0.114,-0.048 0.205,-0.136 0.256,-0.251l9.985,-11.119l-8.488,10.372c-0.158,0.194 -0.17,0.465 -0.031,0.672l4.268,6.444Z"/></svg>
     </a>
+    
+    <div id="mobile-menu-drawer">
+        <div class="drawer-close" onclick="toggleMenu()">
+            &times; 
+        </div>
+        <div class="drawer-content">
+            <a href="#" class="drawer-link active" data-page="home" onclick="switchPage('home'); toggleMenu();">Home</a>
+            <a href="services.html" class="drawer-link" onclick="toggleMenu();">Services</a>
+            <a href="analysis.html" class="drawer-link" onclick="toggleMenu();">Strategy Analysis</a> 
+            <a href="research.html" class="drawer-link" onclick="toggleMenu();">Research</a>
+            <a href="#" class="drawer-link" data-page="about" onclick="switchPage('about'); toggleMenu();">About</a>
+            <div class="drawer-cta-wrapper">
+                 <a href="#contact" class="btn-main" id="drawer-btn-cta" onclick="toggleMenu();">Partner with Us</a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // === Language Data (保持不变) ===
+        const langData = {
+            en: {
+                labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
+                coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
+                protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
+                rtT: "Global Macro Context &<br>Strategic Insights", rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.", rtB: "Access Terminal",
+                commTitle: "The Inner Circle.", commDesc: "Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.", btnComm: "Join Telegram Channel",
+                newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
+                tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
+                
+                aboutLabel: "Our Story", aboutTitle: "From Chaos to Order.", 
+                storyContent: `<p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p><p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p><p><strong>Our foundation is built on:</strong></p><ul><li>Institutional Market Structure</li><li>Smart Money Concepts (SMC)</li><li>Three-Phase Retracement Logic</li><li>Central Bank Liquidity Mapping</li></ul><div class="quote-highlight">"Markets are not random. They are architected."</div><p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p><p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>好的，作为一个高级代码工程师和金融分析师，我已经将您所有的优化需求——包括**移动端导航重构**（全屏抽屉菜单）、**桌面端导航美化**、**内容防复制保护**以及**视觉均衡改进**——整合到了一个完整的 HTML 文件中。
+
+以下是包含所有优化和修改的完整代码。
+
+---
+
+## 💻 优化后的完整代码
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="V7hvYoLI5hCxlszi28VbkKu_sW8UqnTpZyjRpIpc73g" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>L.K. Capital | Global Macro & Structural Trends</title>
+    <meta name="description" content="L.K. Capital is an investment management firm blending institutional structural analysis with disciplined execution.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="L.K. Capital | Institutional Edge">
+    <meta property="og:description" content="Navigating Trends. Preserving Capital. Global Macro & Structural Trading.">
+    <meta property="og:image" content="[https://louisako.com/social.jpg](https://louisako.com/social.jpg)">
+    <meta property="og:url" content="[https://louisako.com](https://louisako.com)">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22[http://www.w3.org/2000/svg%22](http://www.w3.org/2000/svg%22) viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap)" rel="stylesheet">
+    
+    <style>
+        /* === 基础设置 & 防复制优化 === */
+        :root {
+            --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555;
+            --accent: #0a2540; --gold: #c5a059; --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --shadow-gold: 0 4px 15px rgba(197, 160, 89, 0.2);
+            --font-heading: "Playfair Display", serif;
+        }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background-color: var(--bg); }
+        body { 
+            font-family: "Inter", sans-serif; color: var(--text-main); line-height: 1.6; 
+            /* **防复制优化 (CSS) - 禁用文本选择** */
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
+        }
+        body.menu-open { overflow: hidden; } /* 菜单打开时禁用页面滚动 */
+        a { text-decoration: none; }
+
+        /* === 动画 === */
+        .reveal-on-scroll { opacity: 1; transform: translateY(0); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+        .js-loaded .reveal-on-scroll.hidden { opacity: 0; transform: translateY(30px); }
+
+        /* === 导航栏 (桌面 & 移动) === */
+        nav { 
+            position: fixed; top: 0; width: 100%; height: 80px; 
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(5px); z-index: 100; 
+            border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; 
+            transition: background 0.3s;
+        }
+        .nav-inner { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--accent); cursor: pointer; transition: color 0.3s; }
+        .logo:hover { color: var(--gold); }
+        
+        /* **桌面端链接优化** */
+        .nav-right { display: flex; gap: 40px; align-items: center; } 
+        .nav-link { 
+            font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; 
+            transition: color 0.3s, transform 0.2s; text-transform: uppercase; letter-spacing: 1px; 
+            padding: 5px 0; position: relative;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--accent); transform: translateY(-1px); }
+        /* 桌面端链接下划线动画 */
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; 
+            width: 0%; height: 2px; background: var(--gold); 
+            transition: width 0.3s var(--ease);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+
+        /* === 移动端菜单图标样式 (Menu Toggle) === */
+        .menu-toggle {
+            width: 25px; height: 20px; position: relative; cursor: pointer; 
+            display: none; /* 默认隐藏，仅在移动端显示 */
+            transition: transform 0.3s; z-index: 110;
+        }
+        .menu-toggle .bar {
+            display: block; width: 100%; height: 2px; background: var(--accent); 
+            border-radius: 1px; position: absolute; left: 0; 
+            transition: all 0.3s ease;
+        }
+        .menu-toggle .top { top: 0; }
+        .menu-toggle .middle { top: 9px; }
+        .menu-toggle .bottom { top: 18px; }
+
+        .menu-toggle.active .top { transform: translateY(9px) rotate(45deg); }
+        .menu-toggle.active .middle { opacity: 0; }
+        .menu-toggle.active .bottom { transform: translateY(-9px) rotate(-45deg); }
+
+        /* === 全屏菜单抽屉样式 (#mobile-menu-drawer) === */
+        #mobile-menu-drawer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: var(--accent); z-index: 105; 
+            display: flex; justify-content: center; align-items: center;
+            transform: translateX(100%); 
+            opacity: 0;
+            transition: transform 0.5s var(--ease), opacity 0.4s var(--ease);
+            will-change: transform, opacity;
+        }
+        #mobile-menu-drawer.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .drawer-close {
+            position: absolute; top: 20px; right: 25px; 
+            font-size: 3rem; color: #fff; cursor: pointer;
+            line-height: 1; transition: color 0.3s;
+        }
+        .drawer-close:hover { color: var(--gold); }
+        .drawer-content {
+            display: flex; flex-direction: column; text-align: center;
+        }
+        .drawer-link {
+            font-family: var(--font-heading); font-size: 2rem; 
+            color: rgba(255, 255, 255, 0.6); margin: 15px 0; 
+            transition: all 0.3s;
+        }
+        .drawer-link:hover, .drawer-link.active {
+            color: var(--gold); 
+            transform: scale(1.05); 
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+        .drawer-cta-wrapper { margin-top: 50px; }
+        #mobile-menu-drawer .btn-main { 
+            background: var(--gold); 
+            color: var(--accent);
+        }
+        #mobile-menu-drawer .btn-main:hover {
+            background: #fff;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        /* **移动端媒体查询优化 (768px)** */
+        @media(max-width: 768px) { 
+            nav { height: 60px; }
+            .nav-inner { padding: 0 15px; }
+            .logo { font-size: 1.2rem; }
+            
+            #desktop-nav-links { display: none; } /* 移动端隐藏桌面链接 */
+            .menu-toggle { display: block; } /* 移动端显示菜单按钮 */
+
+            .hero-section { padding: 60px 20px 60px; } 
+            h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; } 
+            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
+            .btn-main { padding: 15px 35px; font-size: 0.9rem; }
+
+            .core-section { margin-bottom: 80px; }
+            .core-bar { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; border-radius: 4px; } 
+            .core-item { padding: 0; }
+            .core-item:not(:last-child)::after { display: none; } 
+            .core-desc { font-size: 1.2rem; } 
+            
+            .protocol-section { padding: 80px 24px; margin-bottom: 80px; }
+            .protocol-header h2 { font-size: 2.2rem; }
+            .protocol-header p { font-size: 1rem; }
+            .protocol-grid { gap: 20px; padding: 0; }
+            .protocol-step { padding: 25px; }
+
+            .rt-title { font-size: 2.5rem; }
+
+            .broker-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } 
+            .news-form { flex-direction: column; } 
+            .news-input { padding: 12px 15px; }
+            .news-btn { padding: 12px; } 
+            .b-item { padding: 0; }
+            
+            .footer-msg { font-size: 2.2rem; }
+            .sticky-footer a { font-size: 0.7rem !important; }
+
+            .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            .telegram-btn svg { width: 24px; height: 24px; }
+        }
+
+        /* === 页面结构与基础组件 (微调) === */
+        .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
+        .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease); }
+        .view.active { display: block; }
+        .view.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+        
+        .ticker-wrapper { width: 100%; height: 72px; border-bottom: 1px solid #f0f0f0; overflow: hidden; }
+
+        /* Hero */
+        .hero-section { padding: 120px 24px 100px; max-width: 900px; margin: 0 auto; text-align: center; }
+        .hero-label { font-size: 0.85rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; display: inline-block; }
+        h1 { font-family: var(--font-heading); font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: var(--accent); }
+        .hero-desc { font-size: 1.25rem; color: var(--text-light); max-width: 680px; margin: 0 auto 48px; font-weight: 300; }
+        
+        /* **按钮优化** */
+        .btn-main { 
+            display: inline-block; padding: 18px 48px; 
+            background: var(--accent); color: #fff; 
+            border-radius: 4px; font-size: 0.95rem; font-weight: 600; text-decoration: none; 
+            transition: all 0.3s var(--ease); 
+            box-shadow: 0 5px 20px rgba(10, 37, 64, 0.15);
+        }
+        .btn-main:hover { 
+            background: linear-gradient(45deg, var(--gold), #e8c78a);
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.02); 
+            box-shadow: var(--shadow-gold);
+        }
+
+        /* 核心优势栏 */
+        .core-section { max-width: 1200px; margin: 0 auto 100px; padding: 0 24px; position: relative; z-index: 5; }
+        .core-bar { background: var(--accent); color: #fff; border-radius: 8px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
+        .core-bar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #c5a059, #e6c79a); }
+        .core-item { text-align: center; padding: 0 20px; position: relative; transition: transform 0.3s; }
+        .core-item:hover { transform: translateY(-5px); }
+        .core-item:not(:last-child)::after { content: ''; position: absolute; right: -10px; top: 20%; height: 60%; width: 1px; background: rgba(255,255,255,0.15); }
+        .core-title { font-family: "Inter", sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px; display: block; }
+        .core-desc { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.95; }
+
+        /* === 核心执行协议 (含连接线优化) === */
+        .protocol-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto 100px; }
+        .protocol-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
+        .protocol-header h2 { font-family: var(--font-heading); font-size: 3rem; margin-bottom: 16px; color: var(--accent); font-weight: 500; }
+        .protocol-header p { color: var(--text-light); font-size: 1.15rem; font-weight: 300; }
+        
+        .protocol-grid { 
+            position: relative; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 60px; /* 增加间隔，给连接线留出空间 */
+            padding: 20px 0; 
+        }
+        .protocol-step { background: #fff; padding: 35px; border-radius: 12px; border: 1px solid #f0f0f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); transition: 0.4s; position: relative; overflow: hidden; }
+        .protocol-step:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); }
+        .step-num { 
+            font-size: 3.5rem; font-weight: 900; 
+            color: var(--gold); line-height: 1; margin-bottom: 15px; 
+            opacity: 0.8; font-family: var(--font-heading);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        .step-title { font-size: 1.4rem; margin: 0 0 10px 0; color: var(--accent); font-weight: 600; }
+        .step-content { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
+        
+        /* 桌面端连接线 */
+        @media(min-width: 769px) {
+            .protocol-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: -30px; 
+                width: 20px; 
+                height: 2px;
+                background: var(--gold);
+                opacity: 0.8;
+                transform: translateY(-50%);
+                box-shadow: 0 0 5px rgba(197, 160, 89, 0.4);
+            }
+        }
+
+
+        /* 宏观情报入口 */
+        .research-teaser { background: var(--accent); color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; border-radius: 0; }
+        .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('[https://www.transparenttextures.com/patterns/cubes.png](https://www.transparenttextures.com/patterns/cubes.png)'); opacity: 0.05; }
+        .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 700; }
+        .rt-title { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 30px; line-height: 1.2; font-weight: 500; }
+        
+        /* **按钮优化** */
+        .rt-btn { 
+            border: 2px solid var(--gold); color: var(--gold); 
+            padding: 16px 40px; text-decoration: none; font-size: 1rem; 
+            transition: 0.3s; display: inline-block; border-radius: 4px; 
+            font-weight: 600;
+        }
+        .rt-btn:hover { 
+            background: var(--gold); color: var(--accent);
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+        }
+        
+        /* 圈层/Newsletter/Broker */
+        .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
+        .comm-card { 
+            background: linear-gradient(135deg, #181c20, #0a2540); 
+            color: #fff; border-radius: 16px; padding: 80px 40px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        .comm-card:hover { transform: translateY(-5px); }
+        .comm-title { font-family: var(--font-heading); font-size: 2.8rem; margin-bottom: 20px; font-weight: 500; }
+        .comm-desc { color: #ccc; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; font-weight: 300; }
+        
+        /* **按钮优化** */
+        .btn-gold { 
+            display: inline-block; padding: 18px 55px; 
+            background: var(--gold); color: #000; 
+            border-radius: 4px; font-weight: 700; text-decoration: none; 
+            transition: 0.3s;
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-gold:hover { 
+            background: #fff; 
+            color: var(--accent);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .newsletter-section { background: #f7f7f7; padding: 80px 24px; text-align: center; margin-bottom: 80px; }
+        .news-container { max-width: 600px; margin: 0 auto; }
+        .news-title { font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); font-weight: 500; }
+        .news-desc { color: #666; margin-bottom: 30px; font-size: 1rem; }
+        .news-form { display: flex; gap: 15px; }
+        .news-input { 
+            flex: 1; padding: 16px 20px; border: 1px solid #ddd; border-radius: 4px; 
+            font-family: "Inter"; font-size: 1rem; background: #fff;
+            transition: border-color 0.3s;
+        }
+        .news-input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.3); }
+        .news-btn { 
+            background: var(--accent); color: #fff; border: none; 
+            padding: 0 35px; border-radius: 4px; cursor: pointer; 
+            font-weight: 600; font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .news-btn:hover { background: var(--gold); color: var(--accent); transform: translateY(-1px); }
+
+        .broker-section { max-width: 1000px; margin: 80px auto; padding: 0 24px; text-align: center; }
+        .broker-logo { font-family: var(--font-heading); font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -1px; color: var(--accent); }
+        .broker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin-top: 60px; text-align: left; }
+        .b-item { padding: 0 10px; }
+        /* 经纪商标题下划线优化 */
+        .b-item h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); font-weight: 600; position: relative;}
+        .b-item h4::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 30px; height: 2px; background: var(--gold); }
+        @media(max-width: 768px) { .b-item h4::after { left: 50%; transform: translateX(-50%); } } /* 移动端居中 */
+        .b-item p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; }
+        
+        /* Footer */
+        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: linear-gradient(0deg, #111, #1a1a1a); z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        .footer-msg { 
+            font-family: var(--font-heading); font-size: 4rem; text-align: center; 
+            opacity: 0.3; transition: 0.8s var(--ease); padding: 0 20px; 
+            color: var(--gold);
+        }
+        .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); text-shadow: 0 0 20px rgba(197, 160, 89, 0.5); }
+        
+        .disclaimer-box { max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin: 0; }
+
+        /* About Page */
+        .story-container { max-width: 1100px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 3fr 2fr; gap: 80px; align-items: start; }
+        .story-left { padding-right: 40px; border-right: 1px solid #eee; }
+        .story-label { font-family: "Inter"; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 30px; display: block; }
+        .story-title { font-family: var(--font-heading); font-size: 3.5rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; font-weight: 500; }
+        
+        .story-text p { font-size: 1.05rem; color: #333; line-height: 1.9; margin-bottom: 25px; text-align: justify; font-weight: 400; }
+        .story-text strong { color: var(--accent); font-weight: 600; }
+        .story-text ul { padding-left: 20px; margin-bottom: 30px; color: #333; list-style-type: '— '; } /* 优化列表样式 */
+        .story-text li { margin-bottom: 12px; font-weight: 500; font-size: 1rem; color: #222; }
+        .quote-highlight { 
+            border-left: 5px solid var(--gold); padding-left: 30px; 
+            font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; 
+            color: var(--accent); margin: 50px 0; line-height: 1.4; 
+            background: #fcfcfc; padding: 30px; border-radius: 4px;
+        }
+        
+        .infra-card { margin-bottom: 40px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+        .infra-card h4 { font-size: 1.3rem; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+        .infra-card p { color: #555; font-size: 1rem; line-height: 1.6; font-weight: 400; }
+
+        .hq-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 40px; }
+        .hq-address { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
+        
+        @media(max-width: 900px) { 
+            .story-container { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; } 
+            .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 0; } 
+            .story-title { font-size: 2.5rem; } 
+            .quote-highlight { font-size: 1.3rem; margin: 30px 0; }
+        }
+
+        /* Telegram Floating Button Optimization */
+        .telegram-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; 
+            background: var(--gold); border-radius: 50%; display: flex; 
+            justify-content: center; align-items: center; 
+            box-shadow: var(--shadow-gold); z-index: 1000; 
+            transition: transform 0.3s;
+        }
+        .telegram-btn:hover { transform: scale(1.15) rotate(5deg); }
+        .telegram-btn svg { fill: var(--accent); transition: fill 0.3s; }
+
+        /* Intro Animation */
+        #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d0d0e; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        .play-intro-animation { animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; animation-delay: 3.5s; }
+        .intro-quote-box { text-align: center; opacity: 0; }
+        .intro-quote { font-family: var(--font-heading); font-size: 3rem; font-style: italic; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a8a8a8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .intro-author { font-family: "Inter", sans-serif; font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); opacity: 0; }
+        
+        @keyframes quoteFadeUp { 0% { opacity: 0; transform: translateY(30px); filter: blur(5px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes authorFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes overlaySlideUp { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="intro-quote-box">
+            <div class="intro-quote">“Discipline Creates Freedom.”</div>
+            <div class="intro-author">— Louis K.</div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-inner">
+            <div class="logo" onclick="switchPage('home')">L.K. Capital.</div>
+            <div class="nav-right" id="desktop-nav-links"> 
+                <div class="nav-link active" id="nav-home" onclick="switchPage('home')">Home</div>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="analysis.html" class="nav-link">Strategy Analysis</a> 
+                <a href="research.html" class="nav-link">Research</a>
+                <div class="nav-link" id="nav-about" onclick="switchPage('about')">About</div>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span class="bar top"></span>
+                <span class="bar middle"></span>
+                <span class="bar bottom"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <div id="view-home" class="view active">
+            <div class="ticker-wrapper">
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="[https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js](https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js)" async>
+                    { "symbols": [ { "proName": "FOREXCOM:XAUUSD", "title": "Gold" }, { "proName": "TVC:USOIL", "title": "US Oil" }, { "proName": "FX:EURUSD", "title": "EUR/USD" }, { "proName": "FX:GBPUSD", "title": "GBP/USD" }, { "proName": "FX:USDJPY", "title": "USD/JPY" }, { "proName": "FOREXCOM:SPX500", "title": "S&P 500" }, { "proName": "NASDAQ:AAPL", "title": "Apple" } ], "showSymbolLogo": true, "colorTheme": "light", "isTransparent": true, "displayMode": "adaptive", "locale": "en" }
+                    </script>
+                </div>
+            </div>
+
+            <div class="hero-section">
+                <span class="hero-label" id="label-focus">Global Macro Focus</span>
+                <h1 id="hero-title">Navigating Trends.<br>Preserving Capital.</h1>
+                <p class="hero-desc" id="hero-desc">L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.</p>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px;">
+                    <a href="#contact" class="btn-main" id="btn-cta">Partner with Us</a>
+                </div>
+            </div>
+
+            <div class="core-section reveal-on-scroll">
+                <div class="core-bar">
+                    <div class="core-item"><span class="core-title" id="core-t1">GLOBAL MACRO</span><div class="core-desc" id="core-d1">Top-down analysis of economic cycles and capital flows.</div></div>
+                    <div class="core-item"><span class="core-title" id="core-t2">STRUCTURAL EDGE</span><div class="core-desc" id="core-d2">Tracking institutional footprints and liquidity zones.</div></div>
+                    <div class="core-item"><span class="core-title" id="core-t3">ASYMMETRIC RISK</span><div class="core-desc" id="core-d3">Strict risk management targeting high R:R opportunities.</div></div>
+                </div>
+            </div>
+
+            <div class="protocol-section reveal-on-scroll">
+                <div class="protocol-header">
+                    <h2 id="protocol-h">L.K. Core Execution Protocol</h2>
+                    <p id="protocol-sub">Our structural approach is defined by discipline and a 5-step checklist for every trade setup.</p>
+                </div>
+                <div class="protocol-grid">
+                    <div class="protocol-step"><div class="step-num">1</div><h3 class="step-title" id="st1">Market Structure</h3><div class="step-content" id="sc1">Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.</div></div>
+                    <div class="protocol-step"><div class="step-num">2</div><h3 class="step-title" id="st2">Liquidity Hunt</h3><div class="step-content" id="sc2">Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.</div></div>
+                    <div class="protocol-step"><div class="step-num">3</div><h3 class="step-title" id="st3">Target POI</h3><div class="step-content" id="sc3">Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.</div></div>
+                    <div class="protocol-step"><div class="step-num">4</div><h3 class="step-title" id="st4">LTF Entry</h3><div class="step-content" id="sc4">On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.</div></div>
+                    <div class="protocol-step"><div class="step-num">5</div><h3 class="step-title" id="st5">Risk Mandate</h3><div class="step-content" id="sc5">Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).</div></div>
+                </div>
+            </div>
+
+            <div class="research-teaser reveal-on-scroll">
+                <div class="rt-content">
+                    <span class="rt-label">Market Intelligence</span>
+                    <h2 class="rt-title" id="rt-title">Global Macro Context &<br>Strategic Insights</h2>
+                    <p id="rt-desc" style="color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; line-height: 1.6;">
+                        Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.
+                    </p>
+                    <a href="analysis.html" class="rt-btn" id="rt-btn">Access Terminal</a>
+                </div>
+            </div>
+
+            <div class="community-section reveal-on-scroll">
+                <div class="comm-card">
+                    <h2 class="comm-title" id="comm-title">The Inner Circle.</h2>
+                    <p class="comm-desc" id="comm-desc">Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.</p>
+                    <a href="[https://t.me/LKC_CIO](https://t.me/LKC_CIO)" target="_blank" class="btn-gold" id="btn-comm">Join Telegram Channel</a>
+                </div>
+            </div>
+
+            <div class="newsletter-section reveal-on-scroll">
+                <div class="news-container">
+                    <h3 class="news-title" id="news-h">Subscribe to The L.K. Briefing</h3>
+                    <p class="news-desc" id="news-d">Weekly institutional macro analysis, delivered to your inbox. No spam.</p>
+                    <form class="news-form" action="[https://formsubmit.co/9d4428e93fd883d5ff6b745e5f358a33](https://formsubmit.co/9d4428e93fd883d5ff6b745e5f358a33)" method="POST">
+                        <input type="hidden" name="_next" value="[https://louisako.com](https://louisako.com)">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="email" name="email" class="news-input" placeholder="Enter your email address" required>
+                        <button type="submit" class="news-btn" id="news-b">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="broker-section reveal-on-scroll" id="contact">
+                <div class="broker-logo">L.K. x TMGM</div>
+                <p style="max-width: 600px; margin: 0 auto; color: #666;" id="tmgm-intro">Institutional liquidity. Segregated accounts. Raw spreads.</p>
+                <div class="broker-grid">
+                    <div class="b-item"><h4 id="b-h1">Security</h4><p id="b-p1">ASIC Regulated. Funds held in NAB trust accounts.</p></div>
+                    <div class="b-item"><h4 id="b-h2">Technology</h4><p id="b-p2">NY4 Server. Execution speed &lt; 30ms.</p></div>
+                    <div class="b-item"><h4 id="b-h3">Cost</h4><p id="b-p3">Raw ECN Spreads. 0 pips on Majors.</p></div>
+                </div>
+                <br><br>
+                <a href="[https://portal.tmgm.com/register](https://portal.tmgm.com/register)" target="_blank" class="btn-main" style="background: #fff; color: #000; border: 1px solid #ddd;" id="btn-open">Open Account</a>
+            </div>
+        </div>
+
+        <div id="view-about" class="view">
+            
+            <div class="story-container">
+                <div class="story-left">
+                    <span class="story-label" id="story-label">Our Story</span>
+                    <h1 class="story-title" id="story-title">From Chaos to Order.</h1>
+                    
+                    <div class="story-text" id="story-content">
+                        <p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p>
+                        <p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p>
+                        <p><strong>Our foundation is built on:</strong></p>
+                        <ul>
+                            <li>Institutional Market Structure</li>
+                            <li>Smart Money Concepts (SMC)</li>
+                            <li>Three-Phase Retracement Logic</li>
+                            <li>Central Bank Liquidity Mapping</li>
+                        </ul>
+                        <div class="quote-highlight">"Markets are not random. They are architected."</div>
+                        <p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p>
+                        <p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>
+                    </div>
+                </div>
+
+                <div class="story-right">
+                    <span class="story-label" id="infra-label">Infrastructure</span>
+                    <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary macro research, liquidity modelling, and market-structure engineering.</p></div>
+                    <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Execution and analysis across London, New York, and Tokyo sessions.</p></div>
+                    <div class="infra-card"><h4 id="ic-3t">Multi-Asset Coverage</h4><p id="ic-3d">Forex, Gold, Oil, Equity Indices, and expanding into multi-sector macro plays.</p></div>
+                    <div class="infra-card"><h4 id="ic-4t">Institutional Framework</h4><p id="ic-4d">Risk systems engineered to mirror tier-1 hedge-fund standards—refined for agility instead of bureaucracy.</p></div>
+                    
+                    <div class="hq-section">
+                        <span class="story-label" id="hq-label">Headquarters</span>
+                        <div class="hq-address" id="hq-address">Burj Khalifa<br>Dubai, UAE</div>
+                        <p style="font-size:0.9rem; color:#666;">louis@louisako.com</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="sticky-footer">
+        <div class="footer-msg">DISCIPLINE / CREATES / FREEDOM</div>
+        
+        <div style="margin-top: 30px; display: flex; gap: 30px; z-index: 10; position: relative; align-items: center;">
+            <a href="legal.html#privacy" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" height="16" width="14" viewBox="0 0 512 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22.9 9.8 38.3 31.7 38.3 56.6v126.5c0 137.3-81.8 261.3-206.7 314.9l-14.7 6.3c-10.6 4.5-22.7 4.5-33.3 0l-14.7-6.3C101.8 527.2 20 403.2 20 265.9V139.4c0-24.9 15.4-46.8 38.3-56.6L242.6 2.9C246.8 1 251.4 0 256 0z"/></svg>Privacy Policy</a>
+            <a href="legal.html#terms" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" height="16" width="12" viewBox="0 0 384 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-17-6.7-33.3-18.7-45.3L290.7 18.7C278.7 6.7 262.4 0 245.3 0H64zm128 448H64V64H245.3L320 138.7V448H192zm0 0c0 0 0 0 0 0zm0 0c0 0 0 0 0 0zM192 384c0-17.7 14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32zm32-160c17.7 0 32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32z"/></svg>Terms of Use</a>
+            <a href="legal.html#risk" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" height="16" width="16" viewBox="0 0 512 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>Risk Disclosure</a>
+        </div>
+
+        <div style="position: absolute; bottom: 20px; font-size: 0.7rem; opacity: 0.5; padding: 0 20px; text-align: center;" id="risk-txt">
+            Risk Warning: Trading involves risk. Past performance is not indicative of future results.
+        </div>
+        
+        <div class="disclaimer-box">
+            <p class="disclaimer-text" id="disclaimer-text">
+                Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions.
+            </p>
+        </div>
+    </footer>
+
+    <a href="[https://t.me/LKC_CIO](https://t.me/LKC_CIO)" target="_blank" class="telegram-btn">
+        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="28" height="28" viewBox="0 0 24 24"><path d="M18.384,22.779c0.322,0.228 0.737,0.285 1.107,0.145c0.37,-0.141 0.642,-0.457 0.724,-0.84c0.869,-4.084 2.977,-14.421 3.768,-18.136c0.06,-0.28 -0.04,-0.571 -0.26,-0.758c-0.22,-0.187 -0.525,-0.241 -0.797,-0.14c-4.193,1.552 -17.106,6.397 -22.384,8.35c-0.535,0.198 -0.566,0.969 0.107,1.232c2.385,0.932 5.538,2.175 5.538,2.175l0.002,0l0.008,0.002l0,0.003c0.115,0.043 0.241,0.041 0.355,-0.007c0.114,-0.048 0.205,-0.136 0.256,-0.251l9.985,-11.119l-8.488,10.372c-0.158,0.194 -0.17,0.465 -0.031,0.672l4.268,6.444Z"/></svg>
+    </a>
+    
+    <div id="mobile-menu-drawer">
+        <div class="drawer-close" onclick="toggleMenu()">
+            &times; 
+        </div>
+        <div class="drawer-content">
+            <a href="#" class="drawer-link active" data-page="home" onclick="switchPage('home'); toggleMenu();">Home</a>
+            <a href="services.html" class="drawer-link" onclick="toggleMenu();">Services</a>
+            <a href="analysis.html" class="drawer-link" onclick="toggleMenu();">Strategy Analysis</a> 
+            <a href="research.html" class="drawer-link" onclick="toggleMenu();">Research</a>
+            <a href="#" class="drawer-link" data-page="about" onclick="switchPage('about'); toggleMenu();">About</a>
+            <div class="drawer-cta-wrapper">
+                 <a href="#contact" class="btn-main" id="drawer-btn-cta" onclick="toggleMenu();">Partner with Us</a>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // === Language Data (保持不变) ===
@@ -525,6 +1264,7 @@
         };
 
         let curLang = 'en';
+        let curPage = 'home'; // 新增：追踪当前页面状态的变量
 
         function toggleLang(forceLang) {
             if (forceLang) {
@@ -536,7 +1276,7 @@
             
             const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
-            // Special Mapping needed for IDs that don't match keys exactly
+            // 批量更新文本 (保持原有的映射逻辑)
             setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
             setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1); setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2); setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
             setTxt('protocol-h', t.protocolH); setTxt('protocol-sub', t.protocolSub);
@@ -545,9 +1285,11 @@
             setTxt('comm-title', t.commTitle); setTxt('comm-desc', t.commDesc); setTxt('btn-comm', t.btnComm);
             setTxt('news-h', t.newsH); setTxt('news-d', t.newsD); setTxt('news-b', t.newsB);
             setTxt('tmgm-intro', t.tmgmIntro); setTxt('b-h1', t.bH1); setTxt('b-p1', t.bP1); setTxt('b-h2', t.bH2); setTxt('b-p2', t.bP2); setTxt('b-h3', t.bH3); setTxt('b-p3', t.bP3); setTxt('btn-open', t.btnOpen);
+            setTxt('drawer-btn-cta', t.btnCta); // 移动端菜单按钮
             
             setTxt('story-label', t.aboutLabel); setTxt('story-title', t.aboutTitle); setTxt('story-content', t.storyContent);
-            setTxt('infra-label', t.infraLabel); setTxt('infra-desc', t.infraDesc); setTxt('btn-net', t.btnNet);
+            setTxt('infra-label', t.infraLabel); /*setTxt('infra-desc', t.infraDesc);*/ // 移除未使用的 infra-desc ID
+            /*setTxt('btn-net', t.btnNet);*/ // 移除未使用的 btn-net ID
             setTxt('ic-1t', t.ic1t); setTxt('ic-1d', t.ic1d); setTxt('ic-2t', t.ic2t); setTxt('ic-2d', t.ic2d); setTxt('ic-3t', t.ic3t); setTxt('ic-3d', t.ic3d); setTxt('ic-4t', t.ic4t); setTxt('ic-4d', t.ic4d);
             setTxt('hq-label', t.hqLabel); setTxt('hq-address', t.hqAddress);
             
@@ -561,7 +1303,68 @@
             const targetLang = isChinese ? 'cn' : 'en';
             toggleLang(targetLang);
         }
+        
+        // 新增函数：更新抽屉菜单中的链接激活状态
+        function updateDrawerLinks(activePageName) {
+            document.querySelectorAll('.drawer-link').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('data-page') === activePageName) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        
+        // 新增函数：切换移动端菜单状态
+        function toggleMenu() {
+            const menuDrawer = document.getElementById('mobile-menu-drawer');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const body = document.body;
+            
+            const isActive = menuDrawer.classList.toggle('active');
+            menuToggle.classList.toggle('active', isActive);
+            body.classList.toggle('menu-open', isActive);
 
+            // 更新抽屉内的链接激活状态
+            updateDrawerLinks(curPage);
+        }
+
+
+        function switchPage(pageName) {
+            const currentView = document.querySelector('.view.visible');
+            const nextView = document.getElementById('view-' + pageName);
+            
+            curPage = pageName; // 更新当前页面状态
+
+            // 桌面导航栏状态更新
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            const activeNav = document.getElementById('nav-' + pageName);
+            if(activeNav) activeNav.classList.add('active');
+            
+            // 移动端菜单链接状态更新 (即使菜单未打开，也更新状态)
+            updateDrawerLinks(curPage);
+
+            if (currentView === nextView) return;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (currentView) {
+                currentView.classList.remove('visible'); 
+                setTimeout(() => {
+                    currentView.classList.remove('active');
+                    if (nextView) {
+                        nextView.classList.add('active');
+                        void nextView.offsetWidth; 
+                        nextView.classList.add('visible'); 
+                    }
+                }, 700); 
+            } else {
+                if (nextView) {
+                    nextView.classList.add('active');
+                    setTimeout(() => nextView.classList.add('visible'), 50);
+                }
+            }
+        }
+        
         // === Intro & Transitions (保持不变) ===
         function initIntro() {
             const overlay = document.getElementById('intro-overlay');
@@ -579,36 +1382,6 @@
             }
         }
 
-        function switchPage(pageName) {
-            const currentView = document.querySelector('.view.visible');
-            const nextView = document.getElementById('view-' + pageName);
-            
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            const activeNav = document.getElementById('nav-' + pageName);
-            if(activeNav) activeNav.classList.add('active');
-
-            if (currentView === nextView) return;
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (currentView) {
-                currentView.classList.remove('visible'); 
-                setTimeout(() => {
-                    currentView.classList.remove('active');
-                    if (nextView) {
-                        nextView.classList.add('active');
-                        void nextView.offsetWidth; 
-                        nextView.classList.add('visible'); 
-                    }
-                }, 700); /* 增加延迟以匹配更长的 CSS 动画时间 */
-            } else {
-                if (nextView) {
-                    nextView.classList.add('active');
-                    setTimeout(() => nextView.classList.add('visible'), 50);
-                }
-            }
-        }
-        
         // === 内容防复制功能 (JavaScript) ===
         function disableContentCopy() {
             // 1. 禁用右键菜单 (防止查看源代码和复制)
@@ -616,29 +1389,26 @@
                 e.preventDefault();
             });
 
-            // 2. 禁用 F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U (防止打开开发者工具和查看源代码)
+            // 2. 禁用常见的开发者工具快捷键
             document.addEventListener('keydown', function(e) {
                 // F12 key
                 if (e.key === 'F12') {
                     e.preventDefault();
                 }
-                // Ctrl+Shift+I (Chrome/Edge/Firefox)
-                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                // Ctrl/Cmd + Shift + I/J (Inspect/Console)
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) {
                     e.preventDefault();
                 }
-                // Ctrl+Shift+J (Chrome/Edge/Firefox Console)
-                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-                    e.preventDefault();
-                }
-                // Ctrl+U (View Source)
-                if (e.ctrlKey && e.key === 'U') {
+                // Ctrl/Cmd + U (View Source)
+                if ((e.ctrlKey || e.metaKey) && e.key === 'U') {
                     e.preventDefault();
                 }
             });
-
-            // 3. 禁用选择事件 (虽然 CSS 已经处理, 但这是另一层保护)
-            document.addEventListener('selectstart', function(e) {
+            
+            // 3. 禁用复制事件 (如果用户设法选中了文本)
+            document.addEventListener('copy', function(e) {
                 e.preventDefault();
+                // 可以在这里设置自定义提示 e.g. alert('内容受版权保护，禁止复制。');
             });
         }
 
@@ -647,7 +1417,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initLanguage();
             initIntro(); 
-            disableContentCopy(); // **新增：初始化防复制功能**
+            disableContentCopy(); // **初始化防复制功能**
 
             const homeView = document.getElementById('view-home');
             homeView.classList.add('active');
@@ -657,13 +1427,12 @@
             elementsToReveal.forEach(el => el.classList.add('hidden'));
             const observer = new IntersectionObserver((entries) => { 
                 entries.forEach(entry => { 
-                    // 当元素进入视野且未隐藏时，移除隐藏类
                     if (entry.isIntersecting) {
                        entry.target.classList.remove('hidden');
-                       observer.unobserve(entry.target); // 一旦显示就不再观察
+                       observer.unobserve(entry.target); // 一旦显示就不再观察，提升性能
                     }
                 }); 
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); // 略微提前加载
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
             elementsToReveal.forEach((el) => observer.observe(el));
 
             const footer = document.querySelector('.sticky-footer');
