@@ -8,143 +8,210 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
     
     <style>
-        /* === 样式系统 === */
-        :root { --bg: #ffffff; --text-main: #1a1a1a; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; }
+        :root { --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; --code-bg: #f4f6f8; --font-heading: "Playfair Display", serif; }
         * { box-sizing: border-box; }
-        body { margin: 0; padding: 0; font-family: "Inter", sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        
-        .top-bar { height: 70px; flex-shrink: 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
-        .brand { font-family: "Playfair Display"; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
-        .nav-link { color: #555; text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-left: 30px; }
-        
-        .layout { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 30px; border-bottom: 1px solid #eee; }
-        .sidebar-title { font-family: "Playfair Display"; font-size: 1.4rem; color: var(--accent); margin: 0; }
-        
-        .cat-group { margin-bottom: 30px; padding: 0 30px; }
-        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; display: block; margin-top: 30px; }
-        .article-link { display: block; padding: 8px 0; color: #444; font-size: 0.95rem; cursor: pointer; transition:0.2s; line-height:1.4; }
-        .article-link:hover { color: var(--accent); font-weight: 600; transform: translateX(5px); }
-
-        .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; position: relative; }
-        .container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; }
-        
-        /* 动态内容样式 */
-        .report-header { margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid #eee; }
-        .report-title { font-family: "Playfair Display"; font-size: 2.5rem; color: var(--accent); line-height: 1.2; margin-top: 10px; }
-        .report-label { color: var(--gold); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 60px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
-        h3 { font-size: 1.3rem; font-weight: 700; margin-top: 40px; color: #333; }
-        p { line-height: 1.8; color: #444; margin-bottom: 20px; text-align: justify; }
-        li { margin-bottom: 10px; line-height: 1.6; }
-        .concept-box { background: #f4f6f8; border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; }
-        .concept-title { font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; text-transform: uppercase; }
-        
-        /* 计算器样式 */
-        .calc-wrapper { background: #f4f6f8; border: 1px solid #ddd; border-radius: 8px; padding: 30px; margin: 40px 0; }
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .calc-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        
-        @media(max-width: 900px) { .layout { flex-direction: column; } .sidebar { width: 100%; height: 300px; } }
+        body { margin: 0; padding: 0; font-family: "Inter", sans-serif; color: var(--text-main); background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        .lang-cn { display: none !important; } .lang-en { display: block !important; }
+        body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
+        .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; }
+        .brand { font-family: var(--font-heading); font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
+        .nav-right { display: flex; gap: 30px; align-items: center; }
+        .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .nav-link:hover { color: var(--accent); }
+        .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
+        .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
+        .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+        .sidebar-header { padding: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .sidebar-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin: 0; }
+        .sidebar-content { padding: 30px; }
+        .cat-group { margin-bottom: 30px; }
+        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+        .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; border-left: 2px solid transparent; }
+        .article-link:hover { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); }
+        .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #fff; }
+        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .slogan-main { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s forwards; }
+        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; display: none; }
+        .article-container.active { display: block; animation: fadeIn 0.5s ease; }
+        .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+        .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
+        .report-meta { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: #888; background: var(--code-bg); padding: 10px 15px; display: inline-block; border-radius: 4px; }
+        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 80px; margin-bottom: 30px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
+        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 50px; margin-bottom: 20px; color: #333; }
+        p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
+        ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
+        .concept-box { background: var(--code-bg); border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
+        .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; }
+        .calc-wrapper { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin: 40px 0; }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .calc-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: "JetBrains Mono"; font-size: 1rem; }
+        .calc-result-box { margin-top: 20px; padding: 20px; background: #fff; border-left: 4px solid var(--gold); }
+        .calc-res-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: "JetBrains Mono"; }
+        .toc-back-btn { display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; }
+        .toc-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid #eee; }
+        .toc-link { display: block; padding: 6px 0 6px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; cursor: pointer;}
+        .toc-link:hover { color: var(--accent); font-weight: 700; border-left-color: var(--gold); }
+        .toc-h3 { padding-left: 30px; font-size: 0.8rem; }
+        table { width: 100%; border-collapse: collapse; margin: 40px 0; font-size: 0.95rem; }
+        th, td { padding: 15px; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--accent); color: #fff; }
+        .math-block { text-align: center; font-family: "Times New Roman", serif; font-style: italic; font-size: 1.3rem; padding: 20px; background: #fff; border: 1px dashed #ddd; margin: 30px 0; }
+        .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: "Playfair Display", serif; font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media(max-width: 900px) { .library-layout { flex-direction: column; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; } .calc-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body class="en-mode"> 
     <div class="top-bar">
         <a href="index.html" class="brand">L.K. Research</a>
-        <div class="nav-right"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-right">
+            <button class="lang-switch" onclick="toggleLanguage()">CN / EN</button>
+            <a href="index.html" class="nav-link">Home</a>
+        </div>
     </div>
-
-    <div class="layout">
+    <div class="library-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Library</h2>
-                <span style="font-size:0.75rem; color:#888;">PROPRIETARY ANALYSIS</span>
+                <span class="sidebar-subtitle">L.K. Capital Proprietary</span>
             </div>
-            <div id="catalog-list"></div> </aside>
-
+            <div class="sidebar-content" id="sidebar-list">
+                <div style="color:#999; text-align:center;">Loading...</div>
+            </div>
+        </aside>
         <main class="main-view" id="main-scroll">
-            <div id="content-area" class="container">
-                <div style="text-align:center; margin-top:100px; color:#999;">
-                    <h2>Select a report from the library</h2>
+            <div id="view-welcome" class="welcome-screen">
+                <div class="slogan-main">Discipline Creates Freedom.</div>
+            </div>
+            <div id="view-article" class="article-container">
+                <div class="brand-watermark">Louis K</div>
+                <div id="article-inject-point"></div>
+                <div style="margin-top: 60px; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem;">
+                    &copy; 2025 Louis K. Institutional Use Only.
                 </div>
             </div>
         </main>
     </div>
-
     <script>
-        // === 核心逻辑：读取文件 ===
-        async function init() {
-            try {
-                // 1. 读取 database.json
-                const response = await fetch('research_data/database.json');
-                if (!response.ok) throw new Error("Cannot load database");
-                const data = await response.json();
-                
-                // 2. 生成目录
-                renderSidebar(data);
+        let currentLang = 'en'; 
+        let articleDatabase = [];
+        let currentArticleId = null;
 
-                // 3. 如果URL有锚点，自动加载文章
+        function toggleLanguage() { setLanguage(currentLang === 'en' ? 'cn' : 'en'); }
+        function setLanguage(lang) {
+            currentLang = lang;
+            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); } 
+            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
+            if(articleDatabase.length > 0) renderCatalog();
+        }
+
+        // === 核心：读取 database.json ===
+        async function init() {
+            const userLang = navigator.language || navigator.userLanguage; 
+            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
+
+            try {
+                // 1. 从文件夹读取清单
+                const resp = await fetch('research_data/database.json');
+                if(!resp.ok) throw new Error("DB Load Failed");
+                articleDatabase = await resp.json();
+                
+                renderCatalog();
+
+                // 2. 检查链接是否有文章ID
                 const hash = window.location.hash.substring(1);
-                if(hash) loadPage(hash, data);
+                if(hash) loadArticle(hash);
 
             } catch (e) {
-                document.getElementById('catalog-list').innerHTML = `<p style="padding:20px; color:red">Error: Need Local Server or Upload to Web Host.<br>${e.message}</p>`;
+                document.getElementById('sidebar-list').innerHTML = '<div style="color:red; padding:20px;">Error loading library. Ensure research_data folder exists.</div>';
             }
         }
 
-        function renderSidebar(data) {
-            const sidebar = document.getElementById('catalog-list');
+        function renderCatalog() {
             let html = '';
-            data.forEach(group => {
-                html += `<div class="cat-group"><span class="cat-name">${group.category}</span>`;
-                group.articles.forEach(art => {
-                    // 将文章路径存入 onclick
-                    html += `<div class="article-link" onclick="loadPage('${art.id}', null, '${art.file}')">${art.title}</div>`;
+            articleDatabase.forEach(group => {
+                const catName = currentLang === 'cn' ? group.category_cn : group.category_en;
+                html += `<div class="cat-group"><span class="cat-name">${catName}</span>`;
+                group.items.forEach(art => {
+                    const title = currentLang === 'cn' ? art.title_cn : art.title_en;
+                    html += `<div class="article-link" onclick="loadArticle('${art.id}')">${title}</div>`;
                 });
                 html += `</div>`;
             });
-            sidebar.innerHTML = html;
+            document.getElementById('sidebar-list').innerHTML = html;
         }
 
-        // 加载具体的 .html 文件
-        async function loadPage(id, dataObj, filePath) {
-            // 如果是从URL加载，需要先在数据里找路径
-            if(!filePath && dataObj) {
-                dataObj.forEach(g => {
-                    const found = g.articles.find(a => a.id === id);
-                    if(found) filePath = found.file;
-                });
+        async function loadArticle(id) {
+            let targetItem = null;
+            for(const g of articleDatabase) {
+                const found = g.items.find(i => i.id === id);
+                if(found) { targetItem = found; break; }
             }
-            if(!filePath) return;
+            if(!targetItem) return;
 
-            const contentDiv = document.getElementById('content-area');
-            contentDiv.innerHTML = '<p style="text-align:center; color:#999; margin-top:50px;">Loading...</p>';
+            currentArticleId = id;
+            window.location.hash = id;
             
+            // UI 切换
+            document.getElementById('view-welcome').style.display = 'none';
+            const container = document.getElementById('view-article');
+            container.classList.add('active');
+            document.getElementById('article-inject-point').innerHTML = '<div style="text-align:center; padding:50px; color:#999;">Loading Content...</div>';
+
             try {
-                // 读取独立的 HTML 文件
-                const resp = await fetch(filePath);
-                if(!resp.ok) throw new Error("File not found");
-                const html = await resp.text();
+                // 3. 读取独立的文章文件
+                const fileResp = await fetch(targetItem.file);
+                if(!fileResp.ok) throw new Error("File missing");
+                const html = await fileResp.text();
                 
-                contentDiv.innerHTML = html;
+                document.getElementById('article-inject-point').innerHTML = html;
                 document.getElementById('main-scroll').scrollTop = 0;
-                window.location.hash = id; // 更新URL
+                regenerateTOC();
 
             } catch (e) {
-                contentDiv.innerHTML = `<h3 style="color:red">Failed to load report.</h3><p>Ensure '${filePath}' exists in the folder.</p>`;
+                document.getElementById('article-inject-point').innerHTML = `<div style="color:red;">Could not load file: ${targetItem.file}</div>`;
             }
         }
 
-        // 全局计算器函数
-        window.calcRR = () => {
-            const w = document.getElementById('in-wr').value;
+        function regenerateTOC() {
+            // 生成返回按钮和目录
+            const backText = currentLang === 'en' ? "← Back to Library" : "← 返回知识库";
+            let tocHTML = `<div class="toc-back-btn" onclick="goBack()">${backText}</div>`;
+            tocHTML += `<ul class="toc-list">`;
+            
+            const headers = document.getElementById('article-inject-point').querySelectorAll('h2, h3');
+            headers.forEach((h, i) => {
+                const langParent = h.closest('.lang-cn, .lang-en');
+                if (langParent) {
+                      if (currentLang === 'en' && langParent.classList.contains('lang-cn')) return;
+                      if (currentLang === 'cn' && langParent.classList.contains('lang-en')) return;
+                }
+                h.id = 'toc-' + i;
+                const cls = h.tagName === 'H3' ? 'toc-link toc-h3' : 'toc-link';
+                tocHTML += `<li style="margin-bottom:5px;"><a onclick="document.getElementById('toc-${i}').scrollIntoView({behavior:'smooth'})" class="${cls}">${h.innerText}</a></li>`;
+            });
+            tocHTML += `</ul>`;
+            document.getElementById('sidebar-list').innerHTML = tocHTML;
+        }
+
+        function goBack() {
+            document.getElementById('view-welcome').style.display = 'flex';
+            document.getElementById('view-article').classList.remove('active');
+            window.location.hash = '';
+            renderCatalog();
+        }
+
+        // 计算器函数 (全局)
+        window.calculateRR = function() {
+            const w = parseFloat(document.getElementById('in-wr').value);
             if(w) document.getElementById('out-rr').innerText = "1 : " + ((1-(w/100))/(w/100)).toFixed(2);
-        };
-        window.calcWR = () => {
-            const r = document.getElementById('in-rr').value;
-            if(r) document.getElementById('out-wr').innerText = (1/(1+parseFloat(r))*100).toFixed(1) + "%";
-        };
+        }
+        window.calculateWR = function() {
+            const r = parseFloat(document.getElementById('in-rr').value);
+            if(r) document.getElementById('out-wr').innerText = (1/(1+r)*100).toFixed(1) + "%";
+        }
 
         init();
     </script>
