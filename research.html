@@ -3,27 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L.K. Capital | Research Library</title>
+    <meta name="description" content="L.K. Capital Quantitative Research Library - Institutional analysis on Market Structure, Convexity, and Order Flow.">
+    <title>L.K. Capital | Quantitative Research</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
 
     <style>
-        /* === 1. 核心配色 === */
-        :root { --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; --code-bg: #f4f6f8; }
+        /* === 1. 核心配色 (Institutional Palette) === */
+        :root { 
+            --bg: #ffffff; 
+            --text-main: #1a1a1a; 
+            --text-light: #555; 
+            --accent: #0a2540; /* Navy Blue */
+            --gold: #c5a059;   /* Matte Gold */
+            --sidebar-bg: #f8f9fa; 
+            --border: #e5e5e5; 
+            --code-bg: #f4f6f8;
+            --success: #2e7d32;
+            --danger: #c62828;
+        }
+        
         * { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg); font-family: "Inter", sans-serif; color: var(--text-main); overflow: hidden; display: flex; flex-direction: column; }
 
-        /* === 2. 双语控制 === */
+        /* === 2. 双语控制 (Bilingual System) === */
         .lang-cn { display: none !important; } .lang-en { display: block !important; }
         body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
 
         /* === 3. 顶部导航 === */
         .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; position: relative; }
-        .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; letter-spacing: 0.5px; }
+        .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
         .nav-right { display: flex; gap: 30px; align-items: center; }
         .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; cursor: pointer; }
         .nav-link:hover { color: var(--accent); }
+        .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s; background: transparent; color: var(--accent); }
+        .lang-switch:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
 
         /* === 4. 主布局 === */
         .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
@@ -35,13 +50,14 @@
 
         .cat-group { margin-bottom: 40px; }
         .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
-        .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; }
-        .article-link:hover { color: var(--accent); transform: translateX(5px); }
+        .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; border-left: 2px solid transparent; padding-left: 0; }
+        .article-link:hover { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); }
+        .article-link.active { font-weight: 700; color: var(--accent); }
 
         .toc-back-btn { display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; transition: 0.2s; background: #fff; }
         .toc-back-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
         .toc-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid #eee; }
-        .toc-link { display: block; padding: 8px 0 8px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; transition: 0.2s; }
+        .toc-link { display: block; padding: 6px 0 6px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .toc-link:hover, .toc-link.active { color: var(--accent); font-weight: 700; border-left-color: var(--gold); }
         .toc-h3 { padding-left: 30px; font-size: 0.8rem; }
 
@@ -50,8 +66,20 @@
         .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-image: radial-gradient(#e5e5e5 1px, transparent 1px); background-size: 30px 30px; }
         .slogan-main { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s forwards; }
         .slogan-sub { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 4px; opacity: 0; animation: fadeUp 1s forwards 0.3s; }
-        .article-container { max-width: 850px; margin: 0 auto; padding: 80px 40px 150px; display: none; position: relative; }
+        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; display: none; position: relative; }
         .article-container.visible { display: block; animation: fadeIn 0.5s ease; }
+
+        /* === 组件：计算器 (Calculator) === */
+        .calc-wrapper { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin: 40px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .calc-title { font-family: "Playfair Display"; font-size: 1.4rem; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .calc-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #666; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .calc-input-row { display: flex; align-items: center; gap: 10px; }
+        .calc-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: "JetBrains Mono"; font-size: 1rem; color: var(--accent); transition: 0.3s; }
+        .calc-input:focus { border-color: var(--gold); outline: none; }
+        .calc-result-box { margin-top: 20px; padding: 20px; background: #fff; border-left: 4px solid var(--gold); border-radius: 0 4px 4px 0; }
+        .calc-res-label { font-size: 0.8rem; color: #888; }
+        .calc-res-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-top: 5px; font-family: "JetBrains Mono"; }
 
         /* === 自动化分享组件 === */
         .share-toolbar { display: flex; gap: 15px; margin-top: 60px; padding-top: 30px; border-top: 1px dashed #eee; }
@@ -62,7 +90,7 @@
         #copy-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         #copy-toast.show { opacity: 1; bottom: 50px; }
 
-        /* 文章内容样式 */
+        /* === 文章内容样式 === */
         .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
         .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
         .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
@@ -73,24 +101,50 @@
         p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
         ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
         li { margin-bottom: 10px; }
-        blockquote { font-family: "Playfair Display"; font-size: 1.4rem; font-style: italic; color: var(--gold); text-align: center; margin: 60px 0; padding: 30px; background: #fafafa; border-radius: 8px; }
+        
+        blockquote { font-family: "Playfair Display"; font-size: 1.4rem; font-style: italic; color: var(--gold); text-align: center; margin: 60px 0; padding: 30px; background: #fafafa; border-radius: 8px; position: relative; }
+        blockquote::before { content: "“"; font-size: 5rem; color: rgba(197, 160, 89, 0.2); position: absolute; top: -20px; left: 10px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 40px 0; font-size: 0.95rem; }
+        th, td { padding: 15px; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--accent); color: #fff; font-weight: 600; font-family: "Inter"; }
+        tr:nth-child(even) { background: #f9f9f9; }
+
         .concept-box { background: var(--code-bg); border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
         .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* 数学公式样式模拟 */
+        .math-block { text-align: center; font-family: "Times New Roman", serif; font-style: italic; font-size: 1.3rem; padding: 20px; background: #fff; border: 1px dashed #ddd; margin: 30px 0; border-radius: 8px; }
+
         .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: "Playfair Display", serif; font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; white-space: nowrap; user-select: none; }
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media(max-width: 900px) { .library-layout { flex-direction: column; overflow-y: auto; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; border-right: none; border-bottom: 1px solid var(--border); } .main-view { overflow: visible; } .welcome-screen { padding: 60px 20px; height: 50vh; } .slogan-main { font-size: 2rem; } .article-container { padding: 40px 20px; } .report-title { font-size: 2rem; } .brand-watermark { left: 50%; font-size: 3rem; opacity: 0.04; } }
+        
+        /* 移动端适配 */
+        @media(max-width: 900px) { 
+            .library-layout { flex-direction: column; overflow-y: auto; height: auto; } 
+            .sidebar { width: 100%; height: auto; max-height: 300px; border-right: none; border-bottom: 1px solid var(--border); } 
+            .main-view { overflow: visible; } 
+            .welcome-screen { padding: 60px 20px; height: 50vh; } 
+            .slogan-main { font-size: 2rem; } 
+            .article-container { padding: 40px 20px; } 
+            .report-title { font-size: 2rem; } 
+            .brand-watermark { left: 50%; font-size: 3rem; opacity: 0.04; }
+            .calc-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body class="en-mode"> 
 
     <div class="top-bar">
-        <a href="index.html" class="brand">L.K. Research</a>
+        <a href="index.html" class="brand">
+            <span>L.K. Research</span>
+        </a>
         <div class="nav-right">
+            <button class="lang-switch" onclick="toggleLanguage()">CN / EN</button>
             <a href="index.html" class="nav-link">Home</a>
-            <a href="services.html" class="nav-link">Services</a>
-            <a href="analysis.html" class="nav-link">Strategy Analysis</a>
+            <a href="analysis.html" class="nav-link">Strategy</a>
         </div>
     </div>
 
@@ -98,7 +152,7 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Library</h2>
-                <span class="sidebar-subtitle">Institutional Analysis</span>
+                <span class="sidebar-subtitle">L.K. Capital Proprietary</span>
             </div>
             <div class="sidebar-content" id="sidebar-list"></div>
         </aside>
@@ -121,7 +175,7 @@
                 </div>
 
                 <div style="margin-top: 60px; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem; position: relative; z-index: 2;">
-                    &copy; 2025 L.K. Capital Research Team.
+                    &copy; 2025 L.K. Capital Research Team. Institutional Use Only.
                 </div>
             </div>
         </main>
@@ -133,20 +187,215 @@
         let currentLang = 'en'; 
         let currentArticleId = null; 
 
-        function autoDetectLanguage() {
-            const userLang = navigator.language || navigator.userLanguage; 
-            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
+        function toggleLanguage() {
+            setLanguage(currentLang === 'en' ? 'cn' : 'en');
         }
 
         function setLanguage(lang) {
             currentLang = lang;
-            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); }
-            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
+            if (lang === 'cn') { 
+                document.body.classList.remove('en-mode'); 
+                document.body.classList.add('cn-mode'); 
+            } else { 
+                document.body.classList.remove('cn-mode'); 
+                document.body.classList.add('en-mode'); 
+            }
             if (currentArticleId) regenerateTOC(); else renderCatalog();
         }
 
-        // === 📚 数据库：完整版白皮书 (深度增强版) ===
+        // === 📚 核心数据库 (DATABASE) ===
         const articleDatabase = [
+            {
+                category: { en: "Quantitative Research", cn: "量化决策分析" },
+                articles: [
+                    {
+                        id: "alpha_geometry_2025",
+                        title: { en: "The Geometry of Alpha: Win Rate vs. Payoff", cn: "Alpha 的几何学：胜率与赔率的博弈论" },
+                        content: `
+                            <div class="report-header">
+                                <span class="report-label">L.K. Capital Quant Lab</span>
+                                <div class="lang-cn">
+                                    <h1 class="report-title">Alpha 的几何学：<br>胜率精度与赔率凸性的博弈论分析</h1>
+                                    <div class="report-meta">发布日期: Nov 24, 2025 | 类别: 算法博弈论 | 阅读时间: 15min</div>
+                                </div>
+                                <div class="lang-en">
+                                    <h1 class="report-title">The Geometry of Alpha:<br>Game Theory Analysis of Win Rate vs. Convexity</h1>
+                                    <div class="report-meta">Date: Nov 24, 2025 | Category: Algo Game Theory | Read: 15min</div>
+                                </div>
+                            </div>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>1. 引言：交易二元悖论的解构</h2>
+                                    <p>在金融市场交易的浩瀚领域中，始终存在着一个令无数参与者困惑的核心二元悖论：即“胜率 (Precision)”与“盈亏比 (Payoff Ratio)”的权衡。这不仅是一个数学问题，更是一个涉及概率论、行为金融学以及算法博弈论的深层哲学命题。</p>
+                                    <p>本报告基于117份关于市场微观结构和量化模型的深度研究，旨在论证一个观点：尽管人类本能渴望高胜率带来的心理满足感（即“精准度”），但在长期生存和资本复利的维度上，盈亏比所构建的<strong>凸性 (Convexity)</strong> 优势具有压倒性的优先级。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>1. Introduction: Deconstructing the Binary Paradox</h2>
+                                    <p>In the vast domain of financial trading, a core binary paradox confuses participants from retail to hedge funds: the trade-off between **Win Rate (Precision)** and **Risk-Reward Ratio (Payoff)**. This is not merely a math problem, but a philosophical proposition involving probability theory, behavioral finance, and algorithmic game theory.</p>
+                                    <p>Based on 117 deep-dive studies on market microstructure and quantitative models, this report argues that while humans instinctively crave the psychological satisfaction of high win rates ("Precision"), the **Convexity** built by high payoff ratios holds overwhelming priority for long-term survival and compounding.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>2. 核心度量的数学解构</h2>
+                                    <h3>2.1 胜率 (Win Rate)：精准度的虚幻指标</h3>
+                                    <p>大众普遍认为高胜率等同于高盈利能力。这种直觉来源于人类进化的多巴胺反馈机制。然而，在量化交易维度，胜率极具欺骗性。高胜率策略往往伴随着“左偏分布” (Negative Skewness)，即大量的微小盈利掩盖了潜在的毁灭性尾部风险。</p>
+                                    
+                                    <h3>2.2 盈亏比 (Risk-Reward)：赔率的非对称性</h3>
+                                    <p>高盈亏比（如 1:3）意味着收益的增长速度快于风险的累积速度。这在数学上被称为“正凸性”。即使胜率下降，由于赔率的提升，系统的整体数学期望依然上升。</p>
+
+                                    <h3>2.3 盈亏平衡定理 (The Breakeven Theorem)</h3>
+                                    <p>这两个指标并非独立存在，而是通过数学公式刚性锁定。理解下表是做出任何理性决策的前提：</p>
+                                    <table>
+                                        <tr><th>盈亏比 (R:R)</th><th>最低生存胜率</th><th>策略特征</th></tr>
+                                        <tr><td>1 : 1</td><td>50.0%</td><td>随机漫步边界</td></tr>
+                                        <tr><td>1 : 2</td><td>33.3%</td><td>机构与零售分水岭</td></tr>
+                                        <tr><td>1 : 3</td><td>25.0%</td><td>趋势跟踪 (Trend Following)</td></tr>
+                                        <tr><td>1 : 5</td><td>16.7%</td><td>极端黑天鹅捕获</td></tr>
+                                    </table>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>2. Mathematical Deconstruction of Core Metrics</h2>
+                                    <h3>2.1 Win Rate: The Illusion of Precision</h3>
+                                    <p>The public generally equates high win rates with high profitability. This intuition stems from dopamine feedback loops. However, in quantitative trading, win rate is deceptive. High win rate strategies often suffer from **Negative Skewness**: many small wins masking a potential catastrophic tail risk.</p>
+
+                                    <h3>2.2 Risk-Reward Ratio: Asymmetry of Odds</h3>
+                                    <p>A high Risk-Reward ratio (e.g., 1:3) implies that gains grow faster than risks accumulate. This is mathematically known as **Positive Convexity**. Even if the win rate drops, the system's overall mathematical expectancy rises due to the increased payoff.</p>
+
+                                    <h3>2.3 The Breakeven Theorem</h3>
+                                    <p>These two metrics are rigidly locked by mathematical formula. Understanding the table below is a prerequisite for rational decision-making:</p>
+                                    <table>
+                                        <tr><th>Risk : Reward</th><th>Min. Win Rate</th><th>Strategy Profile</th></tr>
+                                        <tr><td>1 : 1</td><td>50.0%</td><td>Random Walk Boundary</td></tr>
+                                        <tr><td>1 : 2</td><td>33.3%</td><td>Institutional Threshold</td></tr>
+                                        <tr><td>1 : 3</td><td>25.0%</td><td>Trend Following</td></tr>
+                                        <tr><td>1 : 5</td><td>16.7%</td><td>Black Swan Catching</td></tr>
+                                    </table>
+                                </div>
+
+                                <div class="calc-wrapper">
+                                    <div class="calc-title">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M8 14v4"/><path d="M12 10v4"/></svg>
+                                        <span class="lang-cn">L.K. 盈亏平衡计算器</span>
+                                        <span class="lang-en">L.K. Breakeven Simulator</span>
+                                    </div>
+                                    <div class="lang-cn" style="margin-bottom:20px; font-size:0.9rem; color:#666;">输入您的胜率或目标盈亏比，计算生存所需的数学底线。</div>
+                                    <div class="lang-en" style="margin-bottom:20px; font-size:0.9rem; color:#666;">Input your Win Rate or Target R:R to calculate the mathematical survival baseline.</div>
+                                    
+                                    <div class="calc-grid">
+                                        <div class="calc-group">
+                                            <label class="lang-cn">输入：您的胜率 (%)</label>
+                                            <label class="lang-en">Input: Your Win Rate (%)</label>
+                                            <div class="calc-input-row">
+                                                <input type="number" id="input-wr" class="calc-input" placeholder="e.g. 40" oninput="calculateRR()">
+                                            </div>
+                                            <div class="calc-result-box">
+                                                <div class="lang-cn calc-res-label">最低所需盈亏比 (1 : X)</div>
+                                                <div class="lang-en calc-res-label">Min. Required R:R (1 : X)</div>
+                                                <div id="res-rr" class="calc-res-value">--</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="calc-group">
+                                            <label class="lang-cn">输入：目标盈亏比 (1 : X)</label>
+                                            <label class="lang-en">Input: Target Reward (1 : X)</label>
+                                            <div class="calc-input-row">
+                                                <span style="font-weight:bold; color:#888;">1 : </span>
+                                                <input type="number" id="input-rr" class="calc-input" placeholder="e.g. 2.5" oninput="calculateWR()">
+                                            </div>
+                                            <div class="calc-result-box">
+                                                <div class="lang-cn calc-res-label">最低生存胜率</div>
+                                                <div class="lang-en calc-res-label">Min. Survival Win Rate</div>
+                                                <div id="res-wr" class="calc-res-value">--</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>3. 赔率的几何学：为何机构选择低胜率？</h2>
+                                    <h3>3.1 趋势跟踪：接受无知的智慧</h3>
+                                    <p>趋势跟踪策略 (Trend Following) 是高盈亏比哲学的极致体现。其核心信仰是：如果你不知道市场要去哪里，那就假设它会继续现在的方向。其胜率通常仅为 30%-40%，但亏损被严格限制在 1R，而盈利不设上限。</p>
+                                    <h3>3.2 机构视角的限制</h3>
+                                    <p>大型对冲基金和 CTA 策略常年胜率徘徊在 40% 左右。因为资金体量大，他们无法像散户那样频繁剥头皮，只能依赖大趋势 (High R:R) 来容纳头寸。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>3. The Geometry of Odds: Why Institutions Choose Low Win Rates?</h2>
+                                    <h3>3.1 Trend Following: The Wisdom of Ignorance</h3>
+                                    <p>Trend Following is the ultimate embodiment of high payoff philosophy. Its core belief: If you don't know where the market is going, assume it will continue in the current direction. Win rates are typically only 30%-40%, but losses are capped at 1R, while profits are uncapped.</p>
+                                    <h3>3.2 Institutional Constraints</h3>
+                                    <p>Large hedge funds and CTA strategies often hover around a 40% win rate. Due to size, they cannot scalp like retail traders; they must rely on large trends (High R:R) to accommodate their positions.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>4. 终极裁决：数学期望与凯利公式</h2>
+                                    <p>为了做出理性决定，我们引入终极裁判：数学期望 (Expectancy)。</p>
+                                    <div class="math-block">
+                                        E = (P_win × Avg_Win) - (P_loss × Avg_Loss)
+                                    </div>
+                                    <p><strong>模型 A (高胜率)：</strong> 80% 胜率，赚 $100 亏 $500 → 期望值 = -$20 (破产)</p>
+                                    <p><strong>模型 B (高盈亏比)：</strong> 40% 胜率，赚 $300 亏 $100 → 期望值 = +$60 (盈利)</p>
+                                    <blockquote class="lang-cn">
+                                        “高盈亏比可以弥补低胜率，但高胜率很难弥补糟糕的盈亏比。”
+                                    </blockquote>
+                                    
+                                    <h3>凯利公式 (Kelly Criterion) 的警告</h3>
+                                    <p>对于赚 1 亏 10 的高胜率策略，凯利公式计算结果通常为负值。这意味着从资金管理角度看，该策略不仅不值得投资，甚至应被禁止交易。</p>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>4. The Final Verdict: Expectancy & Kelly Criterion</h2>
+                                    <p>To make a rational decision, we introduce the ultimate judge: Mathematical Expectancy.</p>
+                                    <div class="math-block">
+                                        E = (P_win × Avg_Win) - (P_loss × Avg_Loss)
+                                    </div>
+                                    <p><strong>Model A (High Win Rate):</strong> 80% WR, Win $100, Loss $500 → E = -$20 (Bankruptcy)</p>
+                                    <p><strong>Model B (High Payoff):</strong> 40% WR, Win $300, Loss $100 → E = +$60 (Profit)</p>
+                                    <blockquote class="lang-en">
+                                        "High payoff can compensate for low accuracy, but high accuracy cannot compensate for poor payoff."
+                                    </blockquote>
+                                    
+                                    <h3>The Kelly Criterion Warning</h3>
+                                    <p>For high win-rate strategies with poor risk-reward (e.g., Risk 10 to make 1), the Kelly formula often yields a negative value. This means mathematically, the strategy should not be traded at all.</p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="lang-cn">
+                                    <h2>5. 结论与 L.K. 执行策略</h2>
+                                    <p>不要被“精准度”的幻觉所迷惑。胜率满足的是你的自尊心，而盈亏比填充的是你的银行账户。</p>
+                                    <div class="concept-box">
+                                        <span class="concept-title">给 Louisako 的建议</span>
+                                        <p>1. <strong>放弃预测：</strong> 接受 40%-50% 的胜率是专业常态。</p>
+                                        <p>2. <strong>控制可控：</strong> 胜率是市场给的，盈亏比是你定的。将命运寄托在自己可控的变量上。</p>
+                                        <p>3. <strong>SMC 融合：</strong> 利用供需区 (Supply/Demand) 的“狙击手入场”来压缩止损，从而在不依赖大趋势的情况下，获得 1:3 以上的数学优势。</p>
+                                    </div>
+                                </div>
+                                <div class="lang-en">
+                                    <h2>5. Conclusion & L.K. Execution Strategy</h2>
+                                    <p>Do not be misled by the illusion of "Precision". Win rate satisfies your ego; Risk-Reward fills your bank account.</p>
+                                    <div class="concept-box">
+                                        <span class="concept-title">Advice for Louisako</span>
+                                        <p>1. <strong>Abandon Prediction:</strong> Accept that a 40%-50% win rate is the professional norm.</p>
+                                        <p>2. <strong>Control the Controllable:</strong> The market dictates the win rate; YOU dictate the risk-reward. Anchor your fate to variables you control.</p>
+                                        <p>3. <strong>SMC Fusion:</strong> Use Supply/Demand "Sniper Entries" to compress stops, achieving 1:3+ mathematical advantage without relying on massive trends.</p>
+                                    </div>
+                                </div>
+                            </section>
+                        `
+                    },
+                    {
+                        id: "placeholder_2026",
+                        title: { en: "Coming Soon...", cn: "更多研究报告..." },
+                        content: `<div style="text-align:center; padding:100px;"><h2>Research in Progress</h2></div>`
+                    }
+                ]
+            },
             {
                 category: { en: "Whitepapers (SMC)", cn: "核心研报 (SMC)" },
                 articles: [
@@ -241,7 +490,7 @@
                                 <div class="lang-cn"><h2>第 5 章：XAUUSD 的“猎杀行为”与流动性突袭</h2><p>黄金是流动性猎杀之王。高波动、高密度止损是其特征。其 **Judas Swing** 行为在主要交易时段频繁发生。</p></div>
                                 <div class="lang-en"><h2>Chapter 5: The Hunt for Liquidity & XAUUSD Raid Behavior</h2><p>Gold is the king of liquidity hunts, characterized by high volatility and dense stop-loss clusters. Its **Judas Swing** behavior is frequent during major sessions.</p></div>
                                 <div class="lang-cn">
-                                    <p><strong>机构逻辑：</strong> 做市商需要对手盘。如果他们想做多，必须先诱导散户做空（跌破支撑），或触发多头的止损卖单（Sell Stops）。**流动性 (Stops/Pending Orders)** 是市场的燃料。**突袭 (Raid)** 通常发生在日线或 4 小时图上的 **Equal Highs/Lows** 区域。</p>
+                                    <p><strong>机构逻辑：</strong> 做市商需要对手盘。如果他们想做多，必须先诱导散户做空（跌破支撑），或触发多头的止损卖单 (Sell Stops)。**流动性 (Stops/Pending Orders)** 是市场的燃料。**突袭 (Raid)** 通常发生在日线或 4 小时图上的 **Equal Highs/Lows** 区域。</p>
                                     <blockquote class="lang-cn">“价格交付的唯一驱动力是流动性。一切运动都是为了平衡订单、清算止损。”</blockquote>
                                 </div>
                                 <div class="lang-en">
@@ -534,14 +783,6 @@
                                 </div>
                             </section>
                         `
-                    },
-                    {
-                        id: "outlook_placeholder",
-                        title: { en: "Q4 2025 Global Macro Forecast", cn: "2025年第四季度宏观前瞻" },
-                        content: `
-                            <div class="lang-cn"><h1>内容撰写中...</h1><p>该报告将于近期发布。</p></div>
-                            <div class="lang-en"><h1>Coming Soon...</h1><p>This report will be published shortly.</p></div>
-                        `
                     }
                 ]
             }
@@ -580,7 +821,7 @@
             currentArticleId = id; 
             viewWelcome.style.display = 'none';
             viewArticle.classList.add('visible');
-            shareToolbar.style.display = 'flex'; // Show share toolbar
+            shareToolbar.style.display = 'flex'; 
             articleInject.innerHTML = targetArticle.content;
             mainScroll.scrollTop = 0;
             
@@ -625,8 +866,35 @@
             else if (platform === 'copy') { navigator.clipboard.writeText(window.location.href).then(() => { const toast = document.getElementById('copy-toast'); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }); }
         }
 
+        // === 🧮 计算器逻辑 (Calculator Logic) ===
+        function calculateRR() {
+            const wr = parseFloat(document.getElementById('input-wr').value);
+            if (!wr || wr <= 0 || wr >= 100) { document.getElementById('res-rr').innerText = "--"; return; }
+            
+            // Formula: RR = (1 - WR) / WR
+            const decimalWR = wr / 100;
+            const requiredRR = (1 - decimalWR) / decimalWR;
+            
+            document.getElementById('res-rr').innerText = "1 : " + requiredRR.toFixed(2);
+            document.getElementById('input-rr').value = ""; // Clear other input
+        }
+
+        function calculateWR() {
+            const rr = parseFloat(document.getElementById('input-rr').value);
+            if (!rr || rr <= 0) { document.getElementById('res-wr').innerText = "--"; return; }
+
+            // Formula: WR = 1 / (1 + RR)
+            const requiredWR = 1 / (1 + rr);
+            
+            document.getElementById('res-wr').innerText = (requiredWR * 100).toFixed(1) + "%";
+            document.getElementById('input-wr').value = ""; // Clear other input
+        }
+
         function init() {
-            autoDetectLanguage();
+            // Auto-detect language
+            const userLang = navigator.language || navigator.userLanguage; 
+            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
+
             const hash = window.location.hash.substring(1);
             if (hash) loadArticle(hash); else renderCatalog();
         }
