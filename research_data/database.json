@@ -1,0 +1,26 @@
+[
+    {
+        "category_en": "Quantitative Research",
+        "category_cn": "量化决策分析",
+        "items": [
+            {
+                "id": "alpha_geometry",
+                "title_en": "The Geometry of Alpha: Win Rate vs. Payoff",
+                "title_cn": "Alpha 的几何学：胜率与赔率的博弈论",
+                "file": "research_data/post_alpha.html"
+            }
+        ]
+    },
+    {
+        "category_en": "Whitepapers (SMC)",
+        "category_cn": "核心研报 (SMC)",
+        "items": [
+            {
+                "id": "xauusd_smc",
+                "title_en": "XAUUSD Institutional Order Flow",
+                "title_cn": "XAUUSD 机构订单流分析",
+                "file": "research_data/post_xauusd.html"
+            }
+        ]
+    }
+]
