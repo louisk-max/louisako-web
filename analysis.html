@@ -111,6 +111,17 @@
         p, li { color: #4a4a4a; line-height: 1.8; margin-bottom: 15px; font-size: 1rem; }
         hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 
+        /* === 字体加粗优化：将内容中的双星号(**text**)渲染为粗体 === */
+        p b, p strong, li b, li strong, .step b, .step strong {
+            font-weight: 700; /* 确保加粗效果明显 */
+            color: var(--text-main); /* 突出显示关键术语 */
+        }
+        /* 注意：如果内容中的双星号没有被解析为 <b> 或 <strong>，您需要更新生成报告内容的逻辑，使其进行 HTML 解析。
+           考虑到您的报告内容是 JavaScript 字符串，假设您会使用类似 replace(/(\*\*|__)(.*?)\1/g, '<b>$2</b>') 
+           的逻辑在插入 DOM 前处理，这里的 CSS 确保了这些标签的显示效果。
+           为了兼容性，我们将直接在 JS 中进行 Markdown 到 HTML 的转换。
+        */
+
         /* Chart/Image Styles */
         .chart-container { width: 100%; margin: 30px 0; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .chart-container img { width: 100%; height: auto; display: block; }
@@ -155,7 +166,6 @@
 
     <script>
         let currentLang = 'en'; 
-        // 确保默认加载最新的报告 (11-25)
         let currentReportId = "xauusd_20251125_intraday_outlook_v2"; 
 
         // === 报告数据库 (已应用优化和日期修正) ===
@@ -231,7 +241,7 @@
                             </div>
                             <div class="step">
                                 <div class="step-num">3</div>
-                                <div class="lang-cn"><strong>扩张目标：</strong> 若价格实体突破 $4160 并持续站稳，则放弃回调思路，追涨至 $4245（趋势扩张目标）。</div>
+                                <div class="lang-cn"><strong>扩张目标：：</strong> 若价格实体突破 $4160 并持续站稳，则放弃回调思路，追涨至 $4245（趋势扩张目标）。</div>
                                 <div class="lang-en"><strong>Expansion Target:</strong> If price breaks $4160 and holds, abandon retracement bias and seek longs towards $4245 (Expansion Target).</div>
                             </div>
                             <hr>
@@ -242,8 +252,8 @@
             },
             // --- 报告 2 (历史，周度展望 - 2025-11-23) ---
             {
-                id: "xauusd_20251123_weekly_outlook", // 修正 ID
-                date: "2025-11-23", // 修正日期
+                id: "xauusd_20251123_weekly_outlook", 
+                date: "2025-11-23", 
                 title: { en: "XAUUSD Weekly Outlook: Bullish Accumulation Continues", cn: "XAUUSD 周度展望：多头持续吸筹" },
                 content: `
                     <div class="report-header-content">
@@ -267,8 +277,8 @@
                                 <div><span class="tag bullish">Strong Bullish Flow</span><span class="tag neutral">H4 FVG Mitigated</span></div>
                             </div>
                             
-                            <div class="lang-cn"><p>上周 XAUUSD 展现出强劲的多头机构订单流。价格在两次重要的 **H4 FVG (公允价值缺口) 精准回补**后，多头订单流持续生效。价格在关键的上升趋势线（诱导流动性）上进行了三次**流动性扫荡测试**，每次都伴随着快速的结构反弹，确认了机构在回撤区域的坚定买入意愿。</p></div>
-                            <div class="lang-en"><p>Last week, XAUUSD demonstrated persistent institutional bullish Order Flow. Price found robust support after two **precise H4 FVG mitigations**. The three successful low tests (Liquidity Sweep) on the crucial ascending trendline confirmed strong institutional buying intent in the retracement zones.</p></div>
+                            <div class="lang-cn"><p>上周 XAUUSD 展现出强劲的多头机构订单流。价格在两次重要的 **H4 FVG (公允价值缺口) 精准回补**后，多头订单流持续生效。价格在关键的上升趋势线（诱导流动性）上进行了三次**流动性扫荡测试**，每次都伴随着快速的向上反弹。这清楚表明了机构在回撤区域的坚定买入意愿。</p></div>
+                            <div class="lang-en"><p>Last week, XAUUSD demonstrated strong institutional bullish order flow. Price found robust support after two significant **H4 FVG (Fair Value Gap) mitigations**, and successfully tested the crucial ascending trendline (as marked in your chart) three times, each followed by a swift upward bounce. This clearly indicates strong institutional buying intent in retracement zones.</p></div>
                             
                             <div class="chart-container"><img src="assets/analysis/xauusd_nov25.jpg" alt="XAUUSD Weekly Outlook Chart Analysis" loading="lazy"></div>
 
@@ -277,14 +287,14 @@
                                 <ul>
                                     <li><strong>趋势线诱导 (Trendline Liquidity):</strong> 清晰的上升趋势线形成了巨大的**卖方流动性 (SSL)**池，每次假突破后的反弹都证明了这是机构吸纳筹码的关键区域。</li>
                                     <li><strong>H4 FVG 回补：</strong> 图表显示价格两次回补了 H4 级别的 FVG 区域 ($3980-$4000 和 $4030-$4045 附近)，回补后即反弹，表明多头力量的强劲。</li>
-                                    <li><strong>流动性池累积：</strong> 观察到高点（如 $4200 和 $4380 区域）上方存在明显的**买方流动性 (BSL)**，这些将成为价格未来的主要目标。</li>
+                                    <li><strong>流动性池累积：：</strong> 观察到高点（如 $4200 和 $4380 区域）上方存在明显的**买方流动性 (BSL)**，这些将成为价格未来的主要目标。</li>
                                 </ul>
                             </div>
                             <div class="lang-en">
                                 <h3>📊 Core Logic Review</h3>
                                 <ul>
-                                    <li><strong>Trendline Liquidity (SSL):</strong> The clear ascending trendline created a significant **Sell-Side Liquidity (SSL)** pool, where each fake-out and bounce confirmed the area as a key institutional accumulation zone.</li>
-                                    <li><strong>H4 FVG Mitigations:</strong> The chart shows price mitigating H4 FVGs twice (around $3980-$4000 and $4030-$4045), indicating strong bullish power after rebalancing.</li>
+                                    <li><strong>Trendline Support:</strong> Price repeatedly touched and bounced off the clear ascending trendline, a confluence area for retail stop-losses and institutional accumulation.</li>
+                                    <li><strong>H4 FVG Mitigations:</strong> The chart shows price mitigating H4 FVGs twice (around $3980-$4000 and $4030-$4045), which are "inefficiency zones" algorithms rebalance orders. The bounces after mitigation indicate strong bullish power.</li>
                                     <li><strong>Liquidity Pool Accumulation:</strong> Obvious **Buy-Side Liquidity (BSL)** is observed above highs (e.g., $4200 and $4380 zones), which will be primary targets for future price action.</li>
                                 </ul>
                             </div>
@@ -326,10 +336,17 @@
         function getGroupKey(dateStr) { const date = new Date(dateStr); const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return `${months[date.getMonth()]} ${date.getFullYear()}`; }
         const listContainer = document.getElementById('report-list');
         const contentContainer = document.getElementById('article-content');
+        
+        // 辅助函数：将 Markdown 的 **加粗** 转换为 HTML 的 <b>
+        function parseBold(htmlContent) {
+            // 匹配 **内容** 或 __内容__ 并替换为 <b>内容</b>
+            return htmlContent.replace(/(\*\*|__)(.*?)\1/g, '<b>$2</b>');
+        }
 
         function renderList() {
             listContainer.innerHTML = '';
-            const groups = {}; const groupOrder = []; 
+            const groups = {}; 
+            const groupOrder = []; 
             
             reports.forEach(item => { 
                 const groupName = getGroupKey(item.date); 
@@ -342,7 +359,6 @@
             
             // 确保日期是倒序排列（新文章在前）
             groupOrder.sort((a, b) => {
-                // 修正月份排序逻辑，确保 Nov 2025 在前
                 const dateA = new Date(a.replace(/(\w+) (\d+)/, '$1 1, $2'));
                 const dateB = new Date(b.replace(/(\w+) (\d+)/, '$1 1, $2'));
                 return dateB - dateA;
@@ -389,7 +405,9 @@
             const data = reports.find(r => r.id == id);
             if(data) {
                 currentReportId = id;
-                contentContainer.innerHTML = data.content;
+                // 🚨 核心修复：在插入 DOM 前，将报告内容中的 **加粗** 转换为 <b> 标签
+                let contentWithBold = parseBold(data.content);
+                contentContainer.innerHTML = contentWithBold;
                 document.querySelector('.content-view').scrollTop = 0;
             }
         }
@@ -410,13 +428,10 @@
         }
 
         function init() {
-            // 根据 reports 数组确保 currentReportId 是最新的（数组第一项）
             if (reports.length > 0) {
-                 // reports[0] 始终是 11-25 的日内报告，确保默认加载最新
                 currentReportId = reports[0].id; 
             }
-            autoDetectLanguage(); // 自动设置语言
-            // renderList 和 loadReport 已在 setLanguage 中调用
+            autoDetectLanguage(); 
         }
 
         init();
