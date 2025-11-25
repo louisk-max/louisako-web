@@ -4,234 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L.K. Capital | Research Library</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
-
+    
     <style>
-        /* === 核心样式继承 (保持一致性) === */
-        :root {
-            --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555;
-            --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa;
-            --border: #e5e5e5; --code-bg: #f4f6f8;
-            --font-heading: "Playfair Display", serif;
-        }
+        /* === 样式系统 === */
+        :root { --bg: #ffffff; --text-main: #1a1a1a; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; }
         * { box-sizing: border-box; }
-        body { margin: 0; padding: 0; font-family: "Inter", sans-serif; color: var(--text-main); background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { margin: 0; padding: 0; font-family: "Inter", sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* 导航栏 (精简版) */
-        .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; }
-        .brand { font-family: var(--font-heading); font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
-        .nav-right { display: flex; gap: 30px; align-items: center; }
-        .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-        .nav-link:hover { color: var(--accent); }
-        .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: transparent; color: var(--accent); font-weight: 700; font-size: 0.75rem; }
-
-        /* === 布局系统 (Research Layout) === */
-        .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
+        .top-bar { height: 70px; flex-shrink: 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
+        .brand { font-family: "Playfair Display"; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
+        .nav-link { color: #555; text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-left: 30px; }
         
-        /* 左侧侧边栏 */
-        .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
-        .sidebar-header { padding: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .sidebar-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin: 0; }
-        .sidebar-content { padding: 30px; }
+        .layout { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 30px; border-bottom: 1px solid #eee; }
+        .sidebar-title { font-family: "Playfair Display"; font-size: 1.4rem; color: var(--accent); margin: 0; }
         
-        /* 目录项样式 */
-        .cat-group { margin-bottom: 30px; }
-        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
-        .article-link { 
-            display: block; padding: 10px 0; color: #444; font-size: 0.95rem; cursor: pointer; 
-            transition: 0.2s; border-left: 2px solid transparent; padding-left: 0; line-height: 1.4;
-        }
-        .article-link:hover, .article-link.active { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); font-weight: 600; }
+        .cat-group { margin-bottom: 30px; padding: 0 30px; }
+        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; display: block; margin-top: 30px; }
+        .article-link { display: block; padding: 8px 0; color: #444; font-size: 0.95rem; cursor: pointer; transition:0.2s; line-height:1.4; }
+        .article-link:hover { color: var(--accent); font-weight: 600; transform: translateX(5px); }
 
-        /* 右侧主视图 */
-        .main-view { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; background: #fff; padding: 0; }
+        .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; position: relative; }
+        .container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; }
         
-        /* 欢迎屏幕 */
-        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; opacity: 1; transition: 0.3s; }
-        .welcome-title { font-family: var(--font-heading); font-size: 3rem; color: var(--accent); margin-bottom: 10px; opacity: 0; animation: fadeUp 0.8s forwards; }
-        .welcome-sub { color: #888; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; }
-
-        /* 文章容器 */
-        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; opacity: 0; transform: translateY(20px); transition: 0.5s ease; display: none; }
-        .article-container.active { opacity: 1; transform: translateY(0); display: block; }
-
-        /* 文章内部样式重置 (配合你的独立文件) */
-        .report-header { margin-bottom: 50px; border-bottom: 1px solid var(--border); padding-bottom: 30px; }
+        /* 动态内容样式 */
+        .report-header { margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid #eee; }
+        .report-title { font-family: "Playfair Display"; font-size: 2.5rem; color: var(--accent); line-height: 1.2; margin-top: 10px; }
         .report-label { color: var(--gold); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-        .report-title { font-family: var(--font-heading); font-size: 2.5rem; color: var(--accent); margin: 15px 0; line-height: 1.1; }
-        .report-meta { font-family: "Inter"; font-size: 0.85rem; color: #888; background: var(--code-bg); padding: 8px 12px; display: inline-block; border-radius: 4px; }
+        h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 60px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
+        h3 { font-size: 1.3rem; font-weight: 700; margin-top: 40px; color: #333; }
+        p { line-height: 1.8; color: #444; margin-bottom: 20px; text-align: justify; }
+        li { margin-bottom: 10px; line-height: 1.6; }
+        .concept-box { background: #f4f6f8; border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; }
+        .concept-title { font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; text-transform: uppercase; }
         
-        h2 { font-family: var(--font-heading); font-size: 1.8rem; color: var(--accent); margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
-        h3 { font-size: 1.3rem; font-weight: 700; margin-top: 40px; margin-bottom: 15px; color: #333; }
-        p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
+        /* 计算器样式 */
+        .calc-wrapper { background: #f4f6f8; border: 1px solid #ddd; border-radius: 8px; padding: 30px; margin: 40px 0; }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .calc-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
         
-        .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: var(--font-heading); font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; }
-
-        /* 加载动画 */
-        .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--gold); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 50px auto; display: none; }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media(max-width: 900px) { .library-layout { flex-direction: column; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; border-right: none; border-bottom: 1px solid var(--border); } .main-view { overflow: visible; } }
+        @media(max-width: 900px) { .layout { flex-direction: column; } .sidebar { width: 100%; height: 300px; } }
     </style>
 </head>
 <body>
-
     <div class="top-bar">
         <a href="index.html" class="brand">L.K. Research</a>
-        <div class="nav-right">
-            <button class="lang-switch" onclick="toggleLanguage()">CN / EN</button>
-            <a href="index.html" class="nav-link">Home</a>
-        </div>
+        <div class="nav-right"><a href="index.html" class="nav-link">Home</a></div>
     </div>
 
-    <div class="library-layout">
+    <div class="layout">
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Library</h2>
-                <span style="font-size:0.75rem; color:#888; letter-spacing:1px;">PROPRIETARY ANALYSIS</span>
+                <span style="font-size:0.75rem; color:#888;">PROPRIETARY ANALYSIS</span>
             </div>
-            <div class="sidebar-content" id="catalog-list">
-                <div style="color:#999; font-size:0.9rem;">Loading Database...</div>
-            </div>
-        </aside>
+            <div id="catalog-list"></div> </aside>
 
-        <main class="main-view" id="main-view">
-            <div id="welcome-screen" class="welcome-screen">
-                <div class="welcome-title">Alpha & Structure.</div>
-                <div class="welcome-sub">Select a report to begin</div>
-            </div>
-
-            <div id="loader" class="loader"></div>
-            <div id="article-display" class="article-container">
-                <div class="brand-watermark">L.K. Capital</div>
-                <div id="inject-content"></div>
-                
-                <div style="margin-top:80px; padding-top:30px; border-top:1px solid #eee; text-align:center; color:#999; font-size:0.8rem;">
-                    &copy; 2025 L.K. Capital Research. Institutional Use Only.
+        <main class="main-view" id="main-scroll">
+            <div id="content-area" class="container">
+                <div style="text-align:center; margin-top:100px; color:#999;">
+                    <h2>Select a report from the library</h2>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        let currentLang = 'en';
-        let database = []; // 存储所有文章数据
-
-        // 1. 初始化：加载数据库
-        document.addEventListener('DOMContentLoaded', async () => {
-            // 简单的语言检测
-            const userLang = navigator.language || navigator.userLanguage;
-            currentLang = userLang.includes('zh') ? 'cn' : 'en';
-            
-            await loadDatabase(); // 第一步：读取 database.json
-            
-            // 检查 URL 是否带有文章 ID (例如 research.html#alpha_math)
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                loadArticle(hash);
-            }
-        });
-
-        // 2. 读取清单文件
-        async function loadDatabase() {
+        // === 核心逻辑：读取文件 ===
+        async function init() {
             try {
-                // 这里的路径 research_data/database.json 必须对应实际文件夹
+                // 1. 读取 database.json
                 const response = await fetch('research_data/database.json');
-                if (!response.ok) throw new Error('Database not found');
+                if (!response.ok) throw new Error("Cannot load database");
+                const data = await response.json();
                 
-                database = await response.json();
-                renderCatalog(); // 渲染左侧目录
-            } catch (error) {
-                console.error("System Error:", error);
-                document.getElementById('catalog-list').innerHTML = `<div style="color:red; font-size:0.8rem;">Error: Cannot load library index.<br>Make sure 'research_data/database.json' exists.</div>`;
+                // 2. 生成目录
+                renderSidebar(data);
+
+                // 3. 如果URL有锚点，自动加载文章
+                const hash = window.location.hash.substring(1);
+                if(hash) loadPage(hash, data);
+
+            } catch (e) {
+                document.getElementById('catalog-list').innerHTML = `<p style="padding:20px; color:red">Error: Need Local Server or Upload to Web Host.<br>${e.message}</p>`;
             }
         }
 
-        // 3. 渲染左侧目录
-        function renderCatalog() {
-            const listEl = document.getElementById('catalog-list');
+        function renderSidebar(data) {
+            const sidebar = document.getElementById('catalog-list');
             let html = '';
-
-            database.forEach(category => {
-                const catTitle = currentLang === 'cn' ? category.category_cn : category.category_en;
-                
-                html += `<div class="cat-group">`;
-                html += `<span class="cat-name">${catTitle}</span>`;
-                
-                category.articles.forEach(article => {
-                    const artTitle = currentLang === 'cn' ? article.title_cn : article.title_en;
-                    // 点击时调用 loadArticle('文章ID')
-                    html += `<div class="article-link" onclick="loadArticle('${article.id}')">${artTitle}</div>`;
+            data.forEach(group => {
+                html += `<div class="cat-group"><span class="cat-name">${group.category}</span>`;
+                group.articles.forEach(art => {
+                    // 将文章路径存入 onclick
+                    html += `<div class="article-link" onclick="loadPage('${art.id}', null, '${art.file}')">${art.title}</div>`;
                 });
-                
                 html += `</div>`;
             });
-
-            listEl.innerHTML = html;
+            sidebar.innerHTML = html;
         }
 
-        // 4. 核心功能：加载独立文章文件
-        async function loadArticle(articleId) {
-            // 4.1 找到文章对应的文件路径
-            let targetArticle = null;
-            for (const cat of database) {
-                const found = cat.articles.find(a => a.id === articleId);
-                if (found) {
-                    targetArticle = found;
-                    break;
-                }
+        // 加载具体的 .html 文件
+        async function loadPage(id, dataObj, filePath) {
+            // 如果是从URL加载，需要先在数据里找路径
+            if(!filePath && dataObj) {
+                dataObj.forEach(g => {
+                    const found = g.articles.find(a => a.id === id);
+                    if(found) filePath = found.file;
+                });
             }
+            if(!filePath) return;
 
-            if (!targetArticle) return;
-
-            // 4.2 UI 状态切换
-            document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('article-display').classList.remove('active');
-            document.getElementById('loader').style.display = 'block';
+            const contentDiv = document.getElementById('content-area');
+            contentDiv.innerHTML = '<p style="text-align:center; color:#999; margin-top:50px;">Loading...</p>';
             
-            // 更新 URL (方便分享)
-            window.location.hash = articleId;
-
-            // 4.3 去读取那个独立的 HTML 文件
             try {
-                const response = await fetch(targetArticle.file); // 读取 post_xxx.html
-                if (!response.ok) throw new Error('Article file missing');
-                const htmlContent = await response.text();
-
-                // 4.4 注入内容
-                document.getElementById('inject-content').innerHTML = htmlContent;
+                // 读取独立的 HTML 文件
+                const resp = await fetch(filePath);
+                if(!resp.ok) throw new Error("File not found");
+                const html = await resp.text();
                 
-                // 4.5 显示文章
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('article-display').classList.add('active');
-                document.getElementById('main-view').scrollTop = 0;
+                contentDiv.innerHTML = html;
+                document.getElementById('main-scroll').scrollTop = 0;
+                window.location.hash = id; // 更新URL
 
-                // 如果文章里有计算器脚本，这里重新激活一下 (可选)
-                if(window.initCalculator) window.initCalculator();
-
-            } catch (error) {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('inject-content').innerHTML = `<h2 style="color:red">Error Loading Report</h2><p>Could not find file: ${targetArticle.file}</p>`;
-                document.getElementById('article-display').classList.add('active');
+            } catch (e) {
+                contentDiv.innerHTML = `<h3 style="color:red">Failed to load report.</h3><p>Ensure '${filePath}' exists in the folder.</p>`;
             }
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'cn' : 'en';
-            renderCatalog(); // 重新渲染目录语言
-            // 如果当前正打开着文章，也可以在这里加逻辑重新加载文章标题等
-        }
-        
-        // 5. 防复制逻辑 (继承主页)
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.key === 'u')) e.preventDefault();
-        });
+        // 全局计算器函数
+        window.calcRR = () => {
+            const w = document.getElementById('in-wr').value;
+            if(w) document.getElementById('out-rr').innerText = "1 : " + ((1-(w/100))/(w/100)).toFixed(2);
+        };
+        window.calcWR = () => {
+            const r = document.getElementById('in-rr').value;
+            if(r) document.getElementById('out-wr').innerText = (1/(1+parseFloat(r))*100).toFixed(1) + "%";
+        };
 
+        init();
     </script>
 </body>
 </html>
