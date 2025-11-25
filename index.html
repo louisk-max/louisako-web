@@ -142,7 +142,7 @@
         .core-title { font-family: "Inter", sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px; display: block; }
         .core-desc { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.95; }
 
-        /* === 策略战绩卡片样式 (新) === */
+        /* === 策略战绩卡片样式 === */
         .lk-strategy-wrapper {
             background: #0d1117; 
             padding: 100px 24px; 
@@ -180,7 +180,7 @@
         .val-green { color: #4caf50; text-shadow: 0 0 15px rgba(76, 175, 80, 0.3); }
         .val-gold { color: #c5a059; text-shadow: 0 0 15px rgba(197, 160, 89, 0.3); }
         .lk-chart-container { background: #000; border-radius: 8px; padding: 10px; border: 1px solid #333; margin-bottom: 40px; }
-        .lk-chart-img { width: 100%; height: auto; display: block; opacity: 0.9; }
+        .lk-chart-img { width: 100%; height: auto; display: block; opacity: 0.9; transition: opacity 0.3s; }
         .lk-strat-desc { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; color: #aaa; font-size: 1rem; line-height: 1.8; text-align: justify; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
         .lk-strat-desc strong { color: #fff; }
         @media(max-width: 900px) {
@@ -398,7 +398,7 @@
                     </div>
 
                     <div class="lk-chart-container">
-                        <img src="chart.jpg" alt="Strategy Performance Chart" class="lk-chart-img">
+                        <img src="chart_en.jpg" id="strategy-chart-img" alt="Strategy Performance Chart" class="lk-chart-img">
                     </div>
 
                     <div class="lk-strat-desc">
@@ -550,12 +550,10 @@
                 labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
                 coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
                 
-                // === 新增策略卡片翻译 (英文) ===
                 stratLabel: "Performance 2024", stratTitle: "L.K. Alpha Gold V1",
                 stAnn: "Annual Return", stDd: "Max Drawdown", stPf: "Profit Factor", stTr: "Total Trades",
                 stDesc1: "<strong>The Engine:</strong> Built on pure institutional logic. This algorithm does not use lagging indicators like RSI or MACD. Instead, it tracks <strong>Liquidity Sweeps (Stop Hunts)</strong> and <strong>Order Block mitigations</strong> in real-time, entering only when the \"Smart Money\" has already committed capital.",
                 stDesc2: "<strong>The Edge:</strong> With a Profit Factor of 2.87, the strategy generates nearly $3 for every $1 of risk. By strictly trading Long-Only in the 2024 Macro Bull Market, we filtered out 90% of the noise, capturing only the high-probability impulsive moves.",
-                // === 结束 ===
 
                 protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
                 rtT: "Global Macro Context &<br>Strategic Insights", rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.", rtB: "Access Terminal",
@@ -579,13 +577,11 @@
                 labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
                 coreT1: "全球宏观", coreD1: "自上而下的经济周期与资本流向分析。", coreT2: "结构化优势", coreD2: "追踪机构订单痕迹与核心流动性区域。", coreT3: "非对称风险", coreD3: "严格的风控体系，只捕捉高盈亏比机会。",
                 
-                // === 新增策略卡片翻译 (中文) ===
                 stratLabel: "2024 年度表现", stratTitle: "L.K. Alpha Gold V1",
                 stAnn: "年化收益率", stDd: "最大回撤", stPf: "盈利因子", stTr: "总交易数",
-                stDesc1: "<strong>核心引擎：</strong> 基于纯粹的机构逻辑。本算法不使用 RSI 或 MACD 等滞后指标，而是实时追踪 <strong>流动性扫盘 (Liquidity Sweeps)</strong> 与 <strong>订单块 (Order Block)</strong> 测试，仅在“聪明钱”完成建仓后入场。",
-                stDesc2: "<strong>竞争优势：</strong> 拥有 2.87 的盈利因子，意味着每承担 1 美元风险，策略产生近 3 美元回报。通过在 2024 宏观牛市中严格执行“只做多”策略，我们过滤了 90% 的市场噪音，只捕捉高胜率的脉冲行情。",
-                // === 结束 ===
-
+                stDesc1: "<strong>核心引擎：</strong> 基于纯粹的机构逻辑。本算法不使用 RSI 或 MACD 等滞后指标。实时追踪 <strong>流动性扫盘 (Liquidity Sweeps)</strong> 与 <strong>订单块 (Order Block)</strong> 补仓区，仅在“聪明钱”完成建仓后入场。",
+                stDesc2: "<strong>竞争优势：</strong> 策略的盈亏比高达 2.87，意味着每承担 1 美元风险，产生近 3 美元回报。通过在 2024 宏观牛市中严格执行“只做多”策略，我们过滤了 90% 的市场噪音，只捕捉高胜率的脉冲行情。",
+                
                 protocolH: "L.K. 核心执行协议", protocolSub: "我们的结构化方法由纪律定义，每笔交易必须通过 5 步核查。", st1: "市场结构", sc1: "利用大周期 (H4/D1) 的 BOS/CHoCH 确认宏观方向。", st2: "流动性猎杀", sc2: "识别散户止损区域（流动性池），等待机构进场前的扫盘。", st3: "锁定 POI", sc3: "精确定位关键兴趣区 (POI) —— 通常是未测试的订单块或 FVG。", st4: "小周期入场", sc4: "在 LTF (M5/M15) 等待价格触碰 POI，完成扫损并确认微观结构反转。", st5: "风控铁律", sc5: "每笔交易固定风险 (0.25%-0.5%)，目标盈亏比至少 1:3。",
                 rtT: "全球宏观视野与<br>机构策略分析", rtD: "将您的执行与机构订单流对齐。我们为您深度解码驱动市场波动的核心经济叙事与结构变化。", rtB: "进入分析终端",
                 commTitle: "加入核心圈层。", commDesc: "订阅我们的私人频道，获取每日机构级市场拆解、实时交易机会与风控更新。", btnComm: "加入 Telegram 频道",
@@ -605,6 +601,14 @@
                 disclaimer: "免责声明：本网站提供的信息仅供教育和参考，不构成财务建议、投资推荐或买卖任何金融工具的要约。L.K. Capital 并非注册财务顾问。所有交易均涉及高风险，您可能会损失全部投资。在做出任何财务决定之前，请咨询合格的专业人士。"
             }
         };
+
+        function updateChartImage(lang) {
+            const chartImg = document.getElementById('strategy-chart-img');
+            if (chartImg) {
+                // 默认使用chart_en.jpg，中文则切换到chart_cn.jpg
+                chartImg.src = lang === 'cn' ? 'chart_cn.jpg' : 'chart_en.jpg';
+            }
+        }
 
         let curLang = 'en';
         let curPage = 'home';
@@ -642,6 +646,9 @@
             
             setTxt('risk-txt', t.riskTxt);
             setTxt('disclaimer-text', t.disclaimer);
+            
+            // 🔥 切换图片
+            updateChartImage(curLang);
         }
 
         function initLanguage() {
