@@ -6,33 +6,42 @@
     <title>L.K. Capital | Research Library</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
-    
     <style>
+        /* === 样式保留 === */
         :root { --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; --code-bg: #f4f6f8; --font-heading: "Playfair Display", serif; }
         * { box-sizing: border-box; }
         body { margin: 0; padding: 0; font-family: "Inter", sans-serif; color: var(--text-main); background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         .lang-cn { display: none !important; } .lang-en { display: block !important; }
         body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
+        
+        /* 导航栏 */
         .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; }
         .brand { font-family: var(--font-heading); font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
         .nav-right { display: flex; gap: 30px; align-items: center; }
         .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .nav-link:hover { color: var(--accent); }
         .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
+        
+        /* 布局 */
         .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
         .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
         .sidebar-header { padding: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .sidebar-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin: 0; }
+        .sidebar-subtitle { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: block; }
         .sidebar-content { padding: 30px; }
-        .cat-group { margin-bottom: 30px; }
-        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
-        .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; border-left: 2px solid transparent; }
+        .cat-group { margin-bottom: 40px; }
+        .cat-name { font-size: 0.75rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+        .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; border-left: 2px solid transparent; padding-left: 0; }
         .article-link:hover { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); }
+        
+        /* 内容区 */
         .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #fff; }
-        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-image: radial-gradient(#e5e5e5 1px, transparent 1px); background-size: 30px 30px; }
         .slogan-main { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s forwards; }
         .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; display: none; }
         .article-container.active { display: block; animation: fadeIn 0.5s ease; }
+        
+        /* 文章样式 */
         .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
         .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
         .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
@@ -41,23 +50,31 @@
         h3 { font-size: 1.2rem; font-weight: 700; margin-top: 50px; margin-bottom: 20px; color: #333; }
         p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
         ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
+        li { margin-bottom: 10px; }
         .concept-box { background: var(--code-bg); border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
-        .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; }
+        .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* 计算器样式 */
         .calc-wrapper { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin: 40px 0; }
         .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .calc-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: "JetBrains Mono"; font-size: 1rem; }
         .calc-result-box { margin-top: 20px; padding: 20px; background: #fff; border-left: 4px solid var(--gold); }
         .calc-res-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: "JetBrains Mono"; }
+        
+        /* 目录 */
         .toc-back-btn { display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; }
         .toc-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid #eee; }
         .toc-link { display: block; padding: 6px 0 6px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; cursor: pointer;}
         .toc-link:hover { color: var(--accent); font-weight: 700; border-left-color: var(--gold); }
         .toc-h3 { padding-left: 30px; font-size: 0.8rem; }
+        
+        /* 公式与水印 */
         table { width: 100%; border-collapse: collapse; margin: 40px 0; font-size: 0.95rem; }
         th, td { padding: 15px; border: 1px solid var(--border); text-align: left; }
-        th { background: var(--accent); color: #fff; }
+        th { background: var(--accent); color: #fff; font-weight: 600; font-family: "Inter"; }
         .math-block { text-align: center; font-family: "Times New Roman", serif; font-style: italic; font-size: 1.3rem; padding: 20px; background: #fff; border: 1px dashed #ddd; margin: 30px 0; }
         .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: "Playfair Display", serif; font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; }
+        
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @media(max-width: 900px) { .library-layout { flex-direction: column; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; } .calc-grid { grid-template-columns: 1fr; } }
@@ -94,6 +111,7 @@
             </div>
         </main>
     </div>
+
     <script>
         let currentLang = 'en'; 
         let articleDatabase = [];
@@ -113,19 +131,18 @@
             if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
 
             try {
-                // 1. 从文件夹读取清单
                 const resp = await fetch('research_data/database.json');
                 if(!resp.ok) throw new Error("DB Load Failed");
                 articleDatabase = await resp.json();
-                
                 renderCatalog();
-
-                // 2. 检查链接是否有文章ID
+                
+                // 检查URL锚点
                 const hash = window.location.hash.substring(1);
                 if(hash) loadArticle(hash);
 
             } catch (e) {
-                document.getElementById('sidebar-list').innerHTML = '<div style="color:red; padding:20px;">Error loading library. Ensure research_data folder exists.</div>';
+                document.getElementById('sidebar-list').innerHTML = '<div style="color:red; padding:20px;">Error loading library. Check console.</div>';
+                console.error(e);
             }
         }
 
@@ -161,7 +178,6 @@
             document.getElementById('article-inject-point').innerHTML = '<div style="text-align:center; padding:50px; color:#999;">Loading Content...</div>';
 
             try {
-                // 3. 读取独立的文章文件
                 const fileResp = await fetch(targetItem.file);
                 if(!fileResp.ok) throw new Error("File missing");
                 const html = await fileResp.text();
@@ -176,7 +192,6 @@
         }
 
         function regenerateTOC() {
-            // 生成返回按钮和目录
             const backText = currentLang === 'en' ? "← Back to Library" : "← 返回知识库";
             let tocHTML = `<div class="toc-back-btn" onclick="goBack()">${backText}</div>`;
             tocHTML += `<ul class="toc-list">`;
@@ -203,14 +218,15 @@
             renderCatalog();
         }
 
-        // 计算器函数 (全局)
+        // === 修复后的计算器全局函数 ===
+        // 确保这里查找的 ID 是 'input-wr' 和 'input-rr'
         window.calculateRR = function() {
-            const w = parseFloat(document.getElementById('in-wr').value);
-            if(w) document.getElementById('out-rr').innerText = "1 : " + ((1-(w/100))/(w/100)).toFixed(2);
+            const w = parseFloat(document.getElementById('input-wr').value);
+            if(w) document.getElementById('res-rr').innerText = "1 : " + ((1-(w/100))/(w/100)).toFixed(2);
         }
         window.calculateWR = function() {
-            const r = parseFloat(document.getElementById('in-rr').value);
-            if(r) document.getElementById('out-wr').innerText = (1/(1+r)*100).toFixed(1) + "%";
+            const r = parseFloat(document.getElementById('input-rr').value);
+            if(r) document.getElementById('res-wr').innerText = (1/(1+r)*100).toFixed(1) + "%";
         }
 
         init();
