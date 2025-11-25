@@ -21,131 +21,271 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
-        /* === 基础设置 === */
+        /* === 基础设置 & 防复制优化 === */
         :root {
             --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555;
             --accent: #0a2540; --gold: #c5a059; --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --shadow-gold: 0 4px 15px rgba(197, 160, 89, 0.2);
         }
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background-color: var(--bg); }
-        body { font-family: "Inter", sans-serif; color: var(--text-main); line-height: 1.6; }
+        body { 
+            font-family: "Inter", sans-serif; color: var(--text-main); line-height: 1.6; 
+            /* **防复制优化 (CSS)** */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard syntax */
+        }
+        a { text-decoration: none; } /* Ensure links are not underlined by default */
 
         /* === 动画 === */
-        .reveal-on-scroll { opacity: 1; transform: translateY(0); transition: opacity 1s ease, transform 1s ease; }
+        .reveal-on-scroll { opacity: 1; transform: translateY(0); transition: opacity 1s var(--ease), transform 1s var(--ease); }
         .js-loaded .reveal-on-scroll.hidden { opacity: 0; transform: translateY(30px); }
 
         /* === 导航 === */
-        nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(255,255,255,0.98); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center; }
+        nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(255,255,255,0.98); backdrop-filter: blur(5px); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; }
         .nav-inner { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--text-main); cursor: pointer; }
+        .logo { font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--accent); cursor: pointer; transition: color 0.3s; }
+        .logo:hover { color: var(--gold); }
         .nav-right { display: flex; gap: 32px; align-items: center; }
-        .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; transition: color 0.3s; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; }
-        .nav-link:hover, .nav-link.active { color: var(--text-main); }
-        @media(max-width: 768px) { .nav-right { gap: 16px; } .nav-link { font-size: 0.75rem; } }
+        .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; transition: color 0.3s, transform 0.2s; text-transform: uppercase; letter-spacing: 1px; padding: 5px 0; }
+        .nav-link:hover, .nav-link.active { color: var(--accent); transform: translateY(-1px); }
+        
+        /* **移动端导航优化** */
+        @media(max-width: 768px) { 
+            nav { height: 60px; }
+            .nav-inner { padding: 0 15px; }
+            .logo { font-size: 1.2rem; }
+            .nav-right { gap: 10px; } 
+            .nav-link { font-size: 0.65rem; letter-spacing: 0.5px; padding: 8px 5px; } 
+        }
 
         /* === 页面结构与切换动画 === */
         .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
-        .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease; }
+        .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease); }
         .view.active { display: block; }
         .view.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
         .ticker-wrapper { width: 100%; height: 72px; border-bottom: 1px solid #f0f0f0; overflow: hidden; }
 
-        /* === Hero (已针对中文修正) === */
+        /* === Hero === */
         .hero-section { padding: 120px 24px 100px; max-width: 900px; margin: 0 auto; text-align: center; }
         .hero-label { font-size: 0.85rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; display: inline-block; }
-        h1 { font-family: "Playfair Display", serif; font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: #111; }
+        h1 { font-family: "Playfair Display", serif; font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: var(--accent); }
         .hero-desc { font-size: 1.25rem; color: var(--text-light); max-width: 680px; margin: 0 auto 48px; font-weight: 300; }
-        .btn-main { display: inline-block; padding: 18px 48px; background: #111; color: #fff; border-radius: 4px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s ease; }
-        .btn-main:hover { background: var(--gold); transform: translateY(-2px); }
         
-        @media(max-width: 768px) { .hero-section { padding: 80px 20px 80px; } h1 { font-size: 3.2rem; } .hero-desc { font-size: 1.1rem; } }
+        /* **按钮优化** */
+        .btn-main { 
+            display: inline-block; padding: 18px 48px; 
+            background: var(--accent); color: #fff; 
+            border-radius: 4px; font-size: 0.95rem; font-weight: 600; text-decoration: none; 
+            transition: all 0.3s var(--ease); 
+            box-shadow: 0 5px 20px rgba(10, 37, 64, 0.15);
+        }
+        .btn-main:hover { 
+            background: linear-gradient(45deg, var(--gold), #e8c78a);
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.02); 
+            box-shadow: var(--shadow-gold);
+        }
+        
+        @media(max-width: 768px) { 
+            .hero-section { padding: 60px 20px 60px; } 
+            h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; } 
+            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
+            .btn-main { padding: 15px 35px; font-size: 0.9rem; }
+        }
 
-        /* === 核心优势栏 === */
+        /* === 核心优势栏优化 === */
         .core-section { max-width: 1200px; margin: 0 auto 100px; padding: 0 24px; position: relative; z-index: 5; }
-        .core-bar { background: var(--accent); color: #fff; border-radius: 4px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
-        .core-bar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold); }
-        .core-item { text-align: center; padding: 0 20px; position: relative; }
-        .core-item:not(:last-child)::after { content: ''; position: absolute; right: -20px; top: 10%; height: 80%; width: 1px; background: rgba(255,255,255,0.1); }
+        .core-bar { background: var(--accent); color: #fff; border-radius: 8px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
+        .core-bar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #c5a059, #e6c79a); }
+        .core-item { text-align: center; padding: 0 20px; position: relative; transition: transform 0.3s; }
+        .core-item:hover { transform: translateY(-5px); }
+        .core-item:not(:last-child)::after { content: ''; position: absolute; right: -10px; top: 20%; height: 60%; width: 1px; background: rgba(255,255,255,0.15); }
         .core-title { font-family: "Inter", sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px; display: block; }
-        .core-desc { font-family: "Playfair Display", serif; font-size: 1.3rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.9; }
-        @media(max-width: 768px) { .core-bar { grid-template-columns: 1fr; gap: 50px; margin-top: 0; padding: 50px 30px; } .core-item:not(:last-child)::after { display: none; } .core-desc { font-size: 1.2rem; } }
+        .core-desc { font-family: "Playfair Display", serif; font-size: 1.4rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.95; }
+        
+        /* **移动端核心优势栏优化** */
+        @media(max-width: 768px) { 
+            .core-section { margin-bottom: 80px; }
+            .core-bar { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; } 
+            .core-item { padding: 0; }
+            .core-item:not(:last-child)::after { display: none; } 
+            .core-desc { font-size: 1.2rem; } 
+        }
 
-        /* === 核心执行协议 === */
+        /* === 核心执行协议优化 === */
         .protocol-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto 100px; }
         .protocol-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
-        .protocol-header h2 { font-family: "Playfair Display", serif; font-size: 2.8rem; margin-bottom: 16px; color: var(--accent); }
-        .protocol-header p { color: var(--text-light); font-size: 1.1rem; }
-        .protocol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .protocol-step { background: #fff; padding: 30px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03); transition: 0.3s; position: relative; }
-        .protocol-step:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); }
-        .step-num { font-size: 3rem; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 15px; opacity: 0.6; font-family: "Playfair Display"; }
-        .step-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--accent); }
-        .step-content { color: var(--text-light); font-size: 0.95rem; }
+        .protocol-header h2 { font-family: "Playfair Display", serif; font-size: 3rem; margin-bottom: 16px; color: var(--accent); font-weight: 500; }
+        .protocol-header p { color: var(--text-light); font-size: 1.15rem; font-weight: 300; }
+        .protocol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .protocol-step { background: #fff; padding: 35px; border-radius: 12px; border: 1px solid #f0f0f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); transition: 0.4s; position: relative; overflow: hidden; }
+        .protocol-step:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); }
+        .step-num { 
+            font-size: 3.5rem; font-weight: 900; 
+            color: var(--gold); line-height: 1; margin-bottom: 15px; 
+            opacity: 0.8; font-family: "Playfair Display";
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        .step-title { font-size: 1.4rem; margin: 0 0 10px 0; color: var(--accent); font-weight: 600; }
+        .step-content { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
+        
+        @media(max-width: 768px) { 
+            .protocol-section { padding: 80px 24px; margin-bottom: 80px; }
+            .protocol-header h2 { font-size: 2.2rem; }
+            .protocol-header p { font-size: 1rem; }
+            .protocol-grid { gap: 20px; }
+            .protocol-step { padding: 25px; }
+        }
 
-        /* === 宏观情报入口 === */
-        .research-teaser { background: #0a2540; color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
+        /* === 宏观情报入口优化 === */
+        .research-teaser { background: var(--accent); color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; border-radius: 0; }
         .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
         .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
-        .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 600; }
-        .rt-title { font-family: "Playfair Display"; font-size: 3rem; margin-bottom: 30px; line-height: 1.2; }
-        .rt-btn { border: 1px solid var(--gold); color: var(--gold); padding: 16px 40px; text-decoration: none; font-size: 0.95rem; transition: 0.3s; display: inline-block; border-radius: 4px; }
-        .rt-btn:hover { background: var(--gold); color: #000; }
-        @media(max-width: 768px) { .rt-title { font-size: 2.2rem; } }
+        .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 700; }
+        .rt-title { font-family: "Playfair Display"; font-size: 3.5rem; margin-bottom: 30px; line-height: 1.2; font-weight: 500; }
+        
+        /* **按钮优化** */
+        .rt-btn { 
+            border: 2px solid var(--gold); color: var(--gold); 
+            padding: 16px 40px; text-decoration: none; font-size: 1rem; 
+            transition: 0.3s; display: inline-block; border-radius: 4px; 
+            font-weight: 600;
+        }
+        .rt-btn:hover { 
+            background: var(--gold); color: var(--accent);
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+        }
+        @media(max-width: 768px) { .rt-title { font-size: 2.5rem; } }
 
-        /* === 圈层/Newsletter/Broker === */
+        /* === 圈层/Newsletter/Broker 优化 === */
         .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
-        .comm-card { background: #111; color: #fff; border-radius: 20px; padding: 80px 40px; background-image: radial-gradient(circle at top right, #222, #000); }
-        .comm-title { font-family: "Playfair Display"; font-size: 2.5rem; margin-bottom: 20px; }
-        .comm-desc { color: #aaa; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; }
-        .btn-gold { display: inline-block; padding: 16px 48px; background: var(--gold); color: #000; border-radius: 4px; font-weight: 600; text-decoration: none; transition: 0.2s; }
-        .btn-gold:hover { background: #fff; }
+        .comm-card { 
+            background: linear-gradient(135deg, #181c20, #0a2540); 
+            color: #fff; border-radius: 16px; padding: 80px 40px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        .comm-card:hover { transform: translateY(-5px); }
+        .comm-title { font-family: "Playfair Display"; font-size: 2.8rem; margin-bottom: 20px; font-weight: 500; }
+        .comm-desc { color: #ccc; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; font-weight: 300; }
+        
+        /* **按钮优化** */
+        .btn-gold { 
+            display: inline-block; padding: 18px 55px; 
+            background: var(--gold); color: #000; 
+            border-radius: 4px; font-weight: 700; text-decoration: none; 
+            transition: 0.3s;
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-gold:hover { 
+            background: #fff; 
+            color: var(--accent);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
 
-        .newsletter-section { background: #f4f4f4; padding: 80px 24px; text-align: center; margin-bottom: 80px; }
+        .newsletter-section { background: #f7f7f7; padding: 80px 24px; text-align: center; margin-bottom: 80px; }
         .news-container { max-width: 600px; margin: 0 auto; }
-        .news-title { font-family: "Playfair Display"; font-size: 2rem; margin-bottom: 15px; color: var(--accent); }
-        .news-desc { color: #666; margin-bottom: 30px; }
-        .news-form { display: flex; gap: 10px; }
-        .news-input { flex: 1; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: "Inter"; }
-        .news-btn { background: var(--accent); color: #fff; border: none; padding: 0 30px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .news-title { font-family: "Playfair Display"; font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); font-weight: 500; }
+        .news-desc { color: #666; margin-bottom: 30px; font-size: 1rem; }
+        .news-form { display: flex; gap: 15px; }
+        .news-input { 
+            flex: 1; padding: 16px 20px; border: 1px solid #ddd; border-radius: 4px; 
+            font-family: "Inter"; font-size: 1rem; background: #fff;
+            transition: border-color 0.3s;
+        }
+        .news-input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.3); }
+        .news-btn { 
+            background: var(--accent); color: #fff; border: none; 
+            padding: 0 35px; border-radius: 4px; cursor: pointer; 
+            font-weight: 600; font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .news-btn:hover { background: var(--gold); color: var(--accent); transform: translateY(-1px); }
 
         .broker-section { max-width: 1000px; margin: 80px auto; padding: 0 24px; text-align: center; }
-        .broker-logo { font-size: 2rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; }
-        .broker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; text-align: left; }
-        .b-item h4 { font-size: 1.1rem; margin-bottom: 10px; }
-        .b-item p { font-size: 0.9rem; color: #666; }
-        @media(max-width: 768px) { .broker-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; } .news-form { flex-direction: column; } .news-btn { padding: 15px; } }
+        .broker-logo { font-family: "Playfair Display", serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -1px; color: var(--accent); }
+        .broker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin-top: 60px; text-align: left; }
+        .b-item { padding: 0 10px; }
+        .b-item h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); font-weight: 600; }
+        .b-item p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; }
+        
+        /* **移动端券商信息优化** */
+        @media(max-width: 768px) { 
+            .broker-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } 
+            .news-form { flex-direction: column; } 
+            .news-input { padding: 12px 15px; }
+            .news-btn { padding: 12px; } 
+            .b-item { padding: 0; }
+        }
 
-        /* === Footer === */
-        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: #111; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
-        .footer-msg { font-family: "Playfair Display", serif; font-size: 3.5rem; text-align: center; opacity: 0.3; transition: 0.5s; padding: 0 20px; }
-        .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); }
+        /* === Footer 优化 === */
+        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: linear-gradient(0deg, #111, #1a1a1a); z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        .footer-msg { 
+            font-family: "Playfair Display", serif; font-size: 4rem; text-align: center; 
+            opacity: 0.3; transition: 0.8s cubic-bezier(0.25, 1, 0.5, 1); padding: 0 20px; 
+            color: var(--gold);
+        }
+        .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); text-shadow: 0 0 20px rgba(197, 160, 89, 0.5); }
         
         .disclaimer-box { max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
-        .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin: 0; }
+        .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin: 0; }
 
-        /* === ABOUT PAGE === */
-        .story-container { max-width: 1100px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-        .story-left { padding-right: 20px; border-right: 1px solid #eee; }
+        /* **移动端 Footer 优化** */
+        @media(max-width: 768px) {
+            .footer-msg { font-size: 2.2rem; }
+            .sticky-footer a { font-size: 0.7rem !important; }
+        }
+
+        /* === ABOUT PAGE 优化 === */
+        .story-container { max-width: 1100px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 3fr 2fr; gap: 80px; align-items: start; }
+        .story-left { padding-right: 40px; border-right: 1px solid #eee; }
         .story-label { font-family: "Inter"; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 30px; display: block; }
-        .story-title { font-family: "Playfair Display"; font-size: 3rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; }
+        .story-title { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; font-weight: 500; }
         
         .story-text p { font-size: 1.05rem; color: #333; line-height: 1.9; margin-bottom: 25px; text-align: justify; font-weight: 400; }
-        .story-text ul { padding-left: 20px; margin-bottom: 30px; color: #333; list-style-type: square; }
-        .story-text li { margin-bottom: 12px; font-weight: 500; font-size: 1.05rem; }
-        .quote-highlight { border-left: 4px solid var(--gold); padding-left: 25px; font-family: "Playfair Display"; font-size: 1.5rem; font-style: italic; color: var(--accent); margin: 50px 0; line-height: 1.4; background: #fdfdfd; padding: 30px; }
+        .story-text strong { color: var(--accent); font-weight: 600; }
+        .story-text ul { padding-left: 20px; margin-bottom: 30px; color: #333; list-style-type: '— '; }
+        .story-text li { margin-bottom: 12px; font-weight: 500; font-size: 1rem; color: #222; }
+        .quote-highlight { 
+            border-left: 5px solid var(--gold); padding-left: 30px; 
+            font-family: "Playfair Display"; font-size: 1.6rem; font-style: italic; 
+            color: var(--accent); margin: 50px 0; line-height: 1.4; 
+            background: #fcfcfc; padding: 30px; border-radius: 4px;
+        }
         
-        .infra-card { margin-bottom: 40px; }
-        .infra-card h4 { font-size: 1.2rem; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
-        .infra-card p { color: #555; font-size: 0.95rem; line-height: 1.6; font-weight: 400; }
+        .infra-card { margin-bottom: 40px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+        .infra-card h4 { font-size: 1.3rem; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+        .infra-card p { color: #555; font-size: 1rem; line-height: 1.6; font-weight: 400; }
 
         .hq-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 40px; }
-        .hq-address { font-family: "Playfair Display", serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
-        .founder-note { background: #f4f4f4; padding: 80px 40px; margin-bottom: 0; text-align: center; }
-        .note-text { font-family: "Playfair Display"; font-size: 1.8rem; line-height: 1.4; max-width: 800px; margin: 0 auto 30px; }
-        .note-sign { font-family: "Playfair Display"; font-style: italic; color: var(--gold); }
+        .hq-address { font-family: "Playfair Display", serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
         
-        @media(max-width: 900px) { .story-container { grid-template-columns: 1fr; padding: 60px 24px; } .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 40px; } .story-title { font-size: 2.2rem; } }
+        @media(max-width: 900px) { 
+            .story-container { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; } 
+            .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 0; } 
+            .story-title { font-size: 2.5rem; } 
+            .quote-highlight { font-size: 1.3rem; margin: 30px 0; }
+        }
+
+        /* Telegram Floating Button Optimization */
+        .telegram-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; 
+            background: var(--gold); border-radius: 50%; display: flex; 
+            justify-content: center; align-items: center; 
+            box-shadow: var(--shadow-gold); z-index: 1000; 
+            transition: transform 0.3s;
+        }
+        .telegram-btn:hover { transform: scale(1.15) rotate(5deg); }
+        .telegram-btn svg { fill: var(--accent); transition: fill 0.3s; }
+        @media(max-width: 768px) {
+            .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            .telegram-btn svg { width: 24px; height: 24px; }
+        }
 
         /* Intro Animation */
         #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d0d0e; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
@@ -261,7 +401,7 @@
                 <p style="max-width: 600px; margin: 0 auto; color: #666;" id="tmgm-intro">Institutional liquidity. Segregated accounts. Raw spreads.</p>
                 <div class="broker-grid">
                     <div class="b-item"><h4 id="b-h1">Security</h4><p id="b-p1">ASIC Regulated. Funds held in NAB trust accounts.</p></div>
-                    <div class="b-item"><h4 id="b-h2">Technology</h4><p id="b-p2">NY4 Server. Execution speed < 30ms.</p></div>
+                    <div class="b-item"><h4 id="b-h2">Technology</h4><p id="b-p2">NY4 Server. Execution speed &lt; 30ms.</p></div>
                     <div class="b-item"><h4 id="b-h3">Cost</h4><p id="b-p3">Raw ECN Spreads. 0 pips on Majors.</p></div>
                 </div>
                 <br><br>
@@ -331,12 +471,12 @@
         </div>
     </footer>
 
-    <a href="https://t.me/LKC_CIO" target="_blank" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #c5a059; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4); z-index: 1000; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#000"><path d="M18.384,22.779c0.322,0.228 0.737,0.285 1.107,0.145c0.37,-0.141 0.642,-0.457 0.724,-0.84c0.869,-4.084 2.977,-14.421 3.768,-18.136c0.06,-0.28 -0.04,-0.571 -0.26,-0.758c-0.22,-0.187 -0.525,-0.241 -0.797,-0.14c-4.193,1.552 -17.106,6.397 -22.384,8.35c-0.535,0.198 -0.566,0.969 0.107,1.232c2.385,0.932 5.538,2.175 5.538,2.175l0.002,0l0.008,0.002l0,0.003c0.115,0.043 0.241,0.041 0.355,-0.007c0.114,-0.048 0.205,-0.136 0.256,-0.251l9.985,-11.119l-8.488,10.372c-0.158,0.194 -0.17,0.465 -0.031,0.672l4.268,6.444Z"/></svg>
+    <a href="https://t.me/LKC_CIO" target="_blank" class="telegram-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M18.384,22.779c0.322,0.228 0.737,0.285 1.107,0.145c0.37,-0.141 0.642,-0.457 0.724,-0.84c0.869,-4.084 2.977,-14.421 3.768,-18.136c0.06,-0.28 -0.04,-0.571 -0.26,-0.758c-0.22,-0.187 -0.525,-0.241 -0.797,-0.14c-4.193,1.552 -17.106,6.397 -22.384,8.35c-0.535,0.198 -0.566,0.969 0.107,1.232c2.385,0.932 5.538,2.175 5.538,2.175l0.002,0l0.008,0.002l0,0.003c0.115,0.043 0.241,0.041 0.355,-0.007c0.114,-0.048 0.205,-0.136 0.256,-0.251l9.985,-11.119l-8.488,10.372c-0.158,0.194 -0.17,0.465 -0.031,0.672l4.268,6.444Z"/></svg>
     </a>
 
     <script>
-        // === Language Data ===
+        // === Language Data (保持不变) ===
         const langData = {
             en: {
                 labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
@@ -347,7 +487,6 @@
                 newsH: "Subscribe to The L.K. Briefing", newsD: "Weekly institutional macro analysis, delivered to your inbox. No spam.", newsB: "Subscribe",
                 tmgmIntro: "Institutional liquidity. Segregated accounts. Raw spreads.", bH1: "Security", bP1: "ASIC Regulated. Funds held in NAB trust accounts.", bH2: "Technology", bP2: "NY4 Server. Execution speed < 30ms.", bH3: "Cost", bP3: "Raw ECN Spreads. 0 pips on Majors.", btnOpen: "Open Account",
                 
-                // === About Section (Pure English) ===
                 aboutLabel: "Our Story", aboutTitle: "From Chaos to Order.", 
                 storyContent: `<p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p><p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p><p><strong>Our foundation is built on:</strong></p><ul><li>Institutional Market Structure</li><li>Smart Money Concepts (SMC)</li><li>Three-Phase Retracement Logic</li><li>Central Bank Liquidity Mapping</li></ul><div class="quote-highlight">"Markets are not random. They are architected."</div><p>Instead of predicting markets, we decode how liquidity is manufactured. By aligning with real institutional behaviors—order flow imbalances, engineered liquidity sweeps, and asymmetric risk pockets—we shifted from being the liquidity to hunting the liquidity.</p><p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>`,
                 
@@ -370,7 +509,6 @@
                 newsH: "订阅 L.K. 宏观简报", newsD: "每周一封，包含机构级市场分析与展望。无垃圾邮件。", newsB: "立即订阅",
                 tmgmIntro: "机构级流动性。隔离账户。原始点差。", bH1: "资金安全", bP1: "ASIC 监管。资金存放在澳大利亚国民银行信托账户。", bH2: "顶尖科技", bP2: "NY4 服务器。执行速度低于 30 毫秒。", bH3: "极致成本", bP3: "ECN 原始点差。欧美/黄金 0 点差起。", btnOpen: "开设账户",
                 
-                // === About Section (Pure Chinese) ===
                 aboutLabel: "品牌历程", aboutTitle: "从混沌到秩序。", 
                 storyContent: `<p>L.K. Capital 并非诞生于舒适的会议室，而是从市场的战壕中磨砺而出。那里是流动性被“设计”的地方，而非被“发现”的地方。</p><p>自 2019 年起，我们意识到一个根本真理：传统技术分析并非为专业投资者设计，而是为了捕获散户的流动性。我们摒弃了主流工具，从底层逻辑开始重构一切。</p><p><strong>我们的基石建立在：</strong></p><ul><li>机构级市场结构</li><li>SMC (聪明钱) 概念</li><li>三阶段回撤/补单逻辑 (三协)</li><li>央行流动性映射</li></ul><div class="quote-highlight">"市场并非随机，而是被精心架构的。"</div><p>我们不预测市场，我们解码流动性是如何被制造的。通过对齐真实的机构行为——订单流失衡、工程化的流动性扫盘、以及非对称的风险敞口——我们从“被猎杀的流动性”进化为“猎手”。</p><p>今天，L.K. Capital 已不仅是一个投资框架，更是一个进化的生态系统。我们专注于通过结构而非投机、通过意图而非反应，来守卫并复利资本。而这一切，才刚刚开始。</p>`,
                 
@@ -398,15 +536,6 @@
             
             const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
-            // Batch Update Text
-            const ids = ['label-focus', 'hero-title', 'hero-desc', 'btn-cta', 'core-t1', 'core-d1', 'core-t2', 'core-d2', 'core-t3', 'core-d3', 
-                         'protocol-h', 'protocol-sub', 'st1', 'sc1', 'st2', 'sc2', 'st3', 'sc3', 'st4', 'sc4', 'st5', 'sc5',
-                         'rt-title', 'rt-desc', 'rt-btn', 'comm-title', 'comm-desc', 'btn-comm', 'news-h', 'news-d', 'news-b',
-                         'tmgm-intro', 'b-h1', 'b-p1', 'b-h2', 'b-p2', 'b-h3', 'b-p3', 'btn-open', 
-                         'about-label', 'about-title', 'story-content', 'infra-label', 'infra-desc', 'btn-net',
-                         'ic-1t', 'ic-1d', 'ic-2t', 'ic-2d', 'ic-3t', 'ic-3d', 'ic-4t', 'ic-4d', 
-                         'hq-label', 'hq-address', 'risk-txt', 'disclaimer-text'];
-            
             // Special Mapping needed for IDs that don't match keys exactly
             setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
             setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1); setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2); setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
@@ -433,7 +562,7 @@
             toggleLang(targetLang);
         }
 
-        // === Intro & Transitions ===
+        // === Intro & Transitions (保持不变) ===
         function initIntro() {
             const overlay = document.getElementById('intro-overlay');
             const quoteBox = document.querySelector('.intro-quote-box');
@@ -471,7 +600,7 @@
                         void nextView.offsetWidth; 
                         nextView.classList.add('visible'); 
                     }
-                }, 500); 
+                }, 700); /* 增加延迟以匹配更长的 CSS 动画时间 */
             } else {
                 if (nextView) {
                     nextView.classList.add('active');
@@ -480,10 +609,45 @@
             }
         }
         
+        // === 内容防复制功能 (JavaScript) ===
+        function disableContentCopy() {
+            // 1. 禁用右键菜单 (防止查看源代码和复制)
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // 2. 禁用 F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U (防止打开开发者工具和查看源代码)
+            document.addEventListener('keydown', function(e) {
+                // F12 key
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                }
+                // Ctrl+Shift+I (Chrome/Edge/Firefox)
+                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                    e.preventDefault();
+                }
+                // Ctrl+Shift+J (Chrome/Edge/Firefox Console)
+                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                    e.preventDefault();
+                }
+                // Ctrl+U (View Source)
+                if (e.ctrlKey && e.key === 'U') {
+                    e.preventDefault();
+                }
+            });
+
+            // 3. 禁用选择事件 (虽然 CSS 已经处理, 但这是另一层保护)
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+            });
+        }
+
+
         // === Init ===
         document.addEventListener('DOMContentLoaded', () => {
             initLanguage();
             initIntro(); 
+            disableContentCopy(); // **新增：初始化防复制功能**
 
             const homeView = document.getElementById('view-home');
             homeView.classList.add('active');
@@ -493,9 +657,13 @@
             elementsToReveal.forEach(el => el.classList.add('hidden'));
             const observer = new IntersectionObserver((entries) => { 
                 entries.forEach(entry => { 
-                    if (entry.isIntersecting) entry.target.classList.remove('hidden'); 
+                    // 当元素进入视野且未隐藏时，移除隐藏类
+                    if (entry.isIntersecting) {
+                       entry.target.classList.remove('hidden');
+                       observer.unobserve(entry.target); // 一旦显示就不再观察
+                    }
                 }); 
-            }, { threshold: 0.1 });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); // 略微提前加载
             elementsToReveal.forEach((el) => observer.observe(el));
 
             const footer = document.querySelector('.sticky-footer');
