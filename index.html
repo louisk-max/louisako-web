@@ -32,20 +32,16 @@
         html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background-color: var(--bg); }
         body { 
             font-family: "Inter", sans-serif; color: var(--text-main); line-height: 1.6; 
-            /* **防复制优化 (CSS) - 禁用文本选择** */
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none; 
-            user-select: none; 
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; 
         }
-        body.menu-open { overflow: hidden; } /* 菜单打开时禁用页面滚动 */
+        body.menu-open { overflow: hidden; }
         a { text-decoration: none; }
 
         /* === 动画 === */
         .reveal-on-scroll { opacity: 1; transform: translateY(0); transition: opacity 1s var(--ease), transform 1s var(--ease); }
         .js-loaded .reveal-on-scroll.hidden { opacity: 0; transform: translateY(30px); }
 
-        /* === 导航栏 (桌面 & 移动) === */
+        /* === 导航栏 === */
         nav { 
             position: fixed; top: 0; width: 100%; height: 80px; 
             background: rgba(255,255,255,0.98); backdrop-filter: blur(5px); z-index: 100; 
@@ -56,7 +52,6 @@
         .logo { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; color: var(--accent); cursor: pointer; transition: color 0.3s; }
         .logo:hover { color: var(--gold); }
         
-        /* **桌面端链接优化** */
         .nav-right { display: flex; gap: 40px; align-items: center; } 
         .nav-link { 
             font-size: 0.9rem; font-weight: 500; color: var(--text-light); cursor: pointer; 
@@ -64,7 +59,6 @@
             padding: 5px 0; position: relative;
         }
         .nav-link:hover, .nav-link.active { color: var(--accent); transform: translateY(-1px); }
-        /* 桌面端链接下划线动画 */
         .nav-link::after {
             content: ''; position: absolute; bottom: 0; left: 0; 
             width: 0%; height: 2px; background: var(--gold); 
@@ -72,12 +66,10 @@
         }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
-
-        /* === 移动端菜单图标样式 (Menu Toggle) === */
+        /* 移动端菜单图标 */
         .menu-toggle {
             width: 25px; height: 20px; position: relative; cursor: pointer; 
-            display: none; /* 默认隐藏，仅在移动端显示 */
-            transition: transform 0.3s; z-index: 110;
+            display: none; transition: transform 0.3s; z-index: 110;
         }
         .menu-toggle .bar {
             display: block; width: 100%; height: 2px; background: var(--accent); 
@@ -87,97 +79,37 @@
         .menu-toggle .top { top: 0; }
         .menu-toggle .middle { top: 9px; }
         .menu-toggle .bottom { top: 18px; }
-
         .menu-toggle.active .top { transform: translateY(9px) rotate(45deg); }
         .menu-toggle.active .middle { opacity: 0; }
         .menu-toggle.active .bottom { transform: translateY(-9px) rotate(-45deg); }
 
-        /* === 全屏菜单抽屉样式 (#mobile-menu-drawer) === */
+        /* 全屏菜单抽屉 */
         #mobile-menu-drawer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: var(--accent); z-index: 105; 
             display: flex; justify-content: center; align-items: center;
-            transform: translateX(100%); 
-            opacity: 0;
+            transform: translateX(100%); opacity: 0;
             transition: transform 0.5s var(--ease), opacity 0.4s var(--ease);
             will-change: transform, opacity;
         }
-        #mobile-menu-drawer.active {
-            transform: translateX(0);
-            opacity: 1;
-        }
+        #mobile-menu-drawer.active { transform: translateX(0); opacity: 1; }
         .drawer-close {
             position: absolute; top: 20px; right: 25px; 
-            font-size: 3rem; color: #fff; cursor: pointer;
-            line-height: 1; transition: color 0.3s;
+            font-size: 3rem; color: #fff; cursor: pointer; line-height: 1; transition: color 0.3s;
         }
         .drawer-close:hover { color: var(--gold); }
-        .drawer-content {
-            display: flex; flex-direction: column; text-align: center;
-        }
+        .drawer-content { display: flex; flex-direction: column; text-align: center; }
         .drawer-link {
             font-family: var(--font-heading); font-size: 2rem; 
-            color: rgba(255, 255, 255, 0.6); margin: 15px 0; 
-            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.6); margin: 15px 0; transition: all 0.3s;
         }
         .drawer-link:hover, .drawer-link.active {
-            color: var(--gold); 
-            transform: scale(1.05); 
-            text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+            color: var(--gold); transform: scale(1.05); text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
         }
         .drawer-cta-wrapper { margin-top: 50px; }
-        #mobile-menu-drawer .btn-main { 
-            background: var(--gold); 
-            color: var(--accent);
-        }
-        #mobile-menu-drawer .btn-main:hover {
-            background: #fff;
-            box-shadow: none;
-            transform: none;
-        }
-        
-        /* **移动端媒体查询优化 (768px)** */
-        @media(max-width: 768px) { 
-            nav { height: 60px; }
-            .nav-inner { padding: 0 15px; }
-            .logo { font-size: 1.2rem; }
-            
-            #desktop-nav-links { display: none; } /* 移动端隐藏桌面链接 */
-            .menu-toggle { display: block; } /* 移动端显示菜单按钮 */
+        #mobile-menu-drawer .btn-main { background: var(--gold); color: var(--accent); }
 
-            .hero-section { padding: 60px 20px 60px; } 
-            h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; } 
-            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
-            .btn-main { padding: 15px 35px; font-size: 0.9rem; }
-
-            .core-section { margin-bottom: 80px; }
-            .core-bar { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; border-radius: 4px; } 
-            .core-item { padding: 0; }
-            .core-item:not(:last-child)::after { display: none; } 
-            .core-desc { font-size: 1.2rem; } 
-            
-            .protocol-section { padding: 80px 24px; margin-bottom: 80px; }
-            .protocol-header h2 { font-size: 2.2rem; }
-            .protocol-header p { font-size: 1rem; }
-            .protocol-grid { gap: 20px; padding: 0; }
-            .protocol-step { padding: 25px; }
-
-            .rt-title { font-size: 2.5rem; }
-
-            .broker-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } 
-            .news-form { flex-direction: column; } 
-            .news-input { padding: 12px 15px; }
-            .news-btn { padding: 12px; } 
-            .b-item { padding: 0; }
-            
-            .footer-msg { font-size: 2.2rem; }
-            .sticky-footer a { font-size: 0.7rem !important; }
-
-            .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
-            .telegram-btn svg { width: 24px; height: 24px; }
-        }
-
-        /* === 页面结构与基础组件 (微调) === */
+        /* === 页面结构 === */
         .page-container { padding-top: 80px; min-height: 100vh; position: relative; z-index: 2; background: #fff; margin-bottom: 60vh; }
         .view { display: none; opacity: 0; transform: translateY(20px); filter: blur(5px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease); }
         .view.active { display: block; }
@@ -190,24 +122,18 @@
         .hero-label { font-size: 0.85rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; display: inline-block; }
         h1 { font-family: var(--font-heading); font-size: 5rem; font-weight: 500; line-height: 1.05; letter-spacing: -2px; margin: 0 0 32px 0; color: var(--accent); }
         .hero-desc { font-size: 1.25rem; color: var(--text-light); max-width: 680px; margin: 0 auto 48px; font-weight: 300; }
-        
-        /* **按钮优化** */
         .btn-main { 
-            display: inline-block; padding: 18px 48px; 
-            background: var(--accent); color: #fff; 
+            display: inline-block; padding: 18px 48px; background: var(--accent); color: #fff; 
             border-radius: 4px; font-size: 0.95rem; font-weight: 600; text-decoration: none; 
-            transition: all 0.3s var(--ease); 
-            box-shadow: 0 5px 20px rgba(10, 37, 64, 0.15);
+            transition: all 0.3s var(--ease); box-shadow: 0 5px 20px rgba(10, 37, 64, 0.15);
         }
         .btn-main:hover { 
-            background: linear-gradient(45deg, var(--gold), #e8c78a);
-            color: var(--accent);
-            transform: translateY(-2px) scale(1.02); 
-            box-shadow: var(--shadow-gold);
+            background: linear-gradient(45deg, var(--gold), #e8c78a); color: var(--accent); 
+            transform: translateY(-2px) scale(1.02); box-shadow: var(--shadow-gold);
         }
 
-        /* 核心优势栏 */
-        .core-section { max-width: 1200px; margin: 0 auto 100px; padding: 0 24px; position: relative; z-index: 5; }
+        /* 核心优势 */
+        .core-section { max-width: 1200px; margin: 0 auto 80px; padding: 0 24px; position: relative; z-index: 5; }
         .core-bar { background: var(--accent); color: #fff; border-radius: 8px; padding: 60px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
         .core-bar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #c5a059, #e6c79a); }
         .core-item { text-align: center; padding: 0 20px; position: relative; transition: transform 0.3s; }
@@ -216,131 +142,115 @@
         .core-title { font-family: "Inter", sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px; display: block; }
         .core-desc { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 400; line-height: 1.4; color: #fff; opacity: 0.95; }
 
-        /* === 核心执行协议 (含连接线优化) === */
+        /* === 策略战绩卡片样式 (新) === */
+        .lk-strategy-wrapper {
+            background: #0d1117; 
+            padding: 100px 24px; 
+            margin: 0 auto 100px; 
+            position: relative;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .lk-strategy-card {
+            background: linear-gradient(145deg, #161b22, #0d1117);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            border-radius: 16px;
+            padding: 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .lk-strategy-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, transparent, #c5a059, transparent); opacity: 0.8;
+        }
+        .lk-strat-header { text-align: center; margin-bottom: 50px; }
+        .lk-strat-label { color: #c5a059; font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: block; }
+        .lk-strat-title { color: #fff; font-family: "Playfair Display", serif; font-size: 3rem; margin: 0; font-weight: 500; }
+        .lk-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 50px; }
+        .lk-stat-box {
+            text-align: center; padding: 25px 10px; background: rgba(255,255,255,0.02);
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s;
+        }
+        .lk-stat-box:hover { transform: translateY(-5px); background: rgba(255,255,255,0.04); border-color: rgba(197, 160, 89, 0.3); }
+        .lk-stat-val { font-size: 2.5rem; font-weight: 700; color: #fff; font-family: "Inter", sans-serif; margin-bottom: 8px; }
+        .lk-stat-name { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .val-green { color: #4caf50; text-shadow: 0 0 15px rgba(76, 175, 80, 0.3); }
+        .val-gold { color: #c5a059; text-shadow: 0 0 15px rgba(197, 160, 89, 0.3); }
+        .lk-chart-container { background: #000; border-radius: 8px; padding: 10px; border: 1px solid #333; margin-bottom: 40px; }
+        .lk-chart-img { width: 100%; height: auto; display: block; opacity: 0.9; }
+        .lk-strat-desc { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; color: #aaa; font-size: 1rem; line-height: 1.8; text-align: justify; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .lk-strat-desc strong { color: #fff; }
+        @media(max-width: 900px) {
+            .lk-stats-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+            .lk-strat-desc { grid-template-columns: 1fr; gap: 30px; }
+            .lk-strategy-card { padding: 30px 20px; }
+            .lk-strat-title { font-size: 2rem; }
+        }
+
+        /* 执行协议 */
         .protocol-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto 100px; }
         .protocol-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
         .protocol-header h2 { font-family: var(--font-heading); font-size: 3rem; margin-bottom: 16px; color: var(--accent); font-weight: 500; }
         .protocol-header p { color: var(--text-light); font-size: 1.15rem; font-weight: 300; }
-        
-        .protocol-grid { 
-            position: relative; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 60px; /* 增加间隔，给连接线留出空间 */
-            padding: 20px 0; 
-        }
+        .protocol-grid { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; padding: 20px 0; }
         .protocol-step { background: #fff; padding: 35px; border-radius: 12px; border: 1px solid #f0f0f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); transition: 0.4s; position: relative; overflow: hidden; }
         .protocol-step:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); }
-        .step-num { 
-            font-size: 3.5rem; font-weight: 900; 
-            color: var(--gold); line-height: 1; margin-bottom: 15px; 
-            opacity: 0.8; font-family: var(--font-heading);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-        }
+        .step-num { font-size: 3.5rem; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 15px; opacity: 0.8; font-family: var(--font-heading); text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
         .step-title { font-size: 1.4rem; margin: 0 0 10px 0; color: var(--accent); font-weight: 600; }
         .step-content { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
-        
-        /* 桌面端连接线 */
         @media(min-width: 769px) {
             .protocol-step:not(:last-child)::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                right: -30px; 
-                width: 20px; 
-                height: 2px;
-                background: var(--gold);
-                opacity: 0.8;
-                transform: translateY(-50%);
-                box-shadow: 0 0 5px rgba(197, 160, 89, 0.4);
+                content: ''; position: absolute; top: 50%; right: -30px; width: 20px; height: 2px;
+                background: var(--gold); opacity: 0.8; transform: translateY(-50%); box-shadow: 0 0 5px rgba(197, 160, 89, 0.4);
             }
         }
 
-
         /* 宏观情报入口 */
-        .research-teaser { background: var(--accent); color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; border-radius: 0; }
+        .research-teaser { background: var(--accent); color: #fff; padding: 100px 24px; text-align: center; position: relative; overflow: hidden; }
         .research-teaser::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05; }
         .rt-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
         .rt-label { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 700; }
         .rt-title { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 30px; line-height: 1.2; font-weight: 500; }
-        
-        /* **按钮优化** */
         .rt-btn { 
-            border: 2px solid var(--gold); color: var(--gold); 
-            padding: 16px 40px; text-decoration: none; font-size: 1rem; 
-            transition: 0.3s; display: inline-block; border-radius: 4px; 
-            font-weight: 600;
+            border: 2px solid var(--gold); color: var(--gold); padding: 16px 40px; 
+            text-decoration: none; font-size: 1rem; transition: 0.3s; display: inline-block; 
+            border-radius: 4px; font-weight: 600;
         }
-        .rt-btn:hover { 
-            background: var(--gold); color: var(--accent);
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
-        }
-        
-        /* 圈层/Newsletter/Broker */
+        .rt-btn:hover { background: var(--gold); color: var(--accent); box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4); }
+
+        /* 社区/Newsletter/Broker */
         .community-section { max-width: 1000px; margin: 120px auto 40px; padding: 0 24px; text-align: center; }
-        .comm-card { 
-            background: linear-gradient(135deg, #181c20, #0a2540); 
-            color: #fff; border-radius: 16px; padding: 80px 40px; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
-        }
+        .comm-card { background: linear-gradient(135deg, #181c20, #0a2540); color: #fff; border-radius: 16px; padding: 80px 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); transition: transform 0.3s; }
         .comm-card:hover { transform: translateY(-5px); }
         .comm-title { font-family: var(--font-heading); font-size: 2.8rem; margin-bottom: 20px; font-weight: 500; }
         .comm-desc { color: #ccc; max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; font-weight: 300; }
-        
-        /* **按钮优化** */
-        .btn-gold { 
-            display: inline-block; padding: 18px 55px; 
-            background: var(--gold); color: #000; 
-            border-radius: 4px; font-weight: 700; text-decoration: none; 
-            transition: 0.3s;
-            box-shadow: var(--shadow-gold);
-        }
-        .btn-gold:hover { 
-            background: #fff; 
-            color: var(--accent);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
+        .btn-gold { display: inline-block; padding: 18px 55px; background: var(--gold); color: #000; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.3s; box-shadow: var(--shadow-gold); }
+        .btn-gold:hover { background: #fff; color: var(--accent); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
 
         .newsletter-section { background: #f7f7f7; padding: 80px 24px; text-align: center; margin-bottom: 80px; }
         .news-container { max-width: 600px; margin: 0 auto; }
         .news-title { font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 15px; color: var(--accent); font-weight: 500; }
         .news-desc { color: #666; margin-bottom: 30px; font-size: 1rem; }
         .news-form { display: flex; gap: 15px; }
-        .news-input { 
-            flex: 1; padding: 16px 20px; border: 1px solid #ddd; border-radius: 4px; 
-            font-family: "Inter"; font-size: 1rem; background: #fff;
-            transition: border-color 0.3s;
-        }
-        .news-input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.3); }
-        .news-btn { 
-            background: var(--accent); color: #fff; border: none; 
-            padding: 0 35px; border-radius: 4px; cursor: pointer; 
-            font-weight: 600; font-size: 1rem;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+        .news-input { flex: 1; padding: 16px 20px; border: 1px solid #ddd; border-radius: 4px; font-family: "Inter"; font-size: 1rem; background: #fff; transition: border-color 0.3s; }
+        .news-input:focus { border-color: var(--gold); outline: none; }
+        .news-btn { background: var(--accent); color: #fff; border: none; padding: 0 35px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background-color 0.3s, transform 0.2s; }
         .news-btn:hover { background: var(--gold); color: var(--accent); transform: translateY(-1px); }
 
         .broker-section { max-width: 1000px; margin: 80px auto; padding: 0 24px; text-align: center; }
         .broker-logo { font-family: var(--font-heading); font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; letter-spacing: -1px; color: var(--accent); }
         .broker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin-top: 60px; text-align: left; }
-        .b-item { padding: 0 10px; }
-        /* 经纪商标题下划线优化 */
-        .b-item h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); font-weight: 600; position: relative;}
+        .b-item h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent); font-weight: 600; position: relative; }
         .b-item h4::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 30px; height: 2px; background: var(--gold); }
-        @media(max-width: 768px) { .b-item h4::after { left: 50%; transform: translateX(-50%); } } /* 移动端居中 */
-        .b-item p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; }
+        @media(max-width: 768px) { .b-item h4::after { left: 50%; transform: translateX(-50%); } .broker-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } .news-form { flex-direction: column; } .news-btn { padding: 12px; } }
         
         /* Footer */
         .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60vh; background: linear-gradient(0deg, #111, #1a1a1a); z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
-        .footer-msg { 
-            font-family: var(--font-heading); font-size: 4rem; text-align: center; 
-            opacity: 0.3; transition: 0.8s var(--ease); padding: 0 20px; 
-            color: var(--gold);
-        }
+        .footer-msg { font-family: var(--font-heading); font-size: 4rem; text-align: center; opacity: 0.3; transition: 0.8s var(--ease); padding: 0 20px; color: var(--gold); }
         .sticky-footer.active .footer-msg { opacity: 1; transform: scale(1.05); text-shadow: 0 0 20px rgba(197, 160, 89, 0.5); }
-        
         .disclaimer-box { max-width: 800px; margin-top: 40px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .disclaimer-text { font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.7; margin: 0; }
 
@@ -349,44 +259,24 @@
         .story-left { padding-right: 40px; border-right: 1px solid #eee; }
         .story-label { font-family: "Inter"; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 30px; display: block; }
         .story-title { font-family: var(--font-heading); font-size: 3.5rem; color: var(--accent); margin-bottom: 40px; line-height: 1.1; font-weight: 500; }
-        
         .story-text p { font-size: 1.05rem; color: #333; line-height: 1.9; margin-bottom: 25px; text-align: justify; font-weight: 400; }
         .story-text strong { color: var(--accent); font-weight: 600; }
-        .story-text ul { padding-left: 20px; margin-bottom: 30px; color: #333; list-style-type: '— '; } /* 优化列表样式 */
+        .story-text ul { padding-left: 20px; margin-bottom: 30px; color: #333; list-style-type: '— '; }
         .story-text li { margin-bottom: 12px; font-weight: 500; font-size: 1rem; color: #222; }
-        .quote-highlight { 
-            border-left: 5px solid var(--gold); padding-left: 30px; 
-            font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; 
-            color: var(--accent); margin: 50px 0; line-height: 1.4; 
-            background: #fcfcfc; padding: 30px; border-radius: 4px;
-        }
-        
+        .quote-highlight { border-left: 5px solid var(--gold); padding-left: 30px; font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; color: var(--accent); margin: 50px 0; line-height: 1.4; background: #fcfcfc; padding: 30px; border-radius: 4px; }
         .infra-card { margin-bottom: 40px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
         .infra-card h4 { font-size: 1.3rem; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
         .infra-card p { color: #555; font-size: 1rem; line-height: 1.6; font-weight: 400; }
-
         .hq-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 40px; }
         .hq-address { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
-        
-        @media(max-width: 900px) { 
-            .story-container { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; } 
-            .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 0; } 
-            .story-title { font-size: 2.5rem; } 
-            .quote-highlight { font-size: 1.3rem; margin: 30px 0; }
-        }
+        @media(max-width: 900px) { .story-container { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; } .story-left { border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 40px; margin-bottom: 0; } .story-title { font-size: 2.5rem; } }
 
-        /* Telegram Floating Button Optimization */
-        .telegram-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; 
-            background: var(--gold); border-radius: 50%; display: flex; 
-            justify-content: center; align-items: center; 
-            box-shadow: var(--shadow-gold); z-index: 1000; 
-            transition: transform 0.3s;
-        }
+        /* Telegram */
+        .telegram-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow-gold); z-index: 1000; transition: transform 0.3s; }
         .telegram-btn:hover { transform: scale(1.15) rotate(5deg); }
         .telegram-btn svg { fill: var(--accent); transition: fill 0.3s; }
 
-        /* Intro Animation */
+        /* Intro */
         #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0d0d0e; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
         .play-intro-animation { animation: overlaySlideUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards; animation-delay: 3.5s; }
         .intro-quote-box { text-align: center; opacity: 0; }
@@ -396,6 +286,33 @@
         @keyframes quoteFadeUp { 0% { opacity: 0; transform: translateY(30px); filter: blur(5px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
         @keyframes authorFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes overlaySlideUp { 0% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
+
+        /* Media Queries for Mobile Responsiveness */
+        @media(max-width: 768px) { 
+            nav { height: 60px; }
+            .nav-inner { padding: 0 15px; }
+            .logo { font-size: 1.2rem; }
+            #desktop-nav-links { display: none; }
+            .menu-toggle { display: block; }
+            
+            h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; }
+            .hero-desc { font-size: 1rem; margin-bottom: 30px; }
+            .btn-main { padding: 15px 35px; font-size: 0.9rem; }
+            
+            .core-section { margin-bottom: 80px; }
+            .core-bar { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; border-radius: 4px; }
+            .core-item:not(:last-child)::after { display: none; }
+            .core-desc { font-size: 1.2rem; }
+            
+            .protocol-section { padding: 80px 24px; }
+            .protocol-header h2 { font-size: 2.2rem; }
+            .protocol-grid { gap: 20px; }
+            
+            .rt-title { font-size: 2.5rem; }
+            .footer-msg { font-size: 2.2rem; }
+            .sticky-footer a { font-size: 0.7rem !important; }
+            .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -454,6 +371,46 @@
                 </div>
             </div>
 
+            <div class="lk-strategy-wrapper reveal-on-scroll">
+                <div class="lk-strategy-card">
+                    <div class="lk-strat-header">
+                        <span class="lk-strat-label" id="strat-label">Performance 2024</span>
+                        <h2 class="lk-strat-title" id="strat-title">L.K. Alpha Gold V1</h2>
+                    </div>
+
+                    <div class="lk-stats-grid">
+                        <div class="lk-stat-box">
+                            <div class="lk-stat-val val-green">+77.40%</div>
+                            <div class="lk-stat-name" id="st-ann">Annual Return</div>
+                        </div>
+                        <div class="lk-stat-box">
+                            <div class="lk-stat-val" style="color: #ff5252;">6.52%</div>
+                            <div class="lk-stat-name" id="st-dd">Max Drawdown</div>
+                        </div>
+                        <div class="lk-stat-box">
+                            <div class="lk-stat-val val-gold">2.87</div>
+                            <div class="lk-stat-name" id="st-pf">Profit Factor</div>
+                        </div>
+                        <div class="lk-stat-box">
+                            <div class="lk-stat-val">94</div>
+                            <div class="lk-stat-name" id="st-tr">Total Trades</div>
+                        </div>
+                    </div>
+
+                    <div class="lk-chart-container">
+                        <img src="chart.jpg" alt="Strategy Performance Chart" class="lk-chart-img">
+                    </div>
+
+                    <div class="lk-strat-desc">
+                        <div>
+                            <p id="st-desc1"><strong>The Engine:</strong> Built on pure institutional logic. This algorithm does not use lagging indicators like RSI or MACD. Instead, it tracks <strong>Liquidity Sweeps (Stop Hunts)</strong> and <strong>Order Block mitigations</strong> in real-time, entering only when the "Smart Money" has already committed capital.</p>
+                        </div>
+                        <div>
+                            <p id="st-desc2"><strong>The Edge:</strong> With a Profit Factor of 2.87, the strategy generates nearly $3 for every $1 of risk. By strictly trading Long-Only in the 2024 Macro Bull Market, we filtered out 90% of the noise, capturing only the high-probability impulsive moves.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="protocol-section reveal-on-scroll">
                 <div class="protocol-header">
                     <h2 id="protocol-h">L.K. Core Execution Protocol</h2>
@@ -514,12 +471,10 @@
         </div>
 
         <div id="view-about" class="view">
-            
             <div class="story-container">
                 <div class="story-left">
                     <span class="story-label" id="story-label">Our Story</span>
                     <h1 class="story-title" id="story-title">From Chaos to Order.</h1>
-                    
                     <div class="story-text" id="story-content">
                         <p>L.K. Capital was not conceived in a boardroom. It was forged in the trenches of volatility—where liquidity is engineered, not discovered.</p>
                         <p>Since 2019, we recognized a fundamental truth: traditional technical analysis wasn’t designed for the professional side of the market. It was designed to trap liquidity from the retail side. We dismantled the mainstream tools and rebuilt everything from the ground up.</p>
@@ -535,14 +490,12 @@
                         <p>Today, L.K. Capital is an evolving ecosystem focused on preserving, compounding, and deploying capital through structure instead of speculation. And we are just getting started.</p>
                     </div>
                 </div>
-
                 <div class="story-right">
                     <span class="story-label" id="infra-label">Infrastructure</span>
                     <div class="infra-card"><h4 id="ic-1t">5 Years</h4><p id="ic-1d">of proprietary macro research, liquidity modelling, and market-structure engineering.</p></div>
                     <div class="infra-card"><h4 id="ic-2t">Global Reach</h4><p id="ic-2d">Execution and analysis across London, New York, and Tokyo sessions.</p></div>
                     <div class="infra-card"><h4 id="ic-3t">Multi-Asset Coverage</h4><p id="ic-3d">Forex, Gold, Oil, Equity Indices, and expanding into multi-sector macro plays.</p></div>
                     <div class="infra-card"><h4 id="ic-4t">Institutional Framework</h4><p id="ic-4d">Risk systems engineered to mirror tier-1 hedge-fund standards—refined for agility instead of bureaucracy.</p></div>
-                    
                     <div class="hq-section">
                         <span class="story-label" id="hq-label">Headquarters</span>
                         <div class="hq-address" id="hq-address">Burj Khalifa<br>Dubai, UAE</div>
@@ -550,24 +503,20 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
 
     <footer class="sticky-footer">
         <div class="footer-msg">DISCIPLINE / CREATES / FREEDOM</div>
-        
         <div style="margin-top: 30px; display: flex; gap: 30px; z-index: 10; position: relative; align-items: center;">
             <a href="legal.html#privacy" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 512 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22.9 9.8 38.3 31.7 38.3 56.6v126.5c0 137.3-81.8 261.3-206.7 314.9l-14.7 6.3c-10.6 4.5-22.7 4.5-33.3 0l-14.7-6.3C101.8 527.2 20 403.2 20 265.9V139.4c0-24.9 15.4-46.8 38.3-56.6L242.6 2.9C246.8 1 251.4 0 256 0z"/></svg>Privacy Policy</a>
             <a href="legal.html#terms" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-17-6.7-33.3-18.7-45.3L290.7 18.7C278.7 6.7 262.4 0 245.3 0H64zm128 448H64V64H245.3L320 138.7V448H192zm0 0c0 0 0 0 0 0zm0 0c0 0 0 0 0 0zM192 384c0-17.7 14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32zm32-160c17.7 0 32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32z"/></svg>Terms of Use</a>
             <a href="legal.html#risk" style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.querySelector('svg').style.fill='#fff';" onmouseout="this.style.color='rgba(255,255,255,0.6)'; this.querySelector('svg').style.fill='rgba(255,255,255,0.6)';"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512" style="fill: rgba(255,255,255,0.6); transition: fill 0.3s;"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>Risk Disclosure</a>
         </div>
-
         <div style="position: absolute; bottom: 20px; font-size: 0.7rem; opacity: 0.5; padding: 0 20px; text-align: center;" id="risk-txt">
             Risk Warning: Trading involves risk. Past performance is not indicative of future results.
         </div>
-        
         <div class="disclaimer-box">
             <p class="disclaimer-text" id="disclaimer-text">
                 Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute financial advice, investment recommendations, or an offer to buy or sell any financial instruments. L.K. Capital is not a registered financial advisor. All trading involves high risk, and you may lose your entire investment. Consult a qualified professional before making any financial decisions.
@@ -595,13 +544,19 @@
         </div>
     </div>
 
-
     <script>
-        // === Language Data (已修正，确保唯一) ===
         const langData = {
             en: {
                 labelFocus: "Global Macro Focus", heroTitle: "Navigating Trends.<br>Preserving Capital", heroDesc: "L.K. Capital is an investment management firm that blends institutional structural analysis with disciplined execution.", btnCta: "Partner with Us", 
                 coreT1: "GLOBAL MACRO", coreD1: "Top-down analysis of economic cycles and capital flows.", coreT2: "STRUCTURAL EDGE", coreD2: "Tracking institutional footprints and liquidity zones.", coreT3: "ASYMMETRIC RISK", coreD3: "Strict risk management targeting high R:R opportunities.",
+                
+                // === 新增策略卡片翻译 (英文) ===
+                stratLabel: "Performance 2024", stratTitle: "L.K. Alpha Gold V1",
+                stAnn: "Annual Return", stDd: "Max Drawdown", stPf: "Profit Factor", stTr: "Total Trades",
+                stDesc1: "<strong>The Engine:</strong> Built on pure institutional logic. This algorithm does not use lagging indicators like RSI or MACD. Instead, it tracks <strong>Liquidity Sweeps (Stop Hunts)</strong> and <strong>Order Block mitigations</strong> in real-time, entering only when the \"Smart Money\" has already committed capital.",
+                stDesc2: "<strong>The Edge:</strong> With a Profit Factor of 2.87, the strategy generates nearly $3 for every $1 of risk. By strictly trading Long-Only in the 2024 Macro Bull Market, we filtered out 90% of the noise, capturing only the high-probability impulsive moves.",
+                // === 结束 ===
+
                 protocolH: "L.K. Core Execution Protocol", protocolSub: "Our structural approach is defined by discipline and a 5-step checklist for every trade setup.", st1: "Market Structure", sc1: "Determine macro bias using HTF (H4/D1) structure via BOS/CHoCH confirmation.", st2: "Liquidity Hunt", sc2: "Identify retail stop-loss zones (Liquidity Pools) that will be cleared before institutional entry.", st3: "Target POI", sc3: "Pinpoint the Point of Interest (POI) – usually a fresh Order Block or FVG.", st4: "LTF Entry", sc4: "On LTF (M5/M15), wait for price to hit the POI, sweep internal liquidity, and confirm with a micro CHoCH.", st5: "Risk Mandate", sc5: "Execute with fixed risk (0.25%-0.5% per trade) and target asymmetrical R:R (1:3 minimum).",
                 rtT: "Global Macro Context &<br>Strategic Insights", rtD: "Align your execution with institutional order flow. We decode the economic narratives and structural shifts moving the markets.", rtB: "Access Terminal",
                 commTitle: "The Inner Circle.", commDesc: "Join our private channel for daily institutional market breakdowns, live setups, and risk management updates.", btnComm: "Join Telegram Channel",
@@ -623,6 +578,14 @@
             cn: {
                 labelFocus: "专注全球宏观趋势", heroTitle: "驾驭趋势，<br>守卫资本", heroDesc: "L.K. Capital 是一家将机构级结构分析与严谨执行相结合的资产管理机构。我们不销售工具，我们管理风险。", btnCta: "成为合作伙伴", 
                 coreT1: "全球宏观", coreD1: "自上而下的经济周期与资本流向分析。", coreT2: "结构化优势", coreD2: "追踪机构订单痕迹与核心流动性区域。", coreT3: "非对称风险", coreD3: "严格的风控体系，只捕捉高盈亏比机会。",
+                
+                // === 新增策略卡片翻译 (中文) ===
+                stratLabel: "2024 年度表现", stratTitle: "L.K. Alpha Gold V1",
+                stAnn: "年化收益率", stDd: "最大回撤", stPf: "盈利因子", stTr: "总交易数",
+                stDesc1: "<strong>核心引擎：</strong> 基于纯粹的机构逻辑。本算法不使用 RSI 或 MACD 等滞后指标，而是实时追踪 <strong>流动性扫盘 (Liquidity Sweeps)</strong> 与 <strong>订单块 (Order Block)</strong> 测试，仅在“聪明钱”完成建仓后入场。",
+                stDesc2: "<strong>竞争优势：</strong> 拥有 2.87 的盈利因子，意味着每承担 1 美元风险，策略产生近 3 美元回报。通过在 2024 宏观牛市中严格执行“只做多”策略，我们过滤了 90% 的市场噪音，只捕捉高胜率的脉冲行情。",
+                // === 结束 ===
+
                 protocolH: "L.K. 核心执行协议", protocolSub: "我们的结构化方法由纪律定义，每笔交易必须通过 5 步核查。", st1: "市场结构", sc1: "利用大周期 (H4/D1) 的 BOS/CHoCH 确认宏观方向。", st2: "流动性猎杀", sc2: "识别散户止损区域（流动性池），等待机构进场前的扫盘。", st3: "锁定 POI", sc3: "精确定位关键兴趣区 (POI) —— 通常是未测试的订单块或 FVG。", st4: "小周期入场", sc4: "在 LTF (M5/M15) 等待价格触碰 POI，完成扫损并确认微观结构反转。", st5: "风控铁律", sc5: "每笔交易固定风险 (0.25%-0.5%)，目标盈亏比至少 1:3。",
                 rtT: "全球宏观视野与<br>机构策略分析", rtD: "将您的执行与机构订单流对齐。我们为您深度解码驱动市场波动的核心经济叙事与结构变化。", rtB: "进入分析终端",
                 commTitle: "加入核心圈层。", commDesc: "订阅我们的私人频道，获取每日机构级市场拆解、实时交易机会与风控更新。", btnComm: "加入 Telegram 频道",
@@ -644,7 +607,7 @@
         };
 
         let curLang = 'en';
-        let curPage = 'home'; // 新增：追踪当前页面状态的变量
+        let curPage = 'home';
 
         function toggleLang(forceLang) {
             if (forceLang) {
@@ -656,16 +619,21 @@
             
             const setTxt = (id, txt) => { const el = document.getElementById(id); if(el) el.innerHTML = txt; };
 
-            // 批量更新文本 (保持原有的映射逻辑)
             setTxt('label-focus', t.labelFocus); setTxt('hero-title', t.heroTitle); setTxt('hero-desc', t.heroDesc); setTxt('btn-cta', t.btnCta);
             setTxt('core-t1', t.coreT1); setTxt('core-d1', t.coreD1); setTxt('core-t2', t.coreT2); setTxt('core-d2', t.coreD2); setTxt('core-t3', t.coreT3); setTxt('core-d3', t.coreD3);
+            
+            // 更新策略卡片
+            setTxt('strat-label', t.stratLabel); setTxt('strat-title', t.stratTitle);
+            setTxt('st-ann', t.stAnn); setTxt('st-dd', t.stDd); setTxt('st-pf', t.stPf); setTxt('st-tr', t.stTr);
+            setTxt('st-desc1', t.stDesc1); setTxt('st-desc2', t.stDesc2);
+            
             setTxt('protocol-h', t.protocolH); setTxt('protocol-sub', t.protocolSub);
             setTxt('st1', t.st1); setTxt('sc1', t.sc1); setTxt('st2', t.st2); setTxt('sc2', t.sc2); setTxt('st3', t.st3); setTxt('sc3', t.sc3); setTxt('st4', t.st4); setTxt('sc4', t.sc4); setTxt('st5', t.st5); setTxt('sc5', t.sc5);
             setTxt('rt-title', t.rtT); setTxt('rt-desc', t.rtD); setTxt('rt-btn', t.rtB);
             setTxt('comm-title', t.commTitle); setTxt('comm-desc', t.commDesc); setTxt('btn-comm', t.btnComm);
             setTxt('news-h', t.newsH); setTxt('news-d', t.newsD); setTxt('news-b', t.newsB);
             setTxt('tmgm-intro', t.tmgmIntro); setTxt('b-h1', t.bH1); setTxt('b-p1', t.bP1); setTxt('b-h2', t.bH2); setTxt('b-p2', t.bP2); setTxt('b-h3', t.bH3); setTxt('b-p3', t.bP3); setTxt('btn-open', t.btnOpen);
-            setTxt('drawer-btn-cta', t.btnCta); // 移动端菜单按钮
+            setTxt('drawer-btn-cta', t.btnCta);
             
             setTxt('story-label', t.aboutLabel); setTxt('story-title', t.aboutTitle); setTxt('story-content', t.storyContent);
             setTxt('infra-label', t.infraLabel);
@@ -683,7 +651,6 @@
             toggleLang(targetLang);
         }
         
-        // 新增函数：更新抽屉菜单中的链接激活状态
         function updateDrawerLinks(activePageName) {
             document.querySelectorAll('.drawer-link').forEach(el => {
                 el.classList.remove('active');
@@ -693,7 +660,6 @@
             });
         }
         
-        // 新增函数：切换移动端菜单状态
         function toggleMenu() {
             const menuDrawer = document.getElementById('mobile-menu-drawer');
             const menuToggle = document.querySelector('.menu-toggle');
@@ -703,23 +669,19 @@
             menuToggle.classList.toggle('active', isActive);
             body.classList.toggle('menu-open', isActive);
 
-            // 更新抽屉内的链接激活状态
             updateDrawerLinks(curPage);
         }
-
 
         function switchPage(pageName) {
             const currentView = document.querySelector('.view.visible');
             const nextView = document.getElementById('view-' + pageName);
             
-            curPage = pageName; // 更新当前页面状态
+            curPage = pageName;
 
-            // 桌面导航栏状态更新
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             const activeNav = document.getElementById('nav-' + pageName);
             if(activeNav) activeNav.classList.add('active');
             
-            // 移动端菜单链接状态更新 (即使菜单未打开，也更新状态)
             updateDrawerLinks(curPage);
 
             if (currentView === nextView) return;
@@ -744,7 +706,6 @@
             }
         }
         
-        // === Intro & Transitions (保持不变) ===
         function initIntro() {
             const overlay = document.getElementById('intro-overlay');
             const quoteBox = document.querySelector('.intro-quote-box');
@@ -761,42 +722,20 @@
             }
         }
 
-        // === 内容防复制功能 (JavaScript) ===
         function disableContentCopy() {
-            // 1. 禁用右键菜单 (防止查看源代码和复制)
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
-
-            // 2. 禁用常见的开发者工具快捷键
+            document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
             document.addEventListener('keydown', function(e) {
-                // F12 key
-                if (e.key === 'F12') {
-                    e.preventDefault();
-                }
-                // Ctrl/Cmd + Shift + I/J (Inspect/Console)
-                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) {
-                    e.preventDefault();
-                }
-                // Ctrl/Cmd + U (View Source)
-                if ((e.ctrlKey || e.metaKey) && e.key === 'U') {
-                    e.preventDefault();
-                }
+                if (e.key === 'F12') { e.preventDefault(); }
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) { e.preventDefault(); }
+                if ((e.ctrlKey || e.metaKey) && e.key === 'U') { e.preventDefault(); }
             });
-            
-            // 3. 禁用复制事件 (如果用户设法选中了文本)
-            document.addEventListener('copy', function(e) {
-                e.preventDefault();
-                // 可以在这里设置自定义提示 e.g. alert('内容受版权保护，禁止复制。');
-            });
+            document.addEventListener('copy', function(e) { e.preventDefault(); });
         }
 
-
-        // === Init ===
         document.addEventListener('DOMContentLoaded', () => {
             initLanguage();
             initIntro(); 
-            disableContentCopy(); // **初始化防复制功能**
+            disableContentCopy(); 
 
             const homeView = document.getElementById('view-home');
             homeView.classList.add('active');
@@ -808,7 +747,7 @@
                 entries.forEach(entry => { 
                     if (entry.isIntersecting) {
                        entry.target.classList.remove('hidden');
-                       observer.unobserve(entry.target); // 一旦显示就不再观察，提升性能
+                       observer.unobserve(entry.target); 
                     }
                 }); 
             }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
