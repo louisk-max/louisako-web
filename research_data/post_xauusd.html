@@ -25,95 +25,95 @@
 
 <section>
     <div class="lang-cn"><h2>第 1 章：SMC 核心术语与结构定义</h2><p>SMC 是一门关于“平衡”的语言。在深入策略之前，我们必须统一定义市场的基本词汇，以区分 **真实结构 (True Structure)** 和 **诱导结构 (Inducement Structure)**。</p></div>
-    <div class="lang-en"><h2>Chapter 1: SMC Core Glossary & Structure Definition</h2><p>SMC is a language of "equilibrium". Before diving into strategies, we must unify the definitions of basic market vocabulary to distinguish **True Structure** from **Inducement Structure**.</p></div>
+    <div class="lang-en"><h2>Chapter 1: SMC Core Glossary & Structure Definition</h2><p>SMC is a language of "equilibrium". Before diving into strategies, we must unify the definitions of basic market vocabulary to distinguish <strong>True Structure</strong> from <strong>Inducement Structure</strong>.</p></div>
     
     <div class="concept-box">
         <span class="lang-cn concept-title">结构破坏 (BOS)</span><span class="lang-en concept-title">Break of Structure (BOS)</span>
         <div class="lang-cn"><strong>定义：</strong> 价格实体在 **主要/次要趋势结构** 中，以 **收盘价** 明确突破了上一个 **Protected High/Low**。这标志着 **Interbank Price Delivery Algorithm (IPDA)** 持续向特定方向交付价格的意图得到 **Confirmed Continuation**。</div>
-        <div class="lang-en"><strong>Definition:</strong> Price candle body closes above/below a previous **Protected High/Low** in the primary/secondary trend. This signifies **Confirmed Continuation** of the **Interbank Price Delivery Algorithm's (IPDA)** intent to continue delivering price in that direction.</div>
+        <div class="lang-en"><strong>Definition:</strong> Price candle body closes above/below a previous <strong>Protected High/Low</strong> in the primary/secondary trend. This signifies <strong>Confirmed Continuation</strong> of the <strong>Interbank Price Delivery Algorithm's (IPDA)</strong> intent to continue delivering price in that direction.</div>
     </div>
     <div class="concept-box">
         <span class="lang-cn concept-title">结构转变 (CHoCH)</span><span class="lang-en concept-title">Change of Character (CHoCH)</span>
         <div class="lang-cn"><strong>定义：</strong> 价格反向打破了导致最新 BOS 的那个 **次级支撑/阻力** (通常是最近的 **Inducement Low/High**)。它预示着 **Higher Time Frame (HTF) Bias** 发生潜在转换，是 **Mitigation & Reversal** 阶段的 **早期确认**。</div>
-        <div class="lang-en"><strong>Definition:</strong> Price breaks the "last higher low/lower high" that caused the latest BOS. It signals a potential change in **Higher Time Frame (HTF) Bias** and is the **earliest confirmation** of the **Mitigation & Reversal** phase.</div>
+        <div class="lang-en"><strong>Definition:</strong> Price breaks the "last higher low/lower high" that caused the latest BOS. It signals a potential change in <strong>Higher Time Frame (HTF) Bias</strong> and is the <strong>earliest confirmation</strong> of the <strong>Mitigation & Reversal</strong> phase.</div>
     </div>
     <div class="concept-box">
         <span class="lang-cn concept-title">流动性扫荡 (Liquidity Sweep)</span><span class="lang-en concept-title">Liquidity Sweep / Raid</span>
         <div class="lang-cn"><strong>定义：</strong> 价格的 **Wick (影线)** 穿透了上一个有效高点/低点，但 **K线实体 (Body)** 未能收盘突破。这是一种 **Manipulation** 行为，目的是收集止损订单并为机构提供 **Optimal Entry** 的对冲流动性。</div>
-        <div class="lang-en"><strong>Definition:</strong> The price **Wick** penetrates a previous valid high/low, but the **Candle Body** fails to close beyond it. This **Manipulation** gathers stop-loss orders to provide **Optimal Entry** hedging liquidity for institutions.</div>
+        <div class="lang-en"><strong>Definition:</strong> The price <strong>Wick</strong> penetrates a previous valid high/low, but the <strong>Candle Body</strong> fails to close beyond it. This <strong>Manipulation</strong> gathers stop-loss orders to provide <strong>Optimal Entry</strong> hedging liquidity for institutions.</div>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 2 章：供需结构、订单块与平抑机制</h2><p>OBs 是机构建仓留下的足迹。机构建仓流程：<strong>操作 (Manipulation) – 收集 (Accumulate) – 推动 (Expand) – 回测/平抑 (Retest/Mitigate)</strong>。</p></div>
-    <div class="lang-en"><h2>Chapter 2: Order Blocks (OB) & Repricing Mechanisms</h2><p>OBs are the footprints of institutional accumulation. Institutional process: **Manipulate → Accumulate → Expand → Retest/Mitigate**.</p></div>
+    <div class="lang-en"><h2>Chapter 2: Order Blocks (OB) & Repricing Mechanisms</h2><p>OBs are the footprints of institutional accumulation. Institutional process: <strong>Manipulate → Accumulate → Expand → Retest/Mitigate</strong>.</p></div>
     <div class="concept-box">
         <span class="lang-cn concept-title">订单块 (Order Block)</span><span class="lang-en concept-title">Order Block (OB) / POI</span>
         <div class="lang-cn"><strong>定义：</strong> 导致 **Significant Displacement (剧烈扩张)** 或 **BOS** 之前的 **最后一根反向 K 线**。它代表了机构在市场中留下的 **Unmitigated Orders (未平抑订单)** 集中区。其有效性取决于其是否 **Swept Liquidity**。</div>
-        <div class="lang-en"><strong>Definition:</strong> The **last opposing candle** before a **Break of Structure (BOS)** or violent **Displacement**. It represents an area of **Unmitigated Orders** left by institutions. Its validity is amplified if it **Swept Liquidity**.</div>
+        <div class="lang-en"><strong>Definition:</strong> The <strong>last opposing candle</strong> before a <strong>Break of Structure (BOS)</strong> or violent <strong>Displacement</strong>. It represents an area of <strong>Unmitigated Orders</strong> left by institutions. Its validity is amplified if it <strong>Swept Liquidity</strong>.</div>
     </div>
     <div class="concept-box">
         <span class="lang-cn concept-title">平抑块 (Mitigation Block)</span><span class="lang-en concept-title">Mitigation Block</span>
         <div class="lang-cn"><strong>定义：</strong> 机构在首次推动价格后未能完全平抑的 **Remaining Order (剩余订单)** 所在的区域。价格返回此区域时，常引发第二次反向平抑，即 **Re-entry for the institution**。</div>
-        <div class="lang-en"><strong>Definition:</strong> The area where the **Remaining Orders** that institutions failed to fully mitigate after the initial price push reside. A return to this zone often triggers a second, balancing move; a **Re-entry for the institution**.</div>
+        <div class="lang-en"><strong>Definition:</strong> The area where the <strong>Remaining Orders</strong> that institutions failed to fully mitigate after the initial price push reside. A return to this zone often triggers a second, balancing move; a <strong>Re-entry for the institution</strong>.</div>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 3 章：价格失衡与 FVG 机制</h2><p>FVG 是市场效率低下的表现。由于订单挤压和不平衡撮合，IPDA 总会试图修复它。这是价格的 **吸力中心 (Center of Gravity)**。</p></div>
-    <div class="lang-en"><h2>Chapter 3: Imbalance (IMB) & Fair Value Gap (FVG)</h2><p>FVGs represent market inefficiency. Due to order compression and matching imbalance, the IPDA will always attempt to reprice them. They act as the price's **Center of Gravity**.</p></div>
+    <div class="lang-en"><h2>Chapter 3: Imbalance (IMB) & Fair Value Gap (FVG)</h2><p>FVGs represent market inefficiency. Due to order compression and matching imbalance, the IPDA will always attempt to reprice them. They act as the price's <strong>Center of Gravity</strong>.</p></div>
     <div class="concept-box">
         <span class="lang-cn concept-title">公允价值缺口 (FVG)</span><span class="lang-en concept-title">Fair Value Gap (FVG)</span>
         <div class="lang-cn"><strong>定义：</strong> 三根连续K线中，**C1 的影线** 与 **C3 的影线** 之间未能发生价格交互的 **Inefficient Pricing Range**。IPDA 的核心任务之一是 **Reprice (重新定价)** 回到 **FVG EQ (中点)** 进行平衡。</div>
-        <div class="lang-en"><strong>Definition:</strong> The **Inefficient Pricing Range** where the wick of the 1st candle and the wick of the 3rd candle in a 3-candle sequence fail to overlap. A core IPDA task is to **Reprice** back to the **FVG EQ (midpoint)** for balancing.</div>
+        <div class="lang-en"><strong>Definition:</strong> The <strong>Inefficient Pricing Range</strong> where the wick of the 1st candle and the wick of the 3rd candle in a 3-candle sequence fail to overlap. A core IPDA task is to <strong>Reprice</strong> back to the <strong>FVG EQ (midpoint)</strong> for balancing.</div>
     </div>
     <div class="concept-box">
         <span class="lang-cn concept-title">平衡价格范围 (BPR)</span><span class="lang-en concept-title">Balanced Price Range (BPR)</span>
         <div class="lang-cn"><strong>定义：</strong> 两个重叠的、但方向相反的 FVG。此区域通常被视为市场已经达到 **Efficiency (效率)**，因此不是理想的入场兴趣点，但可作为 **Potential Target**。</div>
-        <div class="lang-en"><strong>Definition:</strong> Two overlapping FVGs of opposite directions. This area is generally considered **Efficient**, hence not an ideal entry point, but it serves as a **Potential Target**.</div>
+        <div class="lang-en"><strong>Definition:</strong> Two overlapping FVGs of opposite directions. This area is generally considered <strong>Efficient</strong>, hence not an ideal entry point, but it serves as a <strong>Potential Target</strong>.</div>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 4 章：IPDA 运作原理与价格交付模型</h2><p>银行间价格交付算法 (IPDA) 是市场的操作系统，它通过平衡供需、清算流动性池来驱动价格。其目标是 **Efficiency**。</p></div>
-    <div class="lang-en"><h2>Chapter 4: IPDA Operating Principle & Price Delivery Model</h2><p>The Interbank Price Delivery Algorithm (IPDA) is the market's operating system, driving price by balancing Supply/Demand and clearing Liquidity Pools. Its ultimate goal is **Efficiency**.</p></div>
+    <div class="lang-en"><h2>Chapter 4: IPDA Operating Principle & Price Delivery Model</h2><p>The Interbank Price Delivery Algorithm (IPDA) is the market's operating system, driving price by balancing Supply/Demand and clearing Liquidity Pools. Its ultimate goal is <strong>Efficiency</strong>.</p></div>
     <div class="lang-cn">
         <p>市场永远处于四个阶段的循环中：<strong>积累 (Accumulation) → 扩张 (Expansion) → 回撤/平抑 (Retracement/Mitigation) → 反转 (Reversal)</strong>。每一次 **Expansion** 都是对未平抑订单和平抑价格失衡 (FVG) 的承诺。</p>
         <p>IPDA 使用 **Higher Time Frame (HTF) Bias** 作为导航，将价格推向下一个 **Primary Liquidity Target (主要流动性目标)**。</p>
     </div>
     <div class="lang-en">
-        <p>The market cycles through four stages: **Accumulation → Expansion → Retracement/Mitigation → Reversal**. Every **Expansion** is a commitment to mitigate pending orders and reprice imbalances (FVG).</p>
-        <p>The IPDA uses **Higher Time Frame (HTF) Bias** for navigation, driving price toward the next **Primary Liquidity Target**.</p>
+        <p>The market cycles through four stages: <strong>Accumulation → Expansion → Retracement/Mitigation → Reversal</strong>. Every <strong>Expansion</strong> is a commitment to mitigate pending orders and reprice imbalances (FVG).</p>
+        <p>The IPDA uses <strong>Higher Time Frame (HTF) Bias</strong> for navigation, driving price toward the next <strong>Primary Liquidity Target</strong>.</p>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 5 章：XAUUSD 的“猎杀行为”与流动性突袭</h2><p>黄金是流动性猎杀之王。高波动、高密度止损是其特征。其 **Judas Swing** 行为在主要交易时段频繁发生。</p></div>
-    <div class="lang-en"><h2>Chapter 5: The Hunt for Liquidity & XAUUSD Raid Behavior</h2><p>Gold is the king of liquidity hunts, characterized by high volatility and dense stop-loss clusters. Its **Judas Swing** behavior is frequent during major sessions.</p></div>
+    <div class="lang-en"><h2>Chapter 5: The Hunt for Liquidity & XAUUSD Raid Behavior</h2><p>Gold is the king of liquidity hunts, characterized by high volatility and dense stop-loss clusters. Its <strong>Judas Swing</strong> behavior is frequent during major sessions.</p></div>
     <div class="lang-cn">
         <p><strong>机构逻辑：</strong> 做市商需要对手盘。如果他们想做多，必须先诱导散户做空（跌破支撑），或触发多头的止损卖单 (Sell Stops)。**流动性 (Stops/Pending Orders)** 是市场的燃料。**突袭 (Raid)** 通常发生在日线或 4 小时图上的 **Equal Highs/Lows** 区域。</p>
         <blockquote class="lang-cn">“价格交付的唯一驱动力是流动性。一切运动都是为了平衡订单、清算止损。”</blockquote>
     </div>
     <div class="lang-en">
-        <p><strong>Institutional Logic:</strong> Market Makers need counterparties. To buy size, they must induce retail to sell (breaking support) or trigger long Sell Stops. **Liquidity (Stops/Pending Orders)** is the market's fuel. **Raids** often occur at **Equal Highs/Lows** on the Daily or H4 chart.</p>
+        <p><strong>Institutional Logic:</strong> Market Makers need counterparties. To buy size, they must induce retail to sell (breaking support) or trigger long Sell Stops. <strong>Liquidity (Stops/Pending Orders)</strong> is the market's fuel. <strong>Raids</strong> often occur at <strong>Equal Highs/Lows</strong> on the Daily or H4 chart.</p>
         <blockquote class="lang-en">“The sole driver of price delivery is liquidity. All movements serve to balance orders and clear stops.”</blockquote>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 6 章：高频交易 (HFT) 与量化行为</h2><p>HFT 算法在毫秒级别寻找流动性路径 (Liquidity Routing)。它们利用微小的 **Latency (延迟)** 和 **Spread (点差)** 进行套利，并执行机构的 **Iceberg Orders (冰山订单)**。</p></div>
-    <div class="lang-en"><h2>Chapter 6: High Frequency Trading (HFT) & Algo Behavior</h2><p>HFT algorithms seek **Liquidity Routing Paths** in milliseconds. They exploit minor **Latency** and **Spread** for arbitrage and execute institutional **Iceberg Orders**.</p></div>
+    <div class="lang-en"><h2>Chapter 6: High Frequency Trading (HFT) & Algo Behavior</h2><p>HFT algorithms seek <strong>Liquidity Routing Paths</strong> in milliseconds. They exploit minor <strong>Latency</strong> and <strong>Spread</strong> for arbitrage and execute institutional <strong>Iceberg Orders</strong>.</p></div>
     <div class="lang-cn">
         <p>理解 HFT 的作用：它们是 IPDA 的执行者。我们观察到的 **Displacement**、**FVG** 和 **Clean BOS** 都是 HFT 算法高速执行 **Market Orders** 造成的结果。它们是市场效率和失衡的根源。</p>
     </div>
     <div class="lang-en">
-        <p>Understanding HFT's role: They are the executors of the IPDA. The **Displacement**, **FVG**, and **Clean BOS** we observe are the results of HFT algorithms executing **Market Orders** at high speed. They are the source of both market efficiency and imbalance.</p>
+        <p>Understanding HFT's role: They are the executors of the IPDA. The <strong>Displacement</strong>, <strong>FVG</strong>, and <strong>Clean BOS</strong> we observe are the results of HFT algorithms executing <strong>Market Orders</strong> at high speed. They are the source of both market efficiency and imbalance.</p>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 7 章：多时间框架分析 (Top-Down Analysis)</h2><p>交易成功在于对市场 **Hiearchy (层次结构)** 的理解。<strong>HTF (高时间框架) 决定方向，LTF (低时间框架) 决定时机。</strong></p></div>
-    <div class="lang-en"><h2>Chapter 7: Multi-Timeframe (Top-Down) Analysis</h2><p>Trading success lies in understanding market **Hierarchy**. **HTF determines the Bias; LTF determines the Timing.**</p></div>
+    <div class="lang-en"><h2>Chapter 7: Multi-Timeframe (Top-Down) Analysis</h2><p>Trading success lies in understanding market <strong>Hierarchy</strong>. <strong>HTF determines the Bias; LTF determines the Timing.</strong></p></div>
     <div class="lang-cn">
         <ul>
             <li><strong>宏观 (Macro / HTF)：</strong> 月线/周线/日线 —— 识别 **Primary Structure** 和 **Major Liquidity Pool**，决定交易的 **Bias (偏向)**。</li>
@@ -123,17 +123,30 @@
     </div>
     <div class="lang-en">
         <ul>
-            <li><strong>Macro (HTF):</strong> Monthly/Weekly/Daily — Identifies **Primary Structure** and **Major Liquidity Pools**, determines trading **Bias**.</li>
-            <li><strong>Intermediate (MTF):</strong> H4/H1 — Identifies **Key Points of Interest (POI)**: such as unmitigated **Daily OBs** or **FVGs**. This is the zone for planning entries.</li>
-            <li><strong>Micro (LTF):</strong> M15/M5/M1 — Observes **Confirmation** when price arrives at the POI, e.g., **CHoCH** or **Sweep & Rejection**, determining the Entry Trigger.</li>
+            <li><strong>Macro (HTF):</strong> Monthly/Weekly/Daily — Identifies <strong>Primary Structure</strong> and <strong>Major Liquidity Pools</strong>, determines trading <strong>Bias</strong>.</li>
+            <li><strong>Intermediate (MTF):</strong> H4/H1 — Identifies <strong>Key Points of Interest (POI)</strong>: such as unmitigated <strong>Daily OBs</strong> or <strong>FVGs</strong>. This is the zone for planning entries.</li>
+            <li><strong>Micro (LTF):</strong> M15/M5/M1 — Observes <strong>Confirmation</strong> when price arrives at the POI, e.g., <strong>CHoCH</strong> or <strong>Sweep & Rejection</strong>, determining the Entry Trigger.</li>
         </ul>
     </div>
 </section>
 
 <section>
-    <div class="lang-cn"><h2>第 8 章：强弱结构与“目标 vs 保护”</h2><p>区分 **Strong High/Low** 和 **Weak High/Low** 是风险管理和目标设定的基石。保护强结构，瞄准弱结构。</p></div><div class="lang-en"><h2>Chapter 8: Strong vs. Weak Structure: Target & Protection</h2><p>Distinguishing between **Strong High/Low** and **Weak High/Low** is the cornerstone of risk management and target setting. Protect the Strong, Target the Weak.</p></div>
-    <div class="concept-box"><span class="lang-cn concept-title">强高点/低点 (Strong High/Low)</span><span class="lang-en concept-title">Strong High/Low</span><div class="lang-cn">导致了结构破坏 (BOS) 并创出新低/高点的反向高点/低点。它是 **受保护的 (Protected)**，机构会捍卫这个位置，因为它是 **Order Accumulation** 的起点。这是放置 **Stop Loss** 的最佳点。</div><div class="lang-en">A high/low that caused a BOS and created a new extreme. It is **Protected**; institutions will defend it as it marks the beginning of **Order Accumulation**. The ideal place for a **Stop Loss**.</div></div>
-    <div class="concept-box"><span class="lang-cn concept-title">弱高点/低点 (Weak High/Low)</span><span class="lang-en concept-title">Weak High/Low</span><div class="lang-cn">未能推动价格创新低/高的反向高点/低点。它是 **目标 (Target)**，价格大概率会突破这里去扫损（形成 **Equal Highs/Lows**）。永远不要在弱高点上方做空，因为那是 **Buy-Side Liquidity (BSL)** 的聚集区。</div><div class="lang-en">A high/low that failed to break structure. It is a **Target**; price will likely run through it to sweep liquidity (forming **Equal Highs/Lows**). Never short above a weak high, as it is a **Buy-Side Liquidity (BSL)** pool.</div></div>
+    <div class="lang-cn"><h2>第 8 章：强弱结构与“目标 vs 保护”</h2><p>区分 **Strong High/Low** 和 **Weak High/Low** 是风险管理和目标设定的基石。保护强结构，瞄准弱结构。</p></div>
+    <div class="lang-en"><h2>Chapter 8: Strong vs. Weak Structure: Target & Protection</h2><p>Distinguishing between <strong>Strong High/Low</strong> and <strong>Weak High/Low</strong> is the cornerstone of risk management and target setting. Protect the Strong, Target the Weak.</p></div>
+    
+    <div class="concept-box">
+        <span class="lang-cn concept-title">强高点/低点 (Strong High/Low)</span>
+        <span class="lang-en concept-title">Strong High/Low</span>
+        <div class="lang-cn">导致了结构破坏 (BOS) 并创出新低/高点的反向高点/低点。它是 **受保护的 (Protected)**，机构会捍卫这个位置，因为它是 **Order Accumulation** 的起点。这是放置 **Stop Loss** 的最佳点。</div>
+        <div class="lang-en">A high/low that caused a BOS and created a new extreme. It is <strong>Protected</strong>; institutions will defend it as it marks the beginning of <strong>Order Accumulation</strong>. The ideal place for a <strong>Stop Loss</strong>.</div>
+    </div>
+    
+    <div class="concept-box">
+        <span class="lang-cn concept-title">弱高点/低点 (Weak High/Low)</span>
+        <span class="lang-en concept-title">Weak High/Low</span>
+        <div class="lang-cn">未能推动价格创新低/高的反向高点/低点。它是 **目标 (Target)**，价格大概率会突破这里去扫损（形成 **Equal Highs/Lows**）。永远不要在弱高点上方做空，因为那是 **Buy-Side Liquidity (BSL)** 的聚集区。</div>
+        <div class="lang-en">A high/low that failed to break structure. It is a <strong>Target</strong>; price will likely run through it to sweep liquidity (forming <strong>Equal Highs/Lows</strong>). Never short above a weak high, as it is a <strong>Buy-Side Liquidity (BSL)</strong> pool.</div>
+    </div>
 </section>
 
 <section id="ch9" class="chapter">
@@ -152,131 +165,63 @@
     <div class="lang-en">
         <h2>Chapter 9: Advanced Structure & Three-Phase Retracement</h2>
         <p>After understanding basic Market Structure (BOS/CHoCH), we must address the biggest pain point in live trading: <strong>"Why does price break structure, retrace, and then fail to continue?"</strong></p>
-        <p>This happens because the market is a <strong>3-dimensional process of liquidity balancing</strong>. At L.K. Capital, we define this as the **"Three-Phase Retracement"** structure.</p>
+        <p>This happens because the market is a <strong>3-dimensional process of liquidity balancing</strong>. At L.K. Capital, we define this as the <strong>"Three-Phase Retracement"</strong> structure.</p>
         <div class="concept-box">
             <span class="concept-title">Core Definition: Three-Phase Retracement</span>
             <strong>Three-Phase Structure:</strong> A mandatory sequence price undergoes before or during a major trend:<br>
-            1. <strong>Sweep:</strong> Price wicks through **Inducement Liquidity** (internal LQs, e.g., Equal Lows/Highs).<br>
-            2. <strong>Return (Mitigation):</strong> Price precisely returns to an **Unmitigated OB** or **Breaker** within the **Premium/Discount Zone**, filling the **FVG**.<br>
-            3. <strong>Expansion:</strong> After an LTF **CHoCH** (Trigger), price violently pushes, releasing the true trend.
+            1. <strong>Sweep:</strong> Price wicks through <strong>Inducement Liquidity</strong> (internal LQs, e.g., Equal Lows/Highs).<br>
+            2. <strong>Return (Mitigation):</strong> Price precisely returns to an <strong>Unmitigated OB</strong> or <strong>Breaker</strong> within the <strong>Premium/Discount Zone</strong>, filling the <strong>FVG</strong>.<br>
+            3. <strong>Expansion:</strong> After an LTF <strong>CHoCH</strong> (Trigger), price violently pushes, releasing the true trend.
         </div>
     </div>
 </section>
 
 <section>
     <div class="lang-cn"><h2>第 10 章：流动性池 (Liquidity Pools)</h2><p>BSL (买方流动性) 和 SSL (卖方流动性) 是市场的目标。它们是 **Stop Loss (止损)** 和 **Pending Orders (挂单)** 聚集的区域。</p><p>为什么“你觉得安全的地方，通常是流动性集中区”？因为散户倾向于在 **双顶/双底** 处设置止损，而这正是机构需要清算的 **Equal Highs/Lows**。</p></div>
-    <div class="lang-en"><h2>Chapter 10: Liquidity Pools</h2><p>BSL (Buy-Side Liquidity) and SSL (Sell-Side Liquidity) are the market's targets. They are zones where **Stop Loss** and **Pending Orders** cluster.</p><p>Why "where you feel safe is often where liquidity is concentrated"? Because retail traders tend to place stops at **Double Tops/Bottoms**, which are exactly the **Equal Highs/Lows** that institutions need to clear.</p></div>
+    <div class="lang-en"><h2>Chapter 10: Liquidity Pools</h2><p>BSL (Buy-Side Liquidity) and SSL (Sell-Side Liquidity) are the market's targets. They are zones where <strong>Stop Loss</strong> and <strong>Pending Orders</strong> cluster.</p><p>Why "where you feel safe is often where liquidity is concentrated"? Because retail traders tend to place stops at <strong>Double Tops/Bottoms</strong>, which are exactly the <strong>Equal Highs/Lows</strong> that institutions need to clear.</p></div>
 </section>
 
 <section>
-    <div class="lang-cn"><h2>第 11 章：诱导结构 (Inducement - IDM)</h2><p>IDM 是陷阱。在价格到达真正的 **POI (兴趣点)** 之前形成的小支撑/阻力。其目的是诱导散户提前进场，从而产生供机构利用的 **Internal Liquidity (内部流动性)**。</p></div>
-    <div class="lang-en"><h2>Chapter 11: Inducement (IDM)</h2><p>IDM is a trap. Minor support/resistance formed right before the **Real POI** to induce early retail entry. Its purpose is to create **Internal Liquidity** for institutional use.</p></div>
-    <div class="lang-cn">
-        <p><strong>实战应用：</strong> 只有价格清除了 **IDM** 之后，剩余的 **OB/FVG** 才被视为高胜率的 **True POI**。在 IDM 被扫荡之前进场，几乎一定会遭遇止损。</p>
-    </div>
-    <div class="lang-en">
-        <p><strong>Practical Application:</strong> Only after price has cleared the **IDM** should the remaining **OB/FVG** be considered a high-probability **True POI**. Entering before the IDM sweep is almost guaranteed to result in a stop-out.</p>
-    </div>
+    <div class="lang-cn"><h2>第 11 章：诱导结构 (Inducement - IDM)</h2><p>IDM 是陷阱。在价格到达真正的 **POI (兴趣点)** 之前形成的小支撑/阻力。其目的是诱导散户提前进场，从而产生供机构利用的 **Internal Liquidity (内部流动性)**。</p><p><strong>实战应用：</strong> 只有价格清除了 **IDM** 之后，剩余的 **OB/FVG** 才被视为高胜率的 **True POI**。在 IDM 被扫荡之前进场，几乎一定会遭遇止损。</p></div>
+    <div class="lang-en"><h2>Chapter 11: Inducement (IDM)</h2><p>IDM is a trap. Minor support/resistance formed right before the <strong>Real POI</strong> to induce early retail entry. Its purpose is to create <strong>Internal Liquidity</strong> for institutional use.</p><p><strong>Practical Application:</strong> Only after price has cleared the <strong>IDM</strong> should the remaining <strong>OB/FVG</strong> be considered a high-probability <strong>True POI</strong>. Entering before the IDM sweep is almost guaranteed to result in a stop-out.</p></div>
 </section>
 
 <section>
-    <div class="lang-cn"><h2>第 12 章：高级订单块过滤 (Advanced OB Filters)</h2><p>并非所有的 **OB** 都是平抑区。**高胜率 OB** 必须满足以下 **三要素**：</p></div>
-    <div class="lang-en"><h2>Chapter 12: Advanced Order Block (OB) Filters</h2><p>Not all **OBs** are mitigation zones. A **High Probability OB** must meet the following **Three Criteria**:</p></div>
-    <div class="lang-cn">
-        <p><strong>高胜率 OB 判别：</strong></p>
-        <ul>
-            <li>**BOS/Displacement：** OB 必须导致了强烈的结构破坏或剧烈推动。</li>
-            <li>**FVG/IMB：** OB 必须紧邻一个未平抑的 FVG，表明其推动具有 **Inefficiency**。</li>
-            <li>**Sweep Liquidity：** OB 之前的 K 线必须清除了上一个重要的 **Liquidity Pool**。</li>
-        </ul>
-        <p>何时放弃 OB：未清除流动性、仅在盘整区形成、已被价格充分平抑 (Mitigated)。</p>
+    <div class="lang-cn"><h2>第 12 章：高级订单块过滤 (Advanced OB Filters)</h2><p>并非所有的 **OB** 都是平抑区。**高胜率 OB** 必须满足以下 **三要素**：</p><p><strong>高胜率 OB 判别：</strong></p><ul><li>**BOS/Displacement：** OB 必须导致了强烈的结构破坏或剧烈推动。</li><li>**FVG/IMB：** OB 必须紧邻一个未平抑的 FVG，表明其推动具有 **Inefficiency**。</li><li>**Sweep Liquidity：** OB 之前的 K 线必须清除了上一个重要的 **Liquidity Pool**。</li></ul></div>
+    <div class="lang-en"><h2>Chapter 12: Advanced Order Block (OB) Filters</h2><p>Not all <strong>OBs</strong> are mitigation zones. A <strong>High Probability OB</strong> must meet the following <strong>Three Criteria</strong>:</p><p><strong>High Probability OB Criteria:</strong></p><ul><li><strong>BOS/Displacement:</strong> The OB must have led to a strong break of structure or violent expansion.</li><li><strong>FVG/IMB:</strong> The OB must be immediately followed by an unmitigated FVG, indicating <strong>Inefficiency</strong> in the move.</li><li><strong>Sweep Liquidity:</strong> The candle preceding the OB must have swept a significant <strong>Liquidity Pool</strong>.</li></ul></div>
+</section>
+
+<section>
+    <div class="lang-cn"><h2>第 13 章：高胜率入场模型详解 (Detailed Entry Models)</h2><p>我们将入场策略分为三类。成功的关键在于等待 **Confluence (共振)**。以下模型假设你已经确定了 **HTF POI**。</p>
+        <h3>Model A: 极端位置延续 (Extreme Continuation)</h3><p>HTF 趋势向上，价格回踩 H4 OB，M15 出现 CHoCH 且伴随 Sweep，回踩新 FVG 入场。</p>
+        <h3>Model B: 海龟汤 / 流动性猎杀 (Turtle Soup)</h3><p>价格 Wick 刺穿高点但实体收回 (SFP)，配合看跌吞没确认入场。</p>
+        <h3>Model C: 失败反转结构 (Breaker Reversal)</h3><p>当看涨 OB 被强力击穿失效后，利用其底部作为阻力位入场做空。</p>
     </div>
-    <div class="lang-en">
-        <p><strong>High Probability OB Criteria:</strong></p>
-        <ul>
-            <li>**BOS/Displacement:** The OB must have led to a strong break of structure or violent expansion.</li>
-            <li>**FVG/IMB:** The OB must be immediately followed by an unmitigated FVG, indicating **Inefficiency** in the move.</li>
-            <li>**Sweep Liquidity:** The candle preceding the OB must have swept a significant **Liquidity Pool**.</li>
-        </ul>
-        <p>When to discard an OB: Failed to sweep liquidity, formed only in consolidation, or has been sufficiently mitigated by price action.</p>
+    <div class="lang-en"><h2>Chapter 13: High-Probability Entry Models</h2><p>We classify entry strategies into three types. The key to success is waiting for <strong>Confluence</strong>.</p>
+        <h3>Model A: Extreme Continuation</h3><p>HTF Trend Bullish. Price retraces to H4 OB. M15 CHoCH with Sweep. Enter on new FVG.</p>
+        <h3>Model B: Turtle Soup</h3><p>Price wicks high but body closes below (SFP). Enter on confirmation candle.</p>
+        <h3>Model C: Breaker Reversal</h3><p>Bullish OB smashed. Re-test underside as resistance to go short.</p>
     </div>
 </section>
 
 <section>
-    <div class="lang-cn"><h2>第 13 章：高胜率入场模型详解 (Detailed Entry Models)</h2><p>我们将入场策略分为三类。成功的关键在于等待 **Confluence (共振)**。以下模型假设你已经确定了 **HTF POI**。</p></div>
-    <div class="lang-en"><h2>Chapter 13: High-Probability Entry Models Detailed</h2><p>We classify entry strategies into three types. The key to success is waiting for **Confluence**. The following models assume you have already identified an **HTF POI**.</p></div>
-    
-    <div class="lang-cn">
-        <h3>Model A: 极端位置延续 (Extreme Continuation)</h3>
-        <p>这是最安全的顺势模型。当价格回踩到趋势的 **Extreme Discount/Premium** 区域时使用。</p>
-        <ul>
-            <li><strong>Setup:</strong> HTF 趋势向上。价格回踩 H4 Order Block。</li>
-            <li><strong>Trigger:</strong> 在 M15 图表上，价格扫荡了亚洲低点或前一根 K 线低点 (Sweep)，并立即收回形成 **CHoCH**。</li>
-            <li><strong>Entry:</strong> 在 CHoCH 发生后，价格回踩新形成的 **M15 FVG** 进场。</li>
-            <li><strong>Stop:</strong> 放置在刚形成的 **Swing Low** 下方 2-3 pips。</li>
-        </ul>
-
-        <h3>Model B: 海龟汤 / 流动性猎杀 (Turtle Soup / Liquidity Raid)</h3>
-        <p>这是反转模型，用于捕捉高点/低点的假突破。</p>
-        <ul>
-            <li><strong>Setup:</strong> 价格接近显著的 **Equal Highs (EQH)** 或 **Daily High**。</li>
-            <li><strong>Action:</strong> 价格以 **Wick (影线)** 刺穿高点，但实体收盘在下方 (SFP - Swing Failure Pattern)。</li>
-            <li><strong>Confirmation:</strong> 下一根 K 线必须是看跌吞没 (Engulfing) 或伴随巨大的卖出量。</li>
-            <li><strong>Entry:</strong> 激进者在 SFP 收盘时进场；保守者等待 LTF CHoCH。</li>
-        </ul>
-
-        <h3>Model C: 失败反转结构 (Breaker Reversal)</h3>
-        <p>当预期的 OB 失守时，利用它作为反向支撑/阻力。</p>
-        <ul>
-            <li><strong>Context:</strong> 价格强力击穿了看涨 OB，没有反应。</li>
-            <li><strong>Shift:</strong> 此 OB 现在变成了 **Breaker Block**。</li>
-            <li><strong>Entry:</strong> 等待价格回抽测试 Breaker Block 的底部 (Bearish) 进场做空。</li>
-        </ul>
+    <div class="lang-cn"><h2>第 14 章：时间结构与 Kill Zones (Time & Price)</h2><p>黄金的波动由算法在特定时间窗口释放。在窗口之外交易是赌博。</p>
+        <div class="concept-box"><span class="lang-cn concept-title">伦敦开盘 (London Open / LO)</span><span class="lang-en concept-title">London Open (07:00 - 10:00 UTC)</span><div class="lang-cn">特征：Judas Swing (假动作扫荡)。</div><div class="lang-en">Characteristics: Judas Swing.</div></div>
+        <div class="concept-box"><span class="lang-cn concept-title">纽约开盘 (New York Open / NYO)</span><span class="lang-en concept-title">New York Open (12:00 - 15:00 UTC)</span><div class="lang-cn">特征：趋势延续或复杂回调。</div><div class="lang-en">Characteristics: Trend Continuation or Complex Retracement.</div></div>
     </div>
-    <div class="lang-en">
-        <h3>Model A: Extreme Continuation</h3>
-        <p>The safest trend-following model. Used when price retraces to the **Extreme Discount/Premium** zone of the trend.</p>
-        <ul>
-            <li><strong>Setup:</strong> HTF Trend is Bullish. Price retraces to an H4 Order Block.</li>
-            <li><strong>Trigger:</strong> On M15, price **Sweeps** Asian Lows or Previous Candle Low, then immediately reclaims, forming a **CHoCH**.</li>
-            <li><strong>Entry:</strong> Enter on the retracement to the newly formed **M15 FVG** after the CHoCH.</li>
-            <li><strong>Stop:</strong> Placed 2-3 pips below the newly formed **Swing Low**.</li>
-        </ul>
-
-        <h3>Model B: Turtle Soup / Liquidity Raid</h3>
-        <p>A reversal model used to catch fake-outs at major highs/lows.</p>
-        <ul>
-            <li><strong>Setup:</strong> Price approaches significant **Equal Highs (EQH)** or **Daily High**.</li>
-            <li><strong>Action:</strong> Price pierces the high with a **Wick**, but the Body closes below (SFP - Swing Failure Pattern).</li>
-            <li><strong>Confirmation:</strong> The next candle must be Bearish Engulfing or accompanied by high sell volume.</li>
-            <li><strong>Entry:</strong> Aggressive: Enter on SFP close; Conservative: Wait for LTF CHoCH.</li>
-        </ul>
-
-        <h3>Model C: Breaker Reversal</h3>
-        <p>Using a failed OB as support/resistance.</p>
-        <ul>
-            <li><strong>Context:</strong> Price violently smashes through a Bullish OB with no reaction.</li>
-            <li><strong>Shift:</strong> This OB is now a **Breaker Block**.</li>
-            <li><strong>Entry:</strong> Wait for price to retest the underside of the Breaker Block (Bearish) to go short.</li>
-        </ul>
+    <div class="lang-en"><h2>Chapter 14: Time Structure & Kill Zones</h2><p>Gold volatility is released by algorithms during specific time windows. Trading outside these windows is gambling.</p>
+        <div class="lang-cn">
+            <p><strong>注意：以下时间均为 UTC 时间 (Coordinated Universal Time)。</strong></p>
+        </div>
+        <div class="lang-en">
+            <p><strong>Note: All times below are in UTC (Coordinated Universal Time).</strong></p>
+        </div>
+        <div class="concept-box"><span class="lang-cn concept-title">伦敦开盘 (London Open / LO)</span><span class="lang-en concept-title">London Open (07:00 - 10:00 UTC)</span><div class="lang-cn"><strong>特征：</strong> Judas Swing (假动作)。<br>通常在 07:00-08:00 之间，价格会向当日真实方向的**反方向**剧烈运动，扫荡亚洲时段的流动性。这是日内交易的最佳入场点。</div><div class="lang-en"><strong>Characteristics:</strong> Judas Swing.<br>Typically between 07:00-08:00, price moves violently <strong>against</strong> the day's true direction to sweep Asian Session liquidity. This is the optimal entry for intraday setups.</div></div>
+        
+        <div class="concept-box"><span class="lang-cn concept-title">纽约开盘 (New York Open / NYO)</span><span class="lang-en concept-title">New York Open (12:00 - 15:00 UTC)</span><div class="lang-cn"><strong>特征：</strong> 趋势延续或反转。<br>13:30 (美股开盘前) 通常伴随重大新闻数据发布。如果伦敦时段已经走出了巨大的趋势，纽约时段往往会进行 **Complex Retracement (复杂回调)** 或延续。这是波动率最高的时段。</div><div class="lang-en"><strong>Characteristics:</strong> Trend Continuation or Reversal.<br>13:30 (Pre-Market) often brings major news releases. If London Session has already established a large trend, NY Session often performs a <strong>Complex Retracement</strong> or continuation. This is the highest volatility session.</div></div>
+        
+        <div class="concept-box"><span class="lang-cn concept-title">伦敦收盘 (London Close / LC)</span><span class="lang-en concept-title">London Close (15:00 - 17:00 UTC)</span><div class="lang-cn"><strong>特征：</strong> 日内修正。<br>欧洲交易员平仓离场，价格往往会回撤当天的部分涨幅/跌幅。适合做反向剥头皮。</div><div class="lang-en"><strong>Characteristics:</strong> Intraday Correction.<br>European traders close positions, and price often retraces a portion of the day's move. Good for counter-trend scalping.</div></div>
     </div>
-</section>
-
-<section>
-    <div class="lang-cn"><h2>第 14 章：时间结构与 Kill Zones (Time & Price)</h2><p>黄金的波动由算法在特定时间窗口释放。在窗口之外交易是赌博。</p></div><div class="lang-en"><h2>Chapter 14: Time Structure & Kill Zones</h2><p>Gold volatility is released by algorithms during specific time windows. Trading outside these windows is gambling.</p></div>
-    
-    <div class="lang-cn">
-        <p><strong>注意：以下时间均为 UTC 时间 (Coordinated Universal Time)。</strong></p>
-    </div>
-    <div class="lang-en">
-        <p><strong>Note: All times below are in UTC (Coordinated Universal Time).</strong></p>
-    </div>
-
-    <div class="concept-box"><span class="lang-cn concept-title">伦敦开盘 (London Open / LO)</span><span class="lang-en concept-title">London Open (07:00 - 10:00 UTC)</span><div class="lang-cn"><strong>特征：</strong> Judas Swing (假动作)。<br>通常在 07:00-08:00 之间，价格会向当日真实方向的**反方向**剧烈运动，扫荡亚洲时段的流动性。这是日内交易的最佳入场点。</div><div class="lang-en"><strong>Characteristics:</strong> Judas Swing.<br>Typically between 07:00-08:00, price moves violently **against** the day's true direction to sweep Asian Session liquidity. This is the optimal entry for intraday setups.</div></div>
-    
-    <div class="concept-box"><span class="lang-cn concept-title">纽约开盘 (New York Open / NYO)</span><span class="lang-en concept-title">New York Open (12:00 - 15:00 UTC)</span><div class="lang-cn"><strong>特征：</strong> 趋势延续或反转。<br>13:30 (美股开盘前) 通常伴随重大新闻数据发布。如果伦敦时段已经走出了巨大的趋势，纽约时段往往会进行 **Complex Retracement (复杂回调)** 或延续。这是波动率最高的时段。</div><div class="lang-en"><strong>Characteristics:</strong> Trend Continuation or Reversal.<br>13:30 (Pre-Market) often brings major news releases. If London Session has already established a large trend, NY Session often performs a **Complex Retracement** or continuation. This is the highest volatility session.</div></div>
-    
-    <div class="concept-box"><span class="lang-cn concept-title">伦敦收盘 (London Close / LC)</span><span class="lang-en concept-title">London Close (15:00 - 17:00 UTC)</span><div class="lang-cn"><strong>特征：</strong> 日内修正。<br>欧洲交易员平仓离场，价格往往会回撤当天的部分涨幅/跌幅。适合做反向剥头皮。</div><div class="lang-en"><strong>Characteristics:</strong> Intraday Correction.<br>European traders close positions, and price often retraces a portion of the day's move. Good for counter-trend scalping.</div></div>
 </section>
 
 <section>
@@ -294,8 +239,8 @@
     <div class="lang-en">
         <p><strong>DXY vs XAUUSD (Negative Correlation):</strong></p>
         <ul>
-            <li><strong>Bullish SMT:</strong> When DXY makes a **Higher High**, but Gold **refuses to make a Lower Low (Higher Low)**. This indicates intrinsic strength in Gold; institutions are accumulating.</li>
-            <li><strong>Bearish SMT:</strong> When DXY makes a **Lower Low**, but Gold **fails to make a Higher High (Lower High)**.</li>
+            <li><strong>Bullish SMT:</strong> When DXY makes a <strong>Higher High</strong>, but Gold <strong>refuses to make a Lower Low (Higher Low)</strong>. This indicates intrinsic strength in Gold; institutions are accumulating.</li>
+            <li><strong>Bearish SMT:</strong> When DXY makes a <strong>Lower Low</strong>, but Gold <strong>fails to make a Higher High (Lower High)</strong>.</li>
         </ul>
         <p><strong>XAUUSD vs XAGUSD (Positive Correlation):</strong></p>
         <p>If Gold makes a New High, but Silver fails to confirm (Lower High), it suggests weakening bullish momentum and is a potential short signal.</p>
@@ -318,7 +263,7 @@
         <p><strong>Practical Rules:</strong></p>
         <ol>
             <li>If price has already covered 80% of its ADR before London Open, the day is likely to be choppy/ranging.</li>
-            <li>If price hits an **HTF POI** during NY Session, and this level aligns with **Daily Low + 1.5x ADR**, it is an extremely high-probability **Reversal Short**. Institutions rarely push price beyond 2x ADR in a single day.</li>
+            <li>If price hits an <strong>HTF POI</strong> during NY Session, and this level aligns with <strong>Daily Low + 1.5x ADR</strong>, it is an extremely high-probability <strong>Reversal Short</strong>. Institutions rarely push price beyond 2x ADR in a single day.</li>
         </ol>
     </div>
 </section>
@@ -333,8 +278,8 @@
     </div>
     <div class="lang-en">
         <p><strong>Market Maker Inventory Model:</strong></p>
-        <p>Market Makers are passive liquidity providers. If retail buys aggressively, MMs must sell to them, resulting in a **Net Short** inventory. To profit, MMs must drive the price down.</p>
-        <p><strong>How to judge?</strong> Observe social sentiment and retail positioning. When everyone screams "Gold to 3000", it is often a local top. The IPDA will target the nearest **Sell-Side Liquidity (SSL)** below.</p>
+        <p>Market Makers are passive liquidity providers. If retail buys aggressively, MMs must sell to them, resulting in a <strong>Net Short</strong> inventory. To profit, MMs must drive the price down.</p>
+        <p><strong>How to judge?</strong> Observe social sentiment and retail positioning. When everyone screams "Gold to 3000", it is often a local top. The IPDA will target the nearest <strong>Sell-Side Liquidity (SSL)</strong> below.</p>
     </div>
 </section>
 
