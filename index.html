@@ -313,6 +313,57 @@
             .sticky-footer a { font-size: 0.7rem !important; }
             .telegram-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
         }
+        /* === 📱 针对手机端的紧急修复 (粘贴在 </style> 之前) === */
+    @media (max-width: 768px) {
+        /* 1. 缩小卡片边距，把空间留给内容 */
+        .lk-strategy-card {
+            padding: 30px 15px !important; 
+            border-radius: 12px !important;
+        }
+
+        /* 2. 缩小标题字体 */
+        .lk-strat-title {
+            font-size: 1.8rem !important;
+            margin-top: 5px !important;
+        }
+        
+        .lk-strat-label {
+            font-size: 0.75rem !important;
+            letter-spacing: 2px !important;
+        }
+
+        /* 3. 核心修复：数据网格布局 */
+        .lk-stats-grid {
+            /* 强制保持2列布局，但缩小间距 */
+            grid-template-columns: 1fr 1fr !important; 
+            gap: 10px !important;
+            margin-bottom: 30px !important;
+        }
+
+        /* 4. 核心修复：缩小数字字体，防止被切掉 */
+        .lk-stat-val {
+            font-size: 1.4rem !important; /* 从 2.5rem 缩小到 1.4rem */
+            margin-bottom: 4px !important;
+        }
+
+        .lk-stat-name {
+            font-size: 0.7rem !important;
+            opacity: 0.8;
+        }
+
+        /* 5. 缩小每个格子的内边距 */
+        .lk-stat-box {
+            padding: 15px 5px !important;
+        }
+        
+        /* 6. 底部描述文字调整 */
+        .lk-strat-desc {
+            grid-template-columns: 1fr !important; /* 变为单列 */
+            gap: 20px !important;
+            font-size: 0.9rem !important;
+            text-align: left !important; /* 手机上左对齐更好读 */
+        }
+    }
     </style>
 </head>
 <body>
@@ -771,3 +822,4 @@
     </script>
 </body>
 </html>
+
