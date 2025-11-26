@@ -2,28 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>L.K. Capital | Research Library</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230a2540%22/><text y=%2265%22 font-size=%2250%22 font-family=%22serif%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23c5a059%22>LK</text></svg>">
     <style>
-        /* === 样式保留 === */
+        /* === 全局样式 === */
         :root { --bg: #ffffff; --text-main: #1a1a1a; --text-light: #555; --accent: #0a2540; --gold: #c5a059; --sidebar-bg: #f8f9fa; --border: #e5e5e5; --code-bg: #f4f6f8; --font-heading: "Playfair Display", serif; }
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         body { margin: 0; padding: 0; font-family: "Inter", sans-serif; color: var(--text-main); background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        
+        /* 语言切换类 */
         .lang-cn { display: none !important; } .lang-en { display: block !important; }
         body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
         
-        /* 导航栏 */
+        /* 顶部导航栏 */
         .top-bar { height: 70px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 100; }
         .brand { font-family: var(--font-heading); font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; }
         .nav-right { display: flex; gap: 30px; align-items: center; }
         .nav-link { color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .nav-link:hover { color: var(--accent); }
-        .lang-switch { padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
         
-        /* 布局 */
+        /* 核心布局 */
         .library-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 70px); }
+        
+        /* 侧边栏 (桌面端) */
         .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
         .sidebar-header { padding: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .sidebar-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent); margin: 0; }
@@ -34,23 +37,29 @@
         .article-link { display: block; padding: 10px 0; color: #444; font-size: 0.95rem; line-height: 1.4; cursor: pointer; transition: 0.2s; border-left: 2px solid transparent; padding-left: 0; }
         .article-link:hover { color: var(--accent); padding-left: 10px; border-left-color: var(--gold); }
         
-        /* 内容区 */
-        .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #fff; }
-        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-image: radial-gradient(#e5e5e5 1px, transparent 1px); background-size: 30px 30px; }
+        /* 主内容区 */
+        .main-view { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #fff; position: relative; }
+        
+        /* 欢迎屏 */
+        .welcome-screen { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-image: radial-gradient(#e5e5e5 1px, transparent 1px); background-size: 30px 30px; padding: 20px; }
         .slogan-main { font-family: "Playfair Display"; font-size: 3.5rem; color: var(--accent); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s forwards; }
-        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; display: none; }
+        
+        /* 文章容器 */
+        .article-container { max-width: 800px; margin: 0 auto; padding: 80px 40px 150px; display: none; position: relative; z-index: 2; }
         .article-container.active { display: block; animation: fadeIn 0.5s ease; }
         
-        /* 文章样式 */
+        /* 文章排版样式 */
         .report-header { margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
         .report-label { font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; }
         .report-title { font-family: "Playfair Display"; font-size: 2.8rem; color: var(--accent); margin-bottom: 20px; line-height: 1.1; }
         .report-meta { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: #888; background: var(--code-bg); padding: 10px 15px; display: inline-block; border-radius: 4px; }
+        
         h2 { font-family: "Playfair Display"; font-size: 1.8rem; color: var(--accent); margin-top: 80px; margin-bottom: 30px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
         h3 { font-size: 1.2rem; font-weight: 700; margin-top: 50px; margin-bottom: 20px; color: #333; }
         p { line-height: 1.8; color: #444; margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
         ul, ol { margin-bottom: 25px; color: #444; padding-left: 20px; line-height: 1.8; }
         li { margin-bottom: 10px; }
+        
         .concept-box { background: var(--code-bg); border-left: 4px solid var(--accent); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
         .concept-title { font-family: "Inter"; font-weight: 800; color: var(--accent); display: block; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         
@@ -61,23 +70,71 @@
         .calc-result-box { margin-top: 20px; padding: 20px; background: #fff; border-left: 4px solid var(--gold); }
         .calc-res-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: "JetBrains Mono"; }
         
-        /* 目录 */
-        .toc-back-btn { display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; }
+        /* 目录/返回按钮 */
+        .toc-back-btn { display: inline-block; margin-bottom: 20px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; transition: 0.3s; }
+        .toc-back-btn:hover { background: #f5f5f5; color: var(--accent); }
         .toc-list { list-style: none; padding: 0; margin: 0; border-left: 2px solid #eee; }
-        .toc-link { display: block; padding: 6px 0 6px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; cursor: pointer;}
+        .toc-link { display: block; padding: 6px 0 6px 15px; font-size: 0.85rem; color: #666; text-decoration: none; border-left: 2px solid transparent; margin-left: -2px; cursor: pointer; }
         .toc-link:hover { color: var(--accent); font-weight: 700; border-left-color: var(--gold); }
         .toc-h3 { padding-left: 30px; font-size: 0.8rem; }
         
-        /* 公式与水印 */
+        /* 表格与公式 */
         table { width: 100%; border-collapse: collapse; margin: 40px 0; font-size: 0.95rem; }
         th, td { padding: 15px; border: 1px solid var(--border); text-align: left; }
         th { background: var(--accent); color: #fff; font-weight: 600; font-family: "Inter"; }
         .math-block { text-align: center; font-family: "Times New Roman", serif; font-style: italic; font-size: 1.3rem; padding: 20px; background: #fff; border: 1px dashed #ddd; margin: 30px 0; }
+        
+        /* 背景水印 */
         .brand-watermark { position: fixed; top: 50%; left: 58%; transform: translate(-50%, -50%) rotate(-30deg); font-family: "Playfair Display", serif; font-weight: 900; font-size: 7rem; color: #000; opacity: 0.03; pointer-events: none; z-index: 0; }
         
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media(max-width: 900px) { .library-layout { flex-direction: column; height: auto; } .sidebar { width: 100%; height: auto; max-height: 300px; } .calc-grid { grid-template-columns: 1fr; } }
+
+        /* === 📱 手机端深度优化 (这是修复的核心部分) === */
+        @media (max-width: 900px) {
+            /* 布局切换为垂直 */
+            .library-layout { flex-direction: column; height: auto; overflow: visible; }
+            body { overflow: auto; } /* 允许手机页面整体滚动 */
+            
+            /* 侧边栏优化 - 变成顶部可折叠或直接显示 */
+            .sidebar { width: 100%; height: auto; max-height: none; border-right: none; border-bottom: 1px solid var(--border); }
+            .sidebar-content { padding: 20px; }
+            .sidebar-title { font-size: 1.2rem; }
+            
+            /* 主内容区优化 */
+            .main-view { overflow: visible; }
+            .article-container { padding: 40px 20px 100px !important; } /* 增加边距，防止贴边 */
+            
+            /* 字体与排版修复 */
+            .report-title { font-size: 2rem !important; line-height: 1.2 !important; word-wrap: break-word; }
+            .slogan-main { font-size: 2.5rem; }
+            h1 { font-size: 2rem !important; }
+            h2 { font-size: 1.5rem !important; margin-top: 40px !important; }
+            h3 { font-size: 1.2rem !important; }
+            p, li { font-size: 1rem !important; text-align: justify; }
+            
+            /* 水印淡化 */
+            .brand-watermark { font-size: 4rem !important; opacity: 0.02 !important; left: 50%; }
+            
+            /* "返回"按钮美化 */
+            .toc-back-btn { 
+                display: block; width: 100%; text-align: center; 
+                padding: 12px; background: #f4f6f8; border: 1px solid #eee; 
+                margin-bottom: 20px !important; 
+            }
+            
+            /* 目录列表优化 */
+            .toc-list { background: #fafafa; padding: 15px !important; border-radius: 8px; border: none !important; margin-bottom: 30px !important; }
+            .toc-link { padding: 12px 0 !important; border-bottom: 1px dashed #eee; }
+            
+            /* 计算器修复 */
+            .calc-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
+            .calc-wrapper { padding: 20px !important; }
+            
+            /* 导航栏微调 */
+            .top-bar { padding: 0 15px; }
+            .nav-link { display: none; } /* 手机上隐藏多余链接，只留Home */
+        }
     </style>
 </head>
 <body class="en-mode"> 
@@ -85,8 +142,9 @@
         <a href="index.html" class="brand">L.K. Research</a>
         <div class="nav-right">
             <a href="index.html" class="nav-link">Home</a>
-</div>
+        </div>
     </div>
+    
     <div class="library-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -97,14 +155,17 @@
                 <div style="color:#999; text-align:center;">Loading...</div>
             </div>
         </aside>
+        
         <main class="main-view" id="main-scroll">
             <div id="view-welcome" class="welcome-screen">
                 <div class="slogan-main">Discipline Creates Freedom.</div>
+                <p style="color:#888; max-width:400px; margin:0 auto;">Select a research paper from the library to begin.</p>
             </div>
+            
             <div id="view-article" class="article-container">
                 <div class="brand-watermark">Louis K</div>
                 <div id="article-inject-point"></div>
-                <div style="margin-top: 60px; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem;">
+                <div style="margin-top: 60px; padding-top: 30px; text-align: center; color: #999; font-size: 0.8rem; border-top: 1px solid #eee;">
                     &copy; 2025 Louis K. Institutional Use Only.
                 </div>
             </div>
@@ -124,7 +185,6 @@
             if(articleDatabase.length > 0) renderCatalog();
         }
 
-        // === 核心：读取 database.json ===
         async function init() {
             const userLang = navigator.language || navigator.userLanguage; 
             if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
@@ -135,7 +195,6 @@
                 articleDatabase = await resp.json();
                 renderCatalog();
                 
-                // 检查URL锚点
                 const hash = window.location.hash.substring(1);
                 if(hash) loadArticle(hash);
 
@@ -170,7 +229,6 @@
             currentArticleId = id;
             window.location.hash = id;
             
-            // UI 切换
             document.getElementById('view-welcome').style.display = 'none';
             const container = document.getElementById('view-article');
             container.classList.add('active');
@@ -182,7 +240,14 @@
                 const html = await fileResp.text();
                 
                 document.getElementById('article-inject-point').innerHTML = html;
-                document.getElementById('main-scroll').scrollTop = 0;
+                
+                // 手机端自动滚到顶部
+                if(window.innerWidth <= 900) {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                } else {
+                    document.getElementById('main-scroll').scrollTop = 0;
+                }
+                
                 regenerateTOC();
 
             } catch (e) {
@@ -193,32 +258,30 @@
         function regenerateTOC() {
             const backText = currentLang === 'en' ? "← Back to Library" : "← 返回知识库";
             let tocHTML = `<div class="toc-back-btn" onclick="goBack()">${backText}</div>`;
-            tocHTML += `<ul class="toc-list">`;
             
-            const headers = document.getElementById('article-inject-point').querySelectorAll('h2, h3');
-            headers.forEach((h, i) => {
-                const langParent = h.closest('.lang-cn, .lang-en');
-                if (langParent) {
-                      if (currentLang === 'en' && langParent.classList.contains('lang-cn')) return;
-                      if (currentLang === 'cn' && langParent.classList.contains('lang-en')) return;
-                }
-                h.id = 'toc-' + i;
-                const cls = h.tagName === 'H3' ? 'toc-link toc-h3' : 'toc-link';
-                tocHTML += `<li style="margin-bottom:5px;"><a onclick="document.getElementById('toc-${i}').scrollIntoView({behavior:'smooth'})" class="${cls}">${h.innerText}</a></li>`;
-            });
-            tocHTML += `</ul>`;
-            document.getElementById('sidebar-list').innerHTML = tocHTML;
+            // 只有在手机端显示 "返回" 按钮
+            if(window.innerWidth > 900) tocHTML = ''; 
+            // 但为了统一，我们在侧边栏顶部始终保留 "返回" 功能有点奇怪，这里主要是在手机端生成内容里的返回键
+            
+            // 修正：在文章顶部插入一个返回按钮（仅手机端显示）
+            const injectPoint = document.getElementById('article-inject-point');
+            if(window.innerWidth <= 900) {
+                const mobileBackBtn = document.createElement('div');
+                mobileBackBtn.className = 'toc-back-btn';
+                mobileBackBtn.innerText = backText;
+                mobileBackBtn.onclick = goBack;
+                injectPoint.insertBefore(mobileBackBtn, injectPoint.firstChild);
+            }
         }
 
         function goBack() {
             document.getElementById('view-welcome').style.display = 'flex';
             document.getElementById('view-article').classList.remove('active');
             window.location.hash = '';
-            renderCatalog();
+            // 手机端滚回顶部
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // === 修复后的计算器全局函数 ===
-        // 确保这里查找的 ID 是 'input-wr' 和 'input-rr'
         window.calculateRR = function() {
             const w = parseFloat(document.getElementById('input-wr').value);
             if(w) document.getElementById('res-rr').innerText = "1 : " + ((1-(w/100))/(w/100)).toFixed(2);
@@ -232,4 +295,3 @@
     </script>
 </body>
 </html>
-
