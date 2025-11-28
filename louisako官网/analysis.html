@@ -8,25 +8,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     
     <style>
-        /* === 核心配色 (Light Institutional Theme) === */
+        /* === L.K. Capital Institutional Theme v2.1 === */
         :root {
-            --bg-app: #ffffff;       
-            --bg-sidebar: #f8f9fa;   
-            --bg-card: #ffffff;      
-            --border: #eef0f2;       
-            --text-main: #1a1a1a;    
-            --text-muted: #666666;   
-            --accent: #0a2540;       
-            --gold: #c5a059;         
-            --green: #089981;        
-            --red: #f23645;          
+            --bg-app: #ffffff;        
+            --bg-sidebar: #f8f9fa;    
+            --bg-card: #ffffff;       
+            --border: #eef0f2;        
+            --text-main: #1a1a1a;     
+            --text-muted: #666666;    
+            --accent: #0a2540;        
+            --gold: #c5a059;          
+            --green: #089981;         
+            --red: #f23645;           
             --shadow: 0 4px 20px rgba(0,0,0,0.03); 
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         
         body { 
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif; 
+            font-family: "Inter", -apple-system, BlinkMacFont, sans-serif; 
             background-color: var(--bg-app); 
             color: var(--text-main); 
             margin: 0; 
@@ -36,26 +36,26 @@
             overflow: hidden; 
         }
 
-        /* === 双语控制 === */
-        .lang-cn { display: none !important; }
-        .lang-en { display: block !important; }
-        body.cn-mode .lang-cn { display: block !important; }
-        body.cn-mode .lang-en { display: none !important; }
+        /* === Bilingual Control System === */
+        .lang-cn { display: none !important; } .lang-en { display: block !important; }
+        body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
 
-        /* === 1. 顶部导航栏 === */
+        /* === 1. Navigation === */
         .top-bar {
             height: 70px; background-color: #fff; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
-            flex-shrink: 0; z-index: 10;
+            flex-shrink: 0; z-index: 1000; position: relative;
         }
         .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; letter-spacing: 0.5px; }
-        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-left: 25px; transition: color 0.2s; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
+        
+        .nav-right { display: flex; gap: 30px; align-items: center; }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
         .nav-link:hover { color: var(--accent); }
 
-        /* === 2. 主布局 === */
+        /* === 2. Layout Structure === */
         .main-layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* === 3. 左侧目录栏 (Sidebar) === */
+        /* === 3. Sidebar (Strategy Logs) === */
         .sidebar {
             width: 320px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; flex-shrink: 0;
@@ -66,7 +66,7 @@
         }
         .report-list-container { overflow-y: auto; flex: 1; }
 
-        /* 分组折叠组件 */
+        /* Group Header (Month) */
         .group-header {
             padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             font-size: 0.8rem; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid transparent;
@@ -74,94 +74,70 @@
         }
         .group-header:hover { color: var(--accent); background: rgba(0,0,0,0.02); }
         .group-header svg { width: 10px; height: 10px; transition: transform 0.3s ease; fill: #999; }
-        .group-header.open { color: var(--accent); border-bottom: 1px solid var(--border); background: #fff; }
         .group-header.open svg { transform: rotate(180deg); fill: var(--accent); }
-        
         .group-content { display: none; padding: 10px; border-bottom: 1px solid var(--border); }
-        .group-content.show { display: block; animation: slideDown 0.3s ease; }
+        .group-content.show { display: block; }
 
-        /* 列表项 */
+        /* Report Item */
         .report-item {
             padding: 15px 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 2px;
             border-left: 3px solid transparent; 
         }
-        .report-item:hover { background-color: #fff; }
         .report-item.active { 
             background-color: #fff; border-left-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        
-        .item-date { font-size: 0.7rem; color: #999; margin-bottom: 4px; display: block; font-family: "JetBrains Mono", monospace; }
+        .item-date { font-size: 0.7rem; color: #999; margin-bottom: 4px; display: block; font-family: "JetBrains Mono"; }
         .item-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
         .report-item.active .item-title { color: var(--accent); }
 
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* === 4. 右侧阅读区 === */
+        /* === 4. Reading Area === */
         .content-view { flex: 1; overflow-y: auto; background-color: var(--bg-app); padding: 50px 60px; scroll-behavior: smooth; }
         .article-wrapper { max-width: 850px; margin: 0 auto; }
 
-        /* === 5. 文章样式 === */
+        /* === 5. Typography & Components === */
         .report-header-content { border-bottom: 1px solid var(--border); padding-bottom: 30px; margin-bottom: 50px; }
         .rh-title { font-size: 2.4rem; margin: 0 0 15px 0; color: var(--accent); font-family: "Playfair Display", serif; line-height: 1.1; }
         .rh-meta { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; font-family: "JetBrains Mono", monospace; background: var(--bg-sidebar); padding: 8px 12px; border-radius: 4px; display: inline-block; }
 
         .card { background-color: #fff; padding: 35px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-        
         .tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-left: 10px; vertical-align: middle; }
         .tag.bullish { background-color: #e6fcf5; color: var(--green); border: 1px solid rgba(8, 153, 129, 0.2); }
-        .tag.bearish { background-color: #fff5f5; color: var(--red); border: 1px solid rgba(242, 54, 69, 0.2); }
         .tag.neutral { background-color: #f0f7ff; color: #2962ff; border: 1px solid rgba(41, 98, 255, 0.2); }
+        .tag.warning { background-color: #fff4e5; color: #b76e00; border: 1px solid rgba(183, 110, 0, 0.2); }
 
         .price-highlight { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-right: 10px; font-family: "Inter"; }
         .price-sub { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
-
-        h2 { color: var(--accent); border-left: 4px solid var(--gold); padding-left: 20px; margin: 60px 0 30px 0; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        
+        h2 { color: var(--accent); border-left: 4px solid var(--gold); padding-left: 20px; margin: 60px 0 30px 0; font-size: 1.4rem; font-weight: 700; }
         h3 { color: var(--text-main); font-size: 1.1rem; margin: 30px 0 15px 0; font-weight: 700; }
         p, li { color: #4a4a4a; line-height: 1.8; margin-bottom: 15px; font-size: 1rem; }
         hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 
-        .chart-placeholder { width: 100%; height: 400px; background-color: #f8f9fa; border: 2px dashed #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #aaa; margin: 30px 0; font-family: "JetBrains Mono"; font-size: 0.9rem; }
-        
-        /* === 新增：图表图片样式 (支持 Pro 生成器) === */
-        .chart-container {
-            width: 100%;
-            margin: 30px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #eee;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .chart-container img {
-            width: 100%;
-            height: auto;
-            display: block;
+        /* Bold text enhancement */
+        p b, p strong, li b, li strong, .step b, .step strong {
+            font-weight: 700; color: var(--text-main);
         }
 
+        /* Images */
+        .chart-container { width: 100%; margin: 30px 0; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .chart-container img { width: 100%; height: auto; display: block; }
+        
+        /* Steps Component */
         .step { display: flex; align-items: flex-start; margin-bottom: 25px; }
         .step-num { background-color: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(10, 37, 64, 0.2); }
         
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 0.8rem; border-bottom: 1px solid var(--border); text-transform: uppercase; font-weight: 600; }
-        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; color: var(--text-main); }
-        tr:last-child td { border-bottom: none; }
-
-        @media (max-width: 900px) {
-            .main-layout { flex-direction: column; overflow-y: auto; }
-            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-            .report-list-container { max-height: 300px; }
-            .content-view { padding: 30px 20px; overflow: visible; }
-            .rh-title { font-size: 1.8rem; }
-        }
+        /* Mobile Response */
+        @media (max-width: 900px) { .main-layout { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); } .report-list-container { max-height: 300px; } .content-view { padding: 30px 20px; overflow: visible; } }
     </style>
 </head>
 <body class="en-mode">
 
     <div class="top-bar">
         <a href="index.html" class="brand">L.K. Terminal</a>
-        <div class="nav-actions">
+        <div class="nav-right">
             <a href="index.html" class="nav-link">Home</a>
+            <a href="services.html" class="nav-link">Services</a>
             <a href="research.html" class="nav-link">Research</a>
-            <div class="nav-link" onclick="toggleLang()">CN / EN</div>
         </div>
     </div>
 
@@ -185,34 +161,158 @@
 
     <script>
         let currentLang = 'en'; 
-        let currentReportId = 1; 
+        let currentReportId = "xauusd_20251128_liquidity"; // Default to the newest report ID
 
-        function toggleLang() {
-            currentLang = currentLang === 'en' ? 'cn' : 'en';
-            if (currentLang === 'cn') {
-                document.body.classList.remove('en-mode');
-                document.body.classList.add('cn-mode');
-            } else {
-                document.body.classList.remove('cn-mode');
-                document.body.classList.add('en-mode');
-            }
-            renderList();
-            loadReport(currentReportId);
-        }
-
+        // ==========================================
+        //  L.K. CAPITAL ANALYSIS DATABASE
+        //  Instructions: Add new reports to the TOP of this list.
+        // ==========================================
         const reports = [
+            
+            // --- [REPORT 1] NEWEST: Nov 28, 2025 (Thanksgiving Analysis) ---
             {
-                id: 1,
-                date: "2025-11-23", 
-                title: { en: "XAUUSD Institutional Order Flow Outlook", cn: "XAUUSD 机构订单流周度展望" },
+                id: "xauusd_20251128_liquidity",
+                date: "2025-11-28", 
+                title: { 
+                    en: "XAUUSD at the Crossroads: Post-Shutdown Data vs. Liquidity", 
+                    cn: "XAUUSD 关键博弈：数据潮后的流动性陷阱" 
+                },
                 content: `
                     <div class="report-header-content">
                         <div class="lang-cn">
-                            <h1 class="rh-title">XAUUSD 机构订单流周度展望</h1>
+                            <h1 class="rh-title">XAUUSD 关键博弈：数据潮后的流动性陷阱</h1>
+                            <div class="rh-meta">📅 发布: 2025年11月28日 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> 观点: 震荡偏多 (Wait & See)</div>
+                        </div>
+                        <div class="lang-en">
+                            <h1 class="rh-title">XAUUSD at the Crossroads: Post-Shutdown Data vs. Liquidity</h1>
+                            <div class="rh-meta">📅 Date: Nov 28, 2025 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> Bias: Bullish Neutral</div>
+                        </div>
+                    </div>
+
+                    <section>
+                        <div class="lang-cn"><h2>01. 市场全景与宏观驱动 (Macro & Market Pulse)</h2></div>
+                        <div class="lang-en"><h2>01. Macro & Market Pulse</h2></div>
+
+                        <div class="card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                                <div><span class="price-highlight">XAUUSD: $4163.21</span><span class="price-sub"> / Spot Gold</span></div>
+                                <div><span class="tag neutral">Thin Liquidity</span><span class="tag warning">Dec Rate Cut 80%</span></div>
+                            </div>
+                            
+                            <div class="lang-cn"><p>目前金价交投于 **$4163** 附近。本周是典型的“冰火两重天”：一方面，美国政府短暂停摆后补发的经济数据（零售、耐用品订单）显示就业市场冷却速度超预期，直接推升了 **12月降息概率至 80% 以上**，美元承压，宏观面强劲利好黄金。另一方面，感恩节假期导致美盘流动性稀缺，市场在 **4126 - 4182** 区间内剧烈博弈。</p></div>
+                            <div class="lang-en"><p>Gold is trading around **$4163**. The market is caught between two forces: The release of delayed economic data post-government shutdown shows a cooling labor market, pushing **Dec rate cut probabilities over 80%**, which is macro-bullish. However, Thanksgiving holiday liquidity is thin, causing volatility within the **4126 - 4182** range.</p></div>
+                            
+                            <div class="chart-container"><img src="assets/analysis/xauusd_nov28.jpg" alt="XAUUSD Daily Chart Analysis" onerror="this.style.display='none'"></div>
+
+                            <div class="lang-cn">
+                                <h3>📊 技术结构解析 (Technical Structure)</h3>
+                                <ul>
+                                    <li><strong>形态结构：</strong> 日线经历了“A字顶”暴跌后的修复，目前处于上升楔形整理末端。K线实体逐渐变小，表明上方 **4182** 阻力沉重。</li>
+                                    <li><strong>关键阻力 (Resistance)：</strong> **4182.45** (即时高点) 和 **4238.90** (前期次高点)。突破 4182 是多头重启趋势的唯一信号。</li>
+                                    <li><strong>关键支撑 (Support)：</strong> **4126.00** (区间下沿)。若跌破此位，短期反弹结构失效，价格将去测试 **4069** 的多空分水岭。</li>
+                                </ul>
+                            </div>
+                            <div class="lang-en">
+                                <h3>📊 Technical Structure</h3>
+                                <ul>
+                                    <li><strong>Pattern:</strong> Recovering from the "A-Top" crash, price is in a rising wedge consolidation. Small candle bodies indicate heavy resistance at **4182**.</li>
+                                    <li><strong>Key Resistance:</strong> **4182.45** (Immediate High) and **4238.90**. Breaking 4182 is mandatory for bullish continuation.</li>
+                                    <li><strong>Key Support:</strong> **4126.00** (Range Low). Losing this level invalidates the bounce, exposing the **4069** pivot.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="lang-cn"><h2>02. L.K 交易策略 (L.K Strategy)</h2></div>
+                        <div class="lang-en"><h2>02. Execution Plan</h2></div>
+                        
+                        <div class="card">
+                            <div class="lang-cn"><h3>📈 剧本：流动性陷阱下的高空低多</h3></div>
+                            <div class="lang-en"><h3>📈 Scenario: Navigating the Liquidity Trap</h3></div>
+
+                            <div class="step">
+                                <div class="step-num">1</div>
+                                <div class="lang-cn"><strong>警惕假突破：</strong> 今日周五且流动性低，严禁在 **4180** 附近直接追多。容易出现**洗盘 (Whipsaw)**。</div>
+                                <div class="lang-en"><strong>Caution:</strong> Avoid chasing longs near **4180** today due to low liquidity. High risk of **Whipsaw**.</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-num">2</div>
+                                <div class="lang-cn"><strong>做空机会：</strong> 若美盘冲高至 **4180-4185** 出现 H1 级别吞没形态，可尝试轻仓空，目标回看 **4150**。</div>
+                                <div class="lang-en"><strong>Short Opportunity:</strong> If price spikes to **4180-4185** with H1 engulfing candles, look for shorts targeting **4150**.</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-num">3</div>
+                                <div class="lang-cn"><strong>宏观布局 (下周)：</strong> 真正的机会在下周。若价格回踩 **4130** 不破，结合非农数据预期，是**波段多单**的理想入场点，目标 **4250**。</div>
+                                <div class="lang-en"><strong>Macro Setup (Next Week):</strong> If price retraces to **4130** and holds, align with NFP expectations for a **Swing Long** targeting **4250**.</div>
+                            </div>
+                            <hr>
+                            <p><strong>L.K Capital Note:</strong> Thanksgiving markets are treacherous. Preservation of capital is the priority over forced entries.</p>
+                        </div>
+                    </section>
+                `
+            },
+
+            // --- [REPORT 2] HISTORICAL: Nov 25, 2025 ---
+            {
+                id: "xauusd_20251125_intraday_outlook_v2",
+                date: "2025-11-25", 
+                title: { en: "XAUUSD Key Discount Zone Structure Test", cn: "XAUUSD 关键折扣区结构测试" },
+                content: `
+                    <div class="report-header-content">
+                        <div class="lang-cn">
+                            <h1 class="rh-title">XAUUSD 关键折扣区结构测试</h1>
+                            <div class="rh-meta">📅 发布: 2025年11月25日 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> 观点: 震荡 (Neutral)</div>
+                        </div>
+                        <div class="lang-en">
+                            <h1 class="rh-title">XAUUSD Key Discount Zone Structure Test</h1>
+                            <div class="rh-meta">📅 Date: Nov 25, 2025 &nbsp;|&nbsp; <span style="color:var(--text-muted)">●</span> Bias: Neutral</div>
+                        </div>
+                    </div>
+                    <section>
+                         <div class="lang-cn"><h2>01. 日线结构与当前位置 (Market Pulse)</h2></div>
+                         <div class="lang-en"><h2>01. Daily Structure & Current Position</h2></div>
+                         <div class="card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                                <div><span class="price-highlight">XAUUSD: $4145.18</span></div>
+                                <div><span class="tag neutral">OTE Zone Test</span></div>
+                            </div>
+                            <div class="lang-cn"><p>价格在上周**强劲扩张 (Expansion)**后，目前正在测试日线级别的 **OTE (最佳交易入场) 区域**，即 **0.50 - 0.618** 斐波那契回调区间（大约 $4121 - $4151）。该区域是关键的**深度折扣区 (Deep Discount)**，同时与此前的结构高点形成**供给压力**。市场意图正在进行双向测试，需要等待结构确认。</p></div>
+                            <div class="lang-en"><p>Price is testing the Daily **Optimal Trade Entry (OTE)** zone ($4121 - $4151), a deep discount area that coincides with the structural high, creating **supply pressure**. Market intent requires structural confirmation.</p></div>
+                            <div class="chart-container"><img src="assets/analysis/XAUUSD_2025-11-25_09-38-16.png" alt="Previous Analysis" onerror="this.style.display='none'"></div>
+                            
+                            <div class="lang-cn">
+                                <h3>📊 核心逻辑复盘</h3>
+                                <ul>
+                                    <li><strong>日线结构：</strong> 价格处于大级别牛市结构，但短期在修复 $4245 至 $3998 的日线下跌空间。</li>
+                                    <li><strong>关键阻力：</strong> $4151 (0.618 Fib) 和 $4121 (0.50 Fib) 是日内多空争夺焦点。</li>
+                                </ul>
+                            </div>
+                            <div class="lang-en">
+                                <h3>📊 Core Logic Review</h3>
+                                <ul>
+                                    <li><strong>Daily Structure:</strong> Price is in a major bullish structure but is correcting the Daily drop from $4245 to $3998.</li>
+                                    <li><strong>Key Resistance:</strong> $4151 (0.618 Fib) and $4121 (0.50 Fib) are the current focal points.</li>
+                                </ul>
+                            </div>
+                         </div>
+                    </section>
+                `
+            },
+
+            // --- [REPORT 3] HISTORICAL: Nov 23, 2025 (Restored) ---
+            {
+                id: "xauusd_20251123_weekly_outlook", 
+                date: "2025-11-23", 
+                title: { en: "XAUUSD Weekly Outlook: Bullish Accumulation Continues", cn: "XAUUSD 周度展望：多头持续吸筹" },
+                content: `
+                    <div class="report-header-content">
+                        <div class="lang-cn">
+                            <h1 class="rh-title">XAUUSD 周度展望：多头持续吸筹</h1>
                             <div class="rh-meta">📅 发布: 2025年11月23日 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> 观点: 看涨 (Bullish)</div>
                         </div>
                         <div class="lang-en">
-                            <h1 class="rh-title">XAUUSD Weekly Order Flow Outlook</h1>
+                            <h1 class="rh-title">XAUUSD Weekly Outlook: Bullish Accumulation Continues</h1>
                             <div class="rh-meta">📅 Date: Nov 23, 2025 &nbsp;|&nbsp; <span style="color:var(--green)">●</span> Bias: Bullish</div>
                         </div>
                     </div>
@@ -223,92 +323,69 @@
 
                         <div class="card">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
-                                <div>
-                                    <span class="price-highlight">XAUUSD: $4079.50</span>
-                                    <span class="price-sub"> / GC1! Futures</span>
-                                </div>
-                                <div>
-                                    <span class="tag bullish">Bullish Structure</span>
-                                    <span class="tag neutral">H4 Range</span>
-                                </div>
+                                <div><span class="price-highlight">XAUUSD: $4064.70</span><span class="price-sub"> / Spot Gold</span></div>
+                                <div><span class="tag bullish">Strong Bullish Flow</span><span class="tag neutral">H4 FVG Mitigated</span></div>
                             </div>
-                            <div class="lang-cn"><p>基于 <strong>2025年11月23日</strong> 的盘面结构，黄金正在经历一次教科书式的 SMC 积累模型。</p></div>
-                            <div class="lang-en"><p>Based on the structure of <strong>Nov 23, 2025</strong>, Gold is undergoing a textbook SMC accumulation model.</p></div>
                             
-                            <div class="chart-placeholder"><p>[ Chart Area: TradingView / Image Placeholder ]</p></div>
+                            <div class="lang-cn"><p>上周 XAUUSD 展现出强劲的多头机构订单流。价格在两次重要的 **H4 FVG (公允价值缺口) 精准回补**后，多头订单流持续生效。价格在关键的上升趋势线（诱导流动性）上进行了三次**流动性扫荡测试**，每次都伴随着快速的向上反弹。这清楚表明了机构在回撤区域的坚定买入意愿。</p></div>
+                            <div class="lang-en"><p>Last week, XAUUSD demonstrated strong institutional bullish order flow. Price found robust support after two significant **H4 FVG (Fair Value Gap) mitigations**, and successfully tested the crucial ascending trendline (as marked in your chart) three times, each followed by a swift upward bounce. This clearly indicates strong institutional buying intent in retracement zones.</p></div>
+                            
+                            <div class="chart-container"><img src="assets/analysis/xauusd_nov25.jpg" alt="XAUUSD Weekly Outlook Chart Analysis" onerror="this.style.display='none'"></div>
 
                             <div class="lang-cn">
                                 <h3>📊 核心逻辑复盘</h3>
                                 <ul>
-                                    <li><strong>流动性猎杀 ($3900):</strong> 价格在上周完成了对下方卖方流动性 (SSL) 的获取，V型反转确认了机构吸筹。</li>
-                                    <li><strong>当前状态:</strong> 价格处于 $4079，位于短期溢价区 (Premium)，周初需警惕诱空陷阱。</li>
-                                    <li><strong>关键 POI ($4000-$4020):</strong> 这是我们重点关注的“折价买入区”。等待 H1/M15 级别的回踩确认。</li>
+                                    <li><strong>趋势线诱导 (Trendline Liquidity):</strong> 清晰的上升趋势线形成了巨大的**卖方流动性 (SSL)**池，每次假突破后的反弹都证明了这是机构吸纳筹码的关键区域。</li>
+                                    <li><strong>H4 FVG 回补：</strong> 图表显示价格两次回补了 H4 级别的 FVG 区域 ($3980-$4000 和 $4030-$4045 附近)，回补后即反弹，表明多头力量的强劲。</li>
                                 </ul>
                             </div>
                             <div class="lang-en">
                                 <h3>📊 Core Logic Review</h3>
                                 <ul>
-                                    <li><strong>Liquidity Sweep ($3900):</strong> Price swept Sell-Side Liquidity (SSL) last week; V-reversal confirmed accumulation.</li>
-                                    <li><strong>Current State:</strong> Price is at $4079 (Premium). Watch out for traps.</li>
-                                    <li><strong>Key POI ($4000-$4020):</strong> Focus "Discount Zone". Wait for H1/M15 confirmation.</li>
+                                    <li><strong>Trendline Support:</strong> Price repeatedly touched and bounced off the clear ascending trendline, a confluence area for retail stop-losses and institutional accumulation.</li>
+                                    <li><strong>H4 FVG Mitigations:</strong> The chart shows price mitigating H4 FVGs twice, indicating strong bullish power.</li>
                                 </ul>
                             </div>
-                        </div>
-                    </section>
-
-                    <section>
-                        <div class="lang-cn"><h2>02. 实战执行 (Execution)</h2></div>
-                        <div class="lang-en"><h2>02. Execution Plan</h2></div>
-                        <div class="card">
-                            <div class="lang-cn"><h3>📈 剧本：逢低做多 (Buy the Dip)</h3></div>
-                            <div class="lang-en"><h3>📈 Scenario: Buy the Dip</h3></div>
-                            <div class="step">
-                                <div class="step-num">1</div>
-                                <div class="lang-cn"><strong>等待回踩：</strong> 耐心等待价格回到 <strong>$4000 - $4020</strong> 的折价区 (Discount Zone)。</div>
-                                <div class="lang-en"><strong>Wait for Pullback:</strong> Patience. Let price come to the <strong>$4000 - $4020</strong> Discount Zone.</div>
-                            </div>
-                            <div class="step">
-                                <div class="step-num">2</div>
-                                <div class="lang-cn"><strong>时间确认 (Kill Zones)：</strong> 重点关注 伦敦开盘 (07:00 UTC) 或 纽约开盘 (13:00 UTC)。</div>
-                                <div class="lang-en"><strong>Kill Zones:</strong> Focus on London Open (07:00 UTC) or NY Open (13:00 UTC).</div>
-                            </div>
-                            <div class="step">
-                                <div class="step-num">3</div>
-                                <div class="lang-cn"><strong>触发信号：</strong> 在 M15 图表上等待 <strong>扫损 (Sweep)</strong> + <strong>结构破坏 (CHoCH)</strong> 后入场。</div>
-                                <div class="lang-en"><strong>Trigger:</strong> Wait for M15 <strong>Liquidity Sweep</strong> + <strong>CHoCH</strong> before entering.</div>
-                            </div>
-                            <hr>
-                            <p><strong>🎯 Targets:</strong> TP1: $4150 / TP2: $4200 (ATH)</p>
                         </div>
                     </section>
                 `
             }
         ];
 
-        // 辅助函数：获取 "Month Year"
-        function getGroupKey(dateStr) {
-            const date = new Date(dateStr);
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            return `${months[date.getMonth()]} ${date.getFullYear()}`;
-        }
-
+        // ==========================================
+        //  LOGIC ENGINE (DO NOT TOUCH BELOW)
+        // ==========================================
+        function getGroupKey(dateStr) { const date = new Date(dateStr); const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return `${months[date.getMonth()]} ${date.getFullYear()}`; }
         const listContainer = document.getElementById('report-list');
         const contentContainer = document.getElementById('article-content');
+        
+        // Helper: Convert Markdown bold to HTML bold
+        function parseBold(htmlContent) {
+            return htmlContent.replace(/(\*\*|__)(.*?)\1/g, '<b>$2</b>');
+        }
 
         function renderList() {
             listContainer.innerHTML = '';
-            const groups = {};
+            const groups = {}; 
             const groupOrder = []; 
-
-            reports.forEach(item => {
-                const groupName = getGroupKey(item.date);
-                if (!groups[groupName]) {
-                    groups[groupName] = [];
-                    groupOrder.push(groupName);
-                }
-                groups[groupName].push(item);
+            
+            reports.forEach(item => { 
+                const groupName = getGroupKey(item.date); 
+                if (!groups[groupName]) { 
+                    groups[groupName] = []; 
+                    groupOrder.push(groupName); 
+                } 
+                groups[groupName].push(item); 
             });
+            
+            // Sort months descending
+            groupOrder.sort((a, b) => new Date(b) - new Date(a));
 
+            // Sort posts inside months descending
+            for (const groupName in groups) {
+                groups[groupName].sort((a, b) => new Date(b.date) - new Date(a.date));
+            }
+            
             groupOrder.forEach((groupName, gIndex) => {
                 const groupHeader = document.createElement('div');
                 groupHeader.className = `group-header ${gIndex === 0 ? 'open' : ''}`; 
@@ -317,26 +394,17 @@
                 const groupContent = document.createElement('div');
                 groupContent.className = `group-content ${gIndex === 0 ? 'show' : ''}`;
                 
-                groupHeader.onclick = () => {
-                    const isOpen = groupHeader.classList.contains('open');
-                    if (isOpen) {
-                        groupHeader.classList.remove('open');
-                        groupContent.classList.remove('show');
-                    } else {
-                        groupHeader.classList.add('open');
-                        groupContent.classList.add('show');
-                    }
-                };
+                groupHeader.onclick = () => { groupHeader.classList.toggle('open'); groupContent.classList.toggle('show'); };
 
                 groups[groupName].forEach(item => {
                     const div = document.createElement('div');
-                    div.className = `report-item ${item.id === currentReportId ? 'active' : ''}`;
+                    div.className = `report-item ${item.id === currentReportId ? 'active' : ''}`; 
                     const titleText = item.title[currentLang] || item.title.en;
                     
-                    div.onclick = (e) => {
-                        e.stopPropagation();
-                        currentReportId = item.id;
-                        renderList();
+                    div.onclick = (e) => { 
+                        e.stopPropagation(); 
+                        currentReportId = item.id; 
+                        renderList(); 
                         loadReport(item.id);
                         if(window.innerWidth <= 900) document.querySelector('.content-view').scrollIntoView({behavior: 'smooth'});
                     };
@@ -351,15 +419,37 @@
         }
 
         function loadReport(id) {
-            const data = reports.find(r => r.id === id);
+            const data = reports.find(r => r.id == id);
             if(data) {
-                contentContainer.innerHTML = data.content;
+                currentReportId = id;
+                let contentWithBold = parseBold(data.content);
+                contentContainer.innerHTML = contentWithBold;
                 document.querySelector('.content-view').scrollTop = 0;
             }
         }
 
-        renderList();
-        loadReport(currentReportId); 
+        // === Language & Init ===
+        function autoDetectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage; 
+            if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            if (lang === 'cn') { document.body.classList.remove('en-mode'); document.body.classList.add('cn-mode'); }
+            else { document.body.classList.remove('cn-mode'); document.body.classList.add('en-mode'); }
+            renderList();
+            loadReport(currentReportId); 
+        }
+
+        function init() {
+            if (reports.length > 0) {
+                currentReportId = reports[0].id; // Always load the newest one
+            }
+            autoDetectLanguage(); 
+        }
+
+        init();
     </script>
 </body>
 </html>
