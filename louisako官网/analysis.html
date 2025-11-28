@@ -8,18 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     
     <style>
-        /* === L.K. Capital Institutional Theme v2.1 === */
+        /* === L.K. Capital Institutional Theme v2.3 === */
         :root {
             --bg-app: #ffffff;        
             --bg-sidebar: #f8f9fa;    
-            --bg-card: #ffffff;       
             --border: #eef0f2;        
             --text-main: #1a1a1a;     
             --text-muted: #666666;    
             --accent: #0a2540;        
             --gold: #c5a059;          
             --green: #089981;         
-            --red: #f23645;           
+            --red: #f23645;
             --shadow: 0 4px 20px rgba(0,0,0,0.03); 
         }
 
@@ -36,26 +35,26 @@
             overflow: hidden; 
         }
 
-        /* === Bilingual Control System === */
+        /* Bilingual Toggle */
         .lang-cn { display: none !important; } .lang-en { display: block !important; }
         body.cn-mode .lang-cn { display: block !important; } body.cn-mode .lang-en { display: none !important; }
 
-        /* === 1. Navigation === */
+        /* Top Bar */
         .top-bar {
             height: 70px; background-color: #fff; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
-            flex-shrink: 0; z-index: 1000; position: relative;
+            flex-shrink: 0; z-index: 1000;
         }
         .brand { font-family: "Playfair Display", serif; font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.2rem; letter-spacing: 0.5px; }
         
         .nav-right { display: flex; gap: 30px; align-items: center; }
-        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.2s; }
         .nav-link:hover { color: var(--accent); }
 
-        /* === 2. Layout Structure === */
+        /* Main Layout */
         .main-layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* === 3. Sidebar (Strategy Logs) === */
+        /* Sidebar */
         .sidebar {
             width: 320px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; flex-shrink: 0;
@@ -66,44 +65,33 @@
         }
         .report-list-container { overflow-y: auto; flex: 1; }
 
-        /* Group Header (Month) */
-        .group-header {
-            padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.8rem; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid transparent;
-            transition: 0.2s; user-select: none;
-        }
-        .group-header:hover { color: var(--accent); background: rgba(0,0,0,0.02); }
-        .group-header svg { width: 10px; height: 10px; transition: transform 0.3s ease; fill: #999; }
-        .group-header.open svg { transform: rotate(180deg); fill: var(--accent); }
-        .group-content { display: none; padding: 10px; border-bottom: 1px solid var(--border); }
-        .group-content.show { display: block; }
-
-        /* Report Item */
+        /* List Items */
+        .group-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; color: #999; }
+        .group-content { display: block; padding: 5px 10px; }
+        
         .report-item {
-            padding: 15px 15px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 2px;
-            border-left: 3px solid transparent; 
+            padding: 15px 15px; border-radius: 6px; cursor: pointer; margin-bottom: 2px;
+            border-left: 3px solid transparent; transition: 0.2s;
         }
-        .report-item.active { 
-            background-color: #fff; border-left-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
+        .report-item:hover { background: rgba(0,0,0,0.02); }
+        .report-item.active { background-color: #fff; border-left-color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
         .item-date { font-size: 0.7rem; color: #999; margin-bottom: 4px; display: block; font-family: "JetBrains Mono"; }
         .item-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
         .report-item.active .item-title { color: var(--accent); }
 
-        /* === 4. Reading Area === */
+        /* Content Area */
         .content-view { flex: 1; overflow-y: auto; background-color: var(--bg-app); padding: 50px 60px; scroll-behavior: smooth; }
         .article-wrapper { max-width: 850px; margin: 0 auto; }
 
-        /* === 5. Typography & Components === */
-        .report-header-content { border-bottom: 1px solid var(--border); padding-bottom: 30px; margin-bottom: 50px; }
+        /* Article Styles */
         .rh-title { font-size: 2.4rem; margin: 0 0 15px 0; color: var(--accent); font-family: "Playfair Display", serif; line-height: 1.1; }
-        .rh-meta { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; font-family: "JetBrains Mono", monospace; background: var(--bg-sidebar); padding: 8px 12px; border-radius: 4px; display: inline-block; }
+        .rh-meta { color: var(--text-muted); font-size: 0.85rem; font-family: "JetBrains Mono"; background: var(--bg-sidebar); padding: 8px 12px; border-radius: 4px; display: inline-block; }
 
         .card { background-color: #fff; padding: 35px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: var(--shadow); }
         .tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-left: 10px; vertical-align: middle; }
-        .tag.bullish { background-color: #e6fcf5; color: var(--green); border: 1px solid rgba(8, 153, 129, 0.2); }
-        .tag.neutral { background-color: #f0f7ff; color: #2962ff; border: 1px solid rgba(41, 98, 255, 0.2); }
-        .tag.warning { background-color: #fff4e5; color: #b76e00; border: 1px solid rgba(183, 110, 0, 0.2); }
+        .tag.neutral { background: #f0f7ff; color: #2962ff; border: 1px solid rgba(41, 98, 255, 0.2); }
+        .tag.bullish { background: #e6fcf5; color: #089981; border: 1px solid rgba(8, 153, 129, 0.2); }
+        .tag.warning { background: #fff4e5; color: #b76e00; border: 1px solid rgba(183, 110, 0, 0.2); }
 
         .price-highlight { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-right: 10px; font-family: "Inter"; }
         .price-sub { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
@@ -114,19 +102,16 @@
         hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
 
         /* Bold text enhancement */
-        p b, p strong, li b, li strong, .step b, .step strong {
-            font-weight: 700; color: var(--text-main);
-        }
+        p b, p strong, li b, li strong, .step b, .step strong { font-weight: 700; color: var(--text-main); }
 
         /* Images */
         .chart-container { width: 100%; margin: 30px 0; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .chart-container img { width: 100%; height: auto; display: block; }
         
-        /* Steps Component */
+        /* Steps */
         .step { display: flex; align-items: flex-start; margin-bottom: 25px; }
         .step-num { background-color: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(10, 37, 64, 0.2); }
         
-        /* Mobile Response */
         @media (max-width: 900px) { .main-layout { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); } .report-list-container { max-height: 300px; } .content-view { padding: 30px 20px; overflow: visible; } }
     </style>
 </head>
@@ -142,7 +127,6 @@
     </div>
 
     <div class="main-layout">
-        
         <aside class="sidebar">
             <div class="sidebar-header">
                 <span class="lang-en">Strategy Logs</span>
@@ -161,15 +145,14 @@
 
     <script>
         let currentLang = 'en'; 
-        let currentReportId = "xauusd_20251128_liquidity"; // Default to the newest report ID
+        let currentReportId = "xauusd_20251128_liquidity"; // ✅ 默认置顶最新的 28号 文章
 
         // ==========================================
-        //  L.K. CAPITAL ANALYSIS DATABASE
-        //  Instructions: Add new reports to the TOP of this list.
+        //  L.K. CAPITAL ANALYSIS DATABASE (3 Articles)
         // ==========================================
         const reports = [
             
-            // --- [REPORT 1] NEWEST: Nov 28, 2025 (Thanksgiving Analysis) ---
+            // --- [ARTICLE 1] NEWEST: Nov 28, 2025 ---
             {
                 id: "xauusd_20251128_liquidity",
                 date: "2025-11-28", 
@@ -253,7 +236,7 @@
                 `
             },
 
-            // --- [REPORT 2] HISTORICAL: Nov 25, 2025 ---
+            // --- [ARTICLE 2] HISTORICAL: Nov 25, 2025 ---
             {
                 id: "xauusd_20251125_intraday_outlook_v2",
                 date: "2025-11-25", 
@@ -279,6 +262,7 @@
                             </div>
                             <div class="lang-cn"><p>价格在上周**强劲扩张 (Expansion)**后，目前正在测试日线级别的 **OTE (最佳交易入场) 区域**，即 **0.50 - 0.618** 斐波那契回调区间（大约 $4121 - $4151）。该区域是关键的**深度折扣区 (Deep Discount)**，同时与此前的结构高点形成**供给压力**。市场意图正在进行双向测试，需要等待结构确认。</p></div>
                             <div class="lang-en"><p>Price is testing the Daily **Optimal Trade Entry (OTE)** zone ($4121 - $4151), a deep discount area that coincides with the structural high, creating **supply pressure**. Market intent requires structural confirmation.</p></div>
+                            
                             <div class="chart-container"><img src="assets/analysis/XAUUSD_2025-11-25_09-38-16.png" alt="Previous Analysis" onerror="this.style.display='none'"></div>
                             
                             <div class="lang-cn">
@@ -300,7 +284,7 @@
                 `
             },
 
-            // --- [REPORT 3] HISTORICAL: Nov 23, 2025 (Restored) ---
+            // --- [ARTICLE 3] HISTORICAL: Nov 23, 2025 ---
             {
                 id: "xauusd_20251123_weekly_outlook", 
                 date: "2025-11-23", 
@@ -353,13 +337,12 @@
         ];
 
         // ==========================================
-        //  LOGIC ENGINE (DO NOT TOUCH BELOW)
+        //  LOGIC ENGINE
         // ==========================================
         function getGroupKey(dateStr) { const date = new Date(dateStr); const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return `${months[date.getMonth()]} ${date.getFullYear()}`; }
         const listContainer = document.getElementById('report-list');
         const contentContainer = document.getElementById('article-content');
         
-        // Helper: Convert Markdown bold to HTML bold
         function parseBold(htmlContent) {
             return htmlContent.replace(/(\*\*|__)(.*?)\1/g, '<b>$2</b>');
         }
@@ -378,10 +361,8 @@
                 groups[groupName].push(item); 
             });
             
-            // Sort months descending
             groupOrder.sort((a, b) => new Date(b) - new Date(a));
 
-            // Sort posts inside months descending
             for (const groupName in groups) {
                 groups[groupName].sort((a, b) => new Date(b.date) - new Date(a.date));
             }
@@ -428,7 +409,6 @@
             }
         }
 
-        // === Language & Init ===
         function autoDetectLanguage() {
             const userLang = navigator.language || navigator.userLanguage; 
             if (userLang.toLowerCase().includes('zh')) { setLanguage('cn'); } else { setLanguage('en'); }
@@ -444,7 +424,8 @@
 
         function init() {
             if (reports.length > 0) {
-                currentReportId = reports[0].id; // Always load the newest one
+                // 默认加载最新的一篇 (reports[0])
+                currentReportId = reports[0].id; 
             }
             autoDetectLanguage(); 
         }
