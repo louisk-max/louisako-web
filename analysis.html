@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     
     <style>
-        /* === L.K. Capital Institutional Theme v3.1 === */
+        /* === L.K. Capital Institutional Theme v3.3 === */
         :root {
             --bg-app: #ffffff;        
             --bg-sidebar: #f8f9fa;    
@@ -92,6 +92,7 @@
         .tag.neutral { background: #f0f7ff; color: #2962ff; border: 1px solid rgba(41, 98, 255, 0.2); }
         .tag.bullish { background: #e6fcf5; color: #089981; border: 1px solid rgba(8, 153, 129, 0.2); }
         .tag.warning { background: #fff4e5; color: #b76e00; border: 1px solid rgba(183, 110, 0, 0.2); }
+        .tag.extreme { background: #0a2540; color: #c5a059; border: 1px solid #0a2540; } 
 
         .price-highlight { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-right: 10px; font-family: "Inter"; }
         .price-sub { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
@@ -139,22 +140,109 @@
         <main class="content-view">
             <div id="article-content" class="article-wrapper"></div>
             <div style="margin-top:80px; border-top:1px solid var(--border); padding-top:20px; text-align:center; font-size:0.8rem; color:var(--text-muted);">
-                &copy; 2025 L.K. Capital. Institutional Analysis. (System v3.1)
+                &copy; 2025 L.K. Capital. Institutional Analysis. (System v3.3)
             </div>
         </main>
     </div>
 
     <script>
         let currentLang = 'en'; 
-        let currentReportId = "xauusd_20251128_liquidity"; // ✅ 强制置顶 11月28日 最新报告
+        let currentReportId = "xauusd_5000_supercycle"; // ✅ 强制置顶最新 $5000 报告
 
         // ==========================================
         //  L.K. CAPITAL ANALYSIS DATABASE
-        //  Contains 3 Full Reports
+        //  Status: 4 Reports Loaded
         // ==========================================
         const reports = [
             
-            // --- [REPORT 1] NEWEST: Nov 28, 2025 ---
+            // --- [REPORT 1] NEWEST: Nov 29, 2025 ---
+            {
+                id: "xauusd_5000_supercycle",
+                date: "2025-11-29", 
+                title: { 
+                    en: "The Road to $5000: Monetary Reset & The Gold Supercycle", 
+                    cn: "黄金 $5000 时代：货币重置与终极抵押品" 
+                },
+                content: `
+                    <div class="report-header-content">
+                        <div class="lang-cn">
+                            <h1 class="rh-title">黄金 $5000 时代：货币重置与终极抵押品</h1>
+                            <div class="rh-meta">📅 发布: 2025年11月29日 &nbsp;|&nbsp; <span style="color:var(--gold)">●</span> 观点: 历史级多头 (Generational Long)</div>
+                        </div>
+                        <div class="lang-en">
+                            <h1 class="rh-title">The Road to $5000: Monetary Reset & The Gold Supercycle</h1>
+                            <div class="rh-meta">📅 Date: Nov 29, 2025 &nbsp;|&nbsp; <span style="color:var(--gold)">●</span> Bias: Generational Long</div>
+                        </div>
+                    </div>
+
+                    <section>
+                        <div class="lang-cn"><h2>01. 宏观范式转移 (Paradigm Shift)</h2></div>
+                        <div class="lang-en"><h2>01. Macro Paradigm Shift</h2></div>
+
+                        <div class="card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                                <div><span class="price-highlight">Target: $5,000.00</span><span class="price-sub"> / Structural Objective</span></div>
+                                <div><span class="tag extreme">Supercycle</span><span class="tag bullish">Blue Sky Breakout</span></div>
+                            </div>
+                            
+                            <div class="lang-cn"><p>市场正在犯一个严重的错误：试图用过去的逻辑来预测未来的价格。我们不仅是在交易一个商品，我们正在目睹**法币体系的信任坍塌 (Fiat Debasement)**。随着全球央行债务货币化的不可逆转，以及地缘政治导致的供应链碎片化，黄金已不再是避险资产，它是**唯一的终极抵押品**。</p>
+                            <p>突破 $4,200 仅仅是开始。基于 L.K. Capital 的长期算法模型，当前的上涨并非泡沫，而是对全球货币购买力的**重新定价**。我们的机构视角明确指向：<strong>$5,000 不是能不能到的问题，而是何时到的问题。</strong></p></div>
+
+                            <div class="lang-en"><p>The market is making a grave error by trying to value Gold using legacy metrics. We are not just trading a commodity; we are witnessing the **collapse of fiat confidence**. With irreversible debt monetization and geopolitical fragmentation, Gold has graduated from a "safe haven" to the **Ultimate Collateral**.</p>
+                            <p>Breaking $4,200 is merely the ignition. Based on L.K. Capital's proprietary algorithms, this is not a bubble—it is a **repricing of global purchasing power**. Our institutional stance is clear: <strong>$5,000 is not a question of "if," but "when."</strong></p></div>
+                            
+                            <div class="chart-container"><img src="assets/analysis/xauusd_supercycle.jpg" alt="XAUUSD 5000 Target Analysis" onerror="this.style.display='none'"></div>
+
+                            <div class="lang-cn">
+                                <h3>📊 为什么是 5000? (The Logic)</h3>
+                                <ul>
+                                    <li><strong>ICT 月线结构：</strong> 我们已经突破了长达 10 年的盘整区间 ($1045-$2075) 的 2.618 斐波那契扩展位。上方的 <strong>流动性真空 (Liquidity Void)</strong> 直指 $4,800 - $5,000 区域。</li>
+                                    <li><strong>实际利率失效：</strong> 即使名义利率维持高位，通胀的粘性使得实际利率长期为负。这是黄金超级周期的核心燃料。</li>
+                                    <li><strong>心理关口：</strong> $5,000 将是全球资本重新配置资产负债表的触发点。</li>
+                                </ul>
+                            </div>
+                            <div class="lang-en">
+                                <h3>📊 Why $5000? (The Logic)</h3>
+                                <ul>
+                                    <li><strong>ICT Monthly Structure:</strong> We have cleared the 2.618 Fib extension of the decadal range. The upside represents a massive <strong>Liquidity Void</strong> targeting the $4,800 - $5,000 zone.</li>
+                                    <li><strong>Real Yield Collapse:</strong> Despite nominal rates, sticky inflation keeps real yields negative. This is the rocket fuel for the Supercycle.</li>
+                                    <li><strong>Psychological Trigger:</strong> $5,000 acts as the global margin call for fiat-heavy portfolios.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="lang-cn"><h2>02. 战略执行 (Strategic Execution)</h2></div>
+                        <div class="lang-en"><h2>02. Strategic Execution</h2></div>
+                        
+                        <div class="card">
+                            <div class="lang-cn"><h3>📈 机构级多头部署</h3></div>
+                            <div class="lang-en"><h3>📈 Institutional Accumulation</h3></div>
+
+                            <div class="step">
+                                <div class="step-num">1</div>
+                                <div class="lang-cn"><strong>思维转变：</strong> 停止做空。在超级周期中，任何回调（Dip）都是算法制造的**折扣介入机会 (Discount Entry)**，而不是反转。</div>
+                                <div class="lang-en"><strong>Mindset Shift:</strong> Cease all short bias. In a Supercycle, every dip is an algorithmic <strong>Discount Entry</strong>, not a reversal.</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-num">2</div>
+                                <div class="lang-cn"><strong>关键入场区：</strong> 关注周线级别的 <strong>Order Block (OB)</strong> 回踩。若价格回调至 <strong>$4,150 - $4,200</strong> 区域，我们将动用核心仓位进行激进吸筹。</div>
+                                <div class="lang-en"><strong>Kill Zone:</strong> Watch for Weekly <strong>Order Block (OB)</strong> retests. Any pullback to <strong>$4,150 - $4,200</strong> warrants aggressive accumulation.</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-num">3</div>
+                                <div class="lang-cn"><strong>第一目标：</strong> 短期看至 $4,430 (Fib 1.618)，随后在 $4,500 进行换手，最终向 $5,000 发起总攻。</div>
+                                <div class="lang-en"><strong>Targets:</strong> Immediate eyes on $4,430 (Fib 1.618), consolidation at $4,500, then the final ascent to $5,000.</div>
+                            </div>
+                            <hr>
+                            <p><strong>L.K. Capital Note:</strong> "Volatility is the price you pay for performance." Do not be shaken by intraday noise. The destination is set.</p>
+                        </div>
+                    </section>
+                `
+            },
+
+            // --- [REPORT 2] HISTORICAL: Nov 28, 2025 ---
             {
                 id: "xauusd_20251128_liquidity",
                 date: "2025-11-28", 
@@ -238,7 +326,7 @@
                 `
             },
 
-            // --- [REPORT 2] HISTORICAL: Nov 25, 2025 ---
+            // --- [REPORT 3] HISTORICAL: Nov 25, 2025 ---
             {
                 id: "xauusd_20251125_intraday_outlook_v2",
                 date: "2025-11-25", 
@@ -286,7 +374,7 @@
                 `
             },
 
-            // --- [REPORT 3] HISTORICAL: Nov 23, 2025 ---
+            // --- [REPORT 4] HISTORICAL: Nov 23, 2025 ---
             {
                 id: "xauusd_20251123_weekly_outlook", 
                 date: "2025-11-23", 
@@ -436,4 +524,3 @@
     </script>
 </body>
 </html>
-
